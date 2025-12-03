@@ -18,24 +18,39 @@ Es una "foto" del código en un momento exacto.
 
 ### Rama (Branch)
 Es una línea temporal paralela.
-*   **main**: La realidad oficial. El código que funciona.
-*   **feature/mi-tarea**: Mi realidad alternativa donde estoy creando algo nuevo. Si rompo algo aquí, no afecta a `main`.
+*   **main**: La realidad oficial. El código estable y probado que está en "producción".
+*   **dev**: La rama de desarrollo activo. Aquí se integran todas las nuevas funcionalidades antes de llegar a `main`.
+*   **feature/mi-tarea**: Mi realidad alternativa donde estoy creando algo nuevo. Si rompo algo aquí, no afecta a `dev` ni a `main`.
 
 ---
 
 ## 2. Nuestro Flujo de Trabajo (Workflow)
 
-Usamos una variante simplificada de **Gitflow**. Sigue estos pasos rigurosamente para cada tarea:
+Usamos una variante simplificada de **Gitflow** con rama `dev`. Sigue estos pasos rigurosamente para cada tarea:
+
+### ¿Por qué dos ramas principales?
+
+*   **`dev`**: Es donde trabajamos día a día. Todas las features nuevas se fusionan aquí primero. Puede tener código en desarrollo que aún no está completamente probado.
+*   **`main`**: Es el código "estable" y probado. Solo se actualiza cuando `dev` tiene una versión lista para producción o cuando se completa un sprint importante.
+
+**Flujo visual:**
+```
+feature/login → dev → main
+feature/tareas → dev → main
+fix/bug → dev → main
+```
+
+Todas las ramas de trabajo se crean desde `dev` y se fusionan de vuelta a `dev`.
 
 ### Paso 1: Actualizar
-Antes de empezar nada, asegúrate de tener la última versión de la realidad oficial.
+Antes de empezar nada, asegúrate de tener la última versión de la rama de desarrollo.
 ```bash
-git checkout main
-git pull origin main
+git checkout dev
+git pull origin dev
 ```
 
 ### Paso 2: Crear Rama
-Crea una rama para tu tarea específica. Usa nombres descriptivos.
+Crea una rama para tu tarea específica desde `dev`. Usa nombres descriptivos.
 ```bash
 # Estructura: tipo/descripcion-corta
 git checkout -b feature/login-usuario
@@ -62,8 +77,19 @@ git push origin feature/login-usuario
 
 ### Paso 5: Integrar (Pull Request)
 Vas a GitHub y abres una **Pull Request (PR)**.
-*   Estás diciendo: "He terminado mi tarea en `feature/login-usuario`, por favor, revisadla y fusionadla con `main`".
-*   Tu compañero revisa el código. Si todo está bien, se hace **Merge**.
+*   Estás diciendo: "He terminado mi tarea en `feature/login-usuario`, por favor, revisadla y fusionadla con `dev`".
+*   **Importante**: Las PRs siempre van a `dev`, no directamente a `main`.
+*   Tu compañero revisa el código. Si todo está bien, se hace **Merge** a `dev`.
+
+### Paso 6: Actualizar Dev (Después del Merge)
+Una vez que tu PR se ha fusionado en `dev`, actualiza tu rama local:
+```bash
+git checkout dev
+git pull origin dev
+```
+
+### Paso 7: De Dev a Main (Solo cuando esté estable)
+Cuando `dev` tenga suficientes funcionalidades estables y probadas, se hace un merge de `dev` a `main`. Esto normalmente lo hace el equipo después de revisar que todo funciona correctamente.
 
 ---
 
@@ -106,10 +132,19 @@ Esto pasa cuando dos personas tocan la misma línea de código.
     Código de mi rama
     =======
     Código que llegó de la otra rama
-    >>>>>>> main
+    >>>>>>> dev
     ```
 3.  Borra las marcas y deja el código como debería quedar finalmente.
 4.  Guarda, haz `git add .` y `git commit`.
+
+### "Quiero actualizar mi rama feature con los últimos cambios de dev"
+Si mientras trabajas en tu feature, `dev` ha avanzado y quieres tener esos cambios:
+```bash
+git checkout feature/mi-tarea
+git pull origin dev  # O: git merge dev
+# Resuelve conflictos si los hay
+git push origin feature/mi-tarea
+```
 
 ---
 [⬅️ Volver al Manual del Alumno](../MANUAL_ALUMNO.md)

@@ -1,4 +1,4 @@
-# Historia 0: Planificación de Estructuras de Datos
+# Historia 1: Planificación de Estructuras de Datos
 
 ## Descripción
 
@@ -168,7 +168,7 @@ Ninguna - Esta es la historia base
 
 ## Notas Adicionales
 
-- Esta historia debe completarse antes de comenzar con Historia 1
+- Esta historia debe completarse antes de comenzar con Historia 3
 - Es importante tener bien definidas las estructuras para evitar refactorizaciones posteriores
 - Los datos de ejemplo facilitarán el desarrollo y testing
 

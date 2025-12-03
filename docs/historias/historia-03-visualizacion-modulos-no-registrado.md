@@ -1,4 +1,4 @@
-# Historia 1: Visualización de Módulos (Usuario No Registrado)
+# Historia 3: Visualización de Módulos (Usuario No Registrado)
 
 ## Descripción
 

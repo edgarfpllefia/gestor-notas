@@ -1,4 +1,4 @@
-# Historia 5: Gestión de Tareas
+# Historia 7: Gestión de Tareas
 
 ## Descripción
 

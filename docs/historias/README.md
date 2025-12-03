@@ -16,7 +16,7 @@ Cada archivo de historia incluye:
 
 ### Historias de Configuración Inicial (Hacer Primero)
 
-0. **[Historia 0: Planificación de Estructuras de Datos](historia-00-planificacion-estructuras-datos.md)**
+1. **[Historia 1: Planificación de Estructuras de Datos](historia-01-planificacion-estructuras-datos.md)**
    - Definición de interfaces TypeScript
    - Estructura de LocalStorage
    - Diseño del ORM
@@ -24,7 +24,7 @@ Cada archivo de historia incluye:
    - Prioridad: **CRÍTICA**
    - Estimación: 4-5 horas (S-M)
 
-0b. **[Historia 0b: Configuración del Entorno Básico](historia-00b-configuracion-entorno-basico.md)**
+2. **[Historia 2: Configuración del Entorno Básico](historia-02-configuracion-entorno-basico.md)**
    - Configuración de React Router
    - Layout, Header, Navegación
    - Componentes base
@@ -34,57 +34,57 @@ Cada archivo de historia incluye:
 
 ### Historias de Funcionalidades
 
-1. **[Historia 1: Visualización de Módulos (Usuario No Registrado)](historia-01-visualizacion-modulos-no-registrado.md)**
+3. **[Historia 3: Visualización de Módulos (Usuario No Registrado)](historia-03-visualizacion-modulos-no-registrado.md)**
    - Selector de ciclos y visualización de módulos
    - Prioridad: Alta
    - Estimación: 3-4 horas (S)
 
-2. **[Historia 2: Registro de Estudiante](historia-02-registro-estudiante.md)**
+4. **[Historia 4: Registro de Estudiante](historia-04-registro-estudiante.md)**
    - Formulario de registro con selección de ciclo
    - Añade automáticamente módulos al estudiante
    - Prioridad: Alta
    - Estimación: 5-6 horas (M)
 
-3. **[Historia 3: Autenticación](historia-03-autenticacion.md)**
+5. **[Historia 5: Autenticación](historia-05-autenticacion.md)**
    - Login y logout de estudiantes
    - Gestión de sesión
    - Prioridad: Alta
    - Estimación: 4-5 horas (S-M)
 
-4. **[Historia 4: Visualización de Módulos Propios](historia-04-visualizacion-modulos-propios.md)**
+6. **[Historia 6: Visualización de Módulos Propios](historia-06-visualizacion-modulos-propios.md)**
    - Vista de módulos del estudiante
    - Filtrado y ordenación básica
    - Prioridad: Alta
    - Estimación: 4-5 horas (S-M)
 
-5. **[Historia 5: Gestión de Tareas](historia-05-gestion-tareas.md)**
+7. **[Historia 7: Gestión de Tareas](historia-07-gestion-tareas.md)**
    - CRUD completo de tareas
    - Prioridad: Alta
    - Estimación: 7-9 horas (L)
 
-6. **[Historia 6: Estados de Tareas](historia-06-estados-tareas.md)**
+8. **[Historia 8: Estados de Tareas](historia-08-estados-tareas.md)**
    - Cambio de estado de tareas
    - Indicadores visuales
    - Prioridad: Media-Alta
    - Estimación: 3-4 horas (S)
 
-7. **[Historia 7: Gestión de Notas de Módulos](historia-07-gestion-notas-modulos.md)**
+9. **[Historia 9: Gestión de Notas de Módulos](historia-09-gestion-notas-modulos.md)**
    - Notas por evaluación (trimestres, ordinaria, extraordinaria)
    - Cambio de estado de módulos
    - Prioridad: Alta
    - Estimación: 5-6 horas (M)
 
-8. **[Historia 7b: Gestión de Notas de Tareas](historia-07b-gestion-notas-tareas.md)**
-   - Añadir y modificar notas de tareas
-   - Prioridad: Media
-   - Estimación: 3-4 horas (S)
+10. **[Historia 10: Gestión de Notas de Tareas](historia-10-gestion-notas-tareas.md)**
+    - Añadir y modificar notas de tareas
+    - Prioridad: Media
+    - Estimación: 3-4 horas (S)
 
-9. **[Historia 8: Filtrado y Ordenación](historia-08-filtrado-ordenacion.md)**
-   - Filtros y ordenación avanzados para módulos y tareas
-   - Prioridad: Media
-   - Estimación: 5-6 horas (M)
+11. **[Historia 11: Filtrado y Ordenación](historia-11-filtrado-ordenacion.md)**
+    - Filtros y ordenación avanzados para módulos y tareas
+    - Prioridad: Media
+    - Estimación: 5-6 horas (M)
 
-10. **[Historia 9: Gestión de Módulos por Administrador](historia-09-gestion-modulos-administrador.md)**
+12. **[Historia 12: Gestión de Módulos por Administrador](historia-12-gestion-modulos-administrador.md)**
     - CRUD de módulos para administradores
     - Sincronización con estudiantes
     - Prioridad: Media
@@ -92,9 +92,9 @@ Cada archivo de historia incluye:
 
 ## Orden de Implementación Recomendado
 
-1. **Historia 0**: Planificación de Estructuras de Datos (CRÍTICA - hacer primero)
-2. **Historia 0b**: Configuración del Entorno Básico (CRÍTICA - hacer después de Historia 0)
-3. **Historias 1-9**: Funcionalidades (seguir el orden sugerido o adaptar según necesidades)
+1. **Historia 1**: Planificación de Estructuras de Datos (CRÍTICA - hacer primero)
+2. **Historia 2**: Configuración del Entorno Básico (CRÍTICA - hacer después de Historia 1)
+3. **Historias 3-12**: Funcionalidades (seguir el orden sugerido o adaptar según necesidades)
 
 ## Uso con GitHub Projects
 
@@ -109,7 +109,7 @@ Cada archivo de historia incluye:
 3. **Asignar a Parejas**:
    - Cada miembro de la pareja trabaja en historias diferentes
    - Asignar issues a cada miembro
-   - **Nota**: Las historias 0 y 0b pueden hacerse juntos o asignarse a un miembro
+   - **Nota**: Las historias 1 y 2 pueden hacerse juntos o asignarse a un miembro
 
 4. **Seguimiento de Progreso**:
    - Marcar tareas completadas en los Issues

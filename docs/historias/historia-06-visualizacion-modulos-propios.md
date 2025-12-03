@@ -1,4 +1,4 @@
-# Historia 4: Visualización de Módulos Propios
+# Historia 6: Visualización de Módulos Propios
 
 ## Descripción
 

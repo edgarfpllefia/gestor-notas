@@ -1,4 +1,4 @@
-# Historia 6: Estados de Tareas
+# Historia 8: Estados de Tareas
 
 ## Descripción
 

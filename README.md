@@ -75,7 +75,7 @@ tareas_modulos/
 
 ### Documentación Completa
 
-Para una guía detallada sobre el desarrollo del proyecto, metodología Agile, configuración y conceptos técnicos, consulta la [documentación completa](./DOCUMENTACION.md).
+Para una guía detallada sobre el desarrollo del proyecto, metodología Agile, configuración y conceptos técnicos, consulta la [documentación completa](./docs/README.md) o el [Manual del Alumno](./docs/MANUAL_ALUMNO.md).
 
 La documentación incluye:
 
@@ -92,6 +92,11 @@ La documentación incluye:
 
 Las historias de usuario detalladas con tareas específicas se encuentran en la carpeta [`docs/historias/`](./docs/historias/).
 
+El proyecto consta de **12 historias de usuario** numeradas del 1 al 12:
+
+- **Historias 1-2**: Configuración inicial (CRÍTICAS - hacer primero)
+- **Historias 3-12**: Funcionalidades de la aplicación
+
 Cada historia incluye:
 
 - Descripción y criterios de aceptación
@@ -99,7 +104,7 @@ Cada historia incluye:
 - Notas técnicas y estimaciones
 - Prioridad
 
-Estas historias están diseñadas para facilitar la creación de Issues en GitHub Projects y el seguimiento del progreso del proyecto.
+Estas historias están diseñadas para facilitar la creación de Issues en GitHub Projects y el seguimiento del progreso del proyecto. Consulta el [README de historias](./docs/historias/README.md) para ver la lista completa.
 
 ## 🎯 Stack Tecnológico
 

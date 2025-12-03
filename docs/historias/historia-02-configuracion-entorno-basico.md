@@ -1,4 +1,4 @@
-# Historia 0b: Configuración del Entorno Básico
+# Historia 2: Configuración del Entorno Básico
 
 ## Descripción
 
@@ -141,7 +141,7 @@
 ## Notas Técnicas
 
 - Usar React Router v6 (última versión)
-- El contexto de autenticación puede ser básico inicialmente, se completará en Historia 3
+- El contexto de autenticación puede ser básico inicialmente, se completará en Historia 5
 - Los componentes base pueden ser simples, se mejorarán con el tiempo
 - Considerar usar Shadcn/ui para componentes base si está configurado
 
@@ -182,14 +182,14 @@ src/
 
 ## Dependencias
 
-- Historia 0: Planificación de Estructuras de Datos (para tipos básicos)
+- Historia 1: Planificación de Estructuras de Datos (para tipos básicos)
 
 ## Notas Adicionales
 
-- Esta historia debe completarse después de la Historia 0
+- Esta historia debe completarse después de la Historia 1
 - Es la base para todas las demás historias
 - Los componentes pueden ser básicos, se mejorarán con el tiempo
-- El contexto de autenticación se completará en Historia 3
+- El contexto de autenticación se completará en Historia 5
 
 
 

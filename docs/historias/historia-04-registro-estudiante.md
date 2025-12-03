@@ -1,4 +1,4 @@
-# Historia 2: Registro de Estudiante
+# Historia 4: Registro de Estudiante
 
 ## Descripción
 

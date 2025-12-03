@@ -1,6 +1,6 @@
 # 🏗️ Anexo: Arquitectura y Datos
 
-Este documento define cómo estructuramos la información en la aplicación. Es la referencia para la **Historia 0**.
+Este documento define cómo estructuramos la información en la aplicación. Es la referencia para la **Historia 1**.
 
 ---
 

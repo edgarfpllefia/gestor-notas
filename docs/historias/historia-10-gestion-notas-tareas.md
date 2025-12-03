@@ -1,4 +1,4 @@
-# Historia 7b: Gestión de Notas de Tareas
+# Historia 10: Gestión de Notas de Tareas
 
 ## Descripción
 
@@ -97,3 +97,4 @@ Media - Funcionalidad complementaria
 
 ---
 [⬅️ Volver al Índice](./README.md) | [🏠 Volver al Inicio](../../README.md)
+

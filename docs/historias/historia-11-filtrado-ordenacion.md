@@ -1,4 +1,4 @@
-# Historia 8: Filtrado y Ordenación
+# Historia 11: Filtrado y Ordenación
 
 ## Descripción
 
@@ -26,7 +26,7 @@
   - [ ] Por título
   - [ ] Por nota
 - [ ] Definir criterios de filtrado para módulos:
-  - [ ] Por curso (ya implementado en Historia 4, verificar)
+  - [ ] Por curso (ya implementado en Historia 6, verificar)
 - [ ] Definir criterios de ordenación para módulos:
   - [ ] Por nombre
   - [ ] Por curso
@@ -64,13 +64,13 @@
 - [ ] Aplicar estilos
 
 ### Filtrado de Módulos
-- [ ] Verificar que el filtro por curso funciona (Historia 4)
+- [ ] Verificar que el filtro por curso funciona (Historia 6)
 - [ ] Añadir filtros adicionales si se requieren:
   - [ ] Por estado del módulo
   - [ ] Por nota (módulos con/sin nota)
 
 ### Ordenación de Módulos
-- [ ] Verificar que la ordenación funciona (Historia 4)
+- [ ] Verificar que la ordenación funciona (Historia 6)
 - [ ] Añadir criterios adicionales si se requieren:
   - [ ] Por estado
   - [ ] Por nota promedio
@@ -122,3 +122,4 @@ Media - Mejora la usabilidad
 
 ---
 [⬅️ Volver al Índice](./README.md) | [🏠 Volver al Inicio](../../README.md)
+

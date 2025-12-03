@@ -93,15 +93,15 @@ Ahora que tienes el código, organicemos el trabajo en la nube.
 
 Tenemos los requisitos escritos en la carpeta `docs/historias/`. Vamos a convertirlos en tareas reales en tu tablero.
 
-1. Abre `docs/historias/historia-00-planificacion-estructuras-datos.md` en tu editor local.
+1. Abre `docs/historias/historia-01-planificacion-estructuras-datos.md` en tu editor local.
 2. Ve a GitHub -> Pestaña **Issues** -> **New Issue**.
-3. **Título**: "Historia 0: Planificación de Datos".
+3. **Título**: "Historia 1: Planificación de Datos".
 4. **Descripción**: Copia y pega todo el contenido del archivo `.md`.
 5. En la barra lateral derecha:
    - **Assignees**: Tú (y tu pareja).
    - **Project**: Selecciona el proyecto que creaste en el paso 3.2.
 6. Dale a **Submit**.
-7. _Repite esto para la Historia 0b y la Historia 1._
+7. _Repite esto para la Historia 2 y la Historia 3._
 
 ---
 
@@ -112,7 +112,7 @@ Así es como trabajarás cada día. No te saltes pasos. Consulta la [Guía de Gi
 ### 4.1 Elegir una Tarea
 
 1. Ve a tu **GitHub Project**.
-2. Coge la tarjeta **"Historia 0"** y muévela a la columna **In Progress**.
+2. Coge la tarjeta **"Historia 1"** y muévela a la columna **In Progress**.
 3. Esto avisa a tu equipo de que estás trabajando en ello.
 
 ### 4.2 Crear una Rama (Branch)
@@ -124,8 +124,8 @@ Nunca trabajes en la rama `main`. Crea una rama para tu tarea.
 git checkout main
 git pull origin main
 
-# 2. Crea tu rama (ejemplo para Historia 0)
-git checkout -b feature/historia-00-datos
+# 2. Crea tu rama (ejemplo para Historia 1)
+git checkout -b feature/historia-01-datos
 ```
 
 ### 4.3 Programar (El Ciclo de Trabajo)
@@ -147,7 +147,7 @@ Cuando hayas terminado todos los puntos de la historia:
 
 1. Sube tu rama a la nube:
    ```bash
-   git push origin feature/historia-00-datos
+   git push origin feature/historia-01-datos
    ```
 2. Ve a GitHub. Verás un botón verde **"Compare & pull request"**. Púlsalo.
 3. Escribe en la descripción: `Closes #1` (donde #1 es el número de tu Issue). Esto cerrará la tarea automáticamente.
@@ -163,7 +163,7 @@ Cuando hayas terminado todos los puntos de la historia:
    ```
 2. Borra tu rama antigua:
    ```bash
-   git branch -d feature/historia-00-datos
+   git branch -d feature/historia-01-datos
    ```
 3. Ve al **Paso 4.1** y repite con la siguiente historia.
 

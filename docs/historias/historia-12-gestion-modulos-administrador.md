@@ -1,4 +1,4 @@
-# Historia 9: Gestión de Módulos por Administrador
+# Historia 12: Gestión de Módulos por Administrador
 
 ## Descripción
 
@@ -132,3 +132,4 @@ Media - Funcionalidad de administración
 
 ---
 [⬅️ Volver al Índice](./README.md) | [🏠 Volver al Inicio](../../README.md)
+

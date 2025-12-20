@@ -17,7 +17,7 @@
 
 ### Análisis y Diseño
 
-- [ ] Analizar requisitos del proyecto
+- [ x ] Analizar requisitos del proyecto
 - [ ] Identificar todas las entidades necesarias:
   - [ ] Usuario (estudiante y administrador)
   - [ ] Módulo (definición general)

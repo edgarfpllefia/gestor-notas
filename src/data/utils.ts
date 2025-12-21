@@ -26,4 +26,14 @@ export const writeLocalStorage = (key, data) => {
   }
 };
 
-//Si key o data salen en rojo es porque estás en el archivo .ts y aun no están tipadas
+export const generarId = () => {
+  // AQUÍ DEJO QUE HACE LA FUNCION generarID YA QUE NO ME QUEDABA CLARO
+
+  // Date.now() obtiene milisegundos desde 1970 (ej: 1734812456789) y lo convierte a string
+  // Math.random() genera número aleatorio (ej: 0.7392847), lo pasa a base 36 (0-9 y a-z)
+  // .substr(2,9) elimina el "0." inicial y toma 9 caracteres (ej: "k7f3g2h9j")
+  // Concatena ambos: "1734812456789" + "k7f3g2h9j" = "1734812456789k7f3g2h9j" (ID único)
+  return Date.now().toString() + Math.random().toString(36).substr(2, 9);
+};
+
+//Si key o data salen en rojo es porque estoy en el archivo .ts y aun no está tipado.

@@ -18,58 +18,58 @@
 ### Análisis y Diseño
 
 - [ x ] Analizar requisitos del proyecto
-- [ ] Identificar todas las entidades necesarias:
-  - [ ] Usuario (estudiante y administrador)
-  - [ ] Módulo (definición general)
-  - [ ] MóduloEstudiante (módulo del estudiante con notas y estado)
-  - [ ] Tarea
-  - [ ] Ciclo formativo (definición)
-- [ ] Definir relaciones entre entidades
-- [ ] Diseñar diagrama de entidades (opcional, texto)
+- [ x ] Identificar todas las entidades necesarias:
+  - [ x ] Usuario (estudiante y administrador)
+  - [ x ] Módulo (definición general)
+  - [ x ] MóduloEstudiante (módulo del estudiante con notas y estado)
+  - [ x ] Tarea
+  - [ x ] Ciclo formativo (definición)
+- [ x ] Definir relaciones entre entidades
+- [ x ] Diseñar diagrama de entidades (opcional, texto)
 
 ### Definición de Interfaces TypeScript
 
-- [ ] Crear archivo `src/types/index.ts` o similar
-- [ ] Definir interfaz `Usuario`:
-  - [ ] id: string
-  - [ ] nombre: string
-  - [ ] email: string
-  - [ ] password: string
-  - [ ] cicloFormativo: string
-  - [ ] rol: 'estudiante' | 'administrador'
-- [ ] Definir interfaz `Modulo`:
-  - [ ] id: string
-  - [ ] nombre: string
-  - [ ] curso: 1 | 2
-  - [ ] cicloFormativo: string
-- [ ] Definir interfaz `ModuloEstudiante`:
-  - [ ] id: string
-  - [ ] moduloId: string
-  - [ ] estudianteId: string
-  - [ ] notas: objeto con trimestre1, trimestre2, trimestre3, ordinaria, extraordinaria
-  - [ ] estado: 'aprobado' | 'cursando' | 'no-cursa' | 'pendiente'
-- [ ] Definir interfaz `Tarea`:
-  - [ ] id: string
-  - [ ] moduloId: string
-  - [ ] estudianteId: string
-  - [ ] titulo: string
-  - [ ] descripcion: string
-  - [ ] fechaCreacion: string
-  - [ ] fechaVencimiento?: string
-  - [ ] estado: 'pendiente' | 'en-progreso' | 'completada'
-  - [ ] nota?: number
-- [ ] Definir tipo `CicloFormativo` (enum o union type)
-- [ ] Definir tipos auxiliares si son necesarios
+- [ x ] Crear archivo `src/types/index.ts` o similar
+- [ x ] Definir interfaz `Usuario`:
+  - [ x ] id: string
+  - [ x ] nombre: string
+  - [ x ] email: string
+  - [ x ] password: string
+  - [ x ] cicloFormativo: string
+  - [ x ] rol: 'estudiante' | 'administrador'
+- [ x ] Definir interfaz `Modulo`:
+  - [ x ] id: string
+  - [ x ] nombre: string
+  - [ x ] curso: 1 | 2
+  - [ x ] cicloFormativo: string
+- [ x ] Definir interfaz `ModuloEstudiante`:
+  - [ x ] id: string
+  - [ x ] moduloId: string
+  - [ x ] estudianteId: string
+  - [ x ] notas: objeto con trimestre1, trimestre2, trimestre3, ordinaria, extraordinaria
+  - [ x ] estado: 'aprobado' | 'cursando' | 'no-cursa' | 'pendiente'
+- [ x ] Definir interfaz `Tarea`:
+  - [ x ] id: string
+  - [ x ] moduloId: string
+  - [ x ] estudianteId: string
+  - [ x ] titulo: string
+  - [ x ] descripcion: string
+  - [ x ] fechaCreacion: string
+  - [ x ] fechaVencimiento?: string
+  - [ x ] estado: 'pendiente' | 'en-progreso' | 'completada'
+  - [ x ] nota?: number
+- [ x ] Definir tipo `CicloFormativo` (enum o union type)
+- [ x ] Definir tipos auxiliares si son necesarios
 
 ### Estructura de LocalStorage
 
-- [ ] Definir claves de LocalStorage:
-  - [ ] 'usuarios'
-  - [ ] 'modulos'
-  - [ ] 'modulosEstudiantes'
-  - [ ] 'tareas'
-- [ ] Documentar estructura de cada clave
-- [ ] Crear funciones helper para leer/escribir LocalStorage
+- [ x ] Definir claves de LocalStorage:
+  - [ x ] 'usuarios'
+  - [ x ] 'modulos'
+  - [ x ] 'modulosEstudiantes'
+  - [ x ] 'tareas'
+- [ x ] Documentar estructura de cada clave
+- [ x ] Crear funciones helper para leer/escribir LocalStorage
 
 ### Diseño del ORM
 
@@ -89,31 +89,31 @@
 
 ### Datos de Ejemplo/Mock
 
-- [ ] Crear archivo `src/data/mockData.ts` o similar
-- [ ] Crear datos de ejemplo de módulos para cada ciclo:
-  - [ ] Desarrollo de Aplicaciones Web
-  - [ ] Automatización y Robótica Industrial
-  - [ ] Sistemas Microinformáticos
-  - [ ] Instalaciones Eléctricas y Automáticas
-- [ ] Crear función para inicializar datos en LocalStorage
-- [ ] Documentar cómo usar los datos de ejemplo
+- [ x ] Crear archivo `src/data/mockData.ts` o similar
+- [ x ] Crear datos de ejemplo de módulos para cada ciclo:
+  - [ x ] Desarrollo de Aplicaciones Web
+  - [ x ] Automatización y Robótica Industrial
+  - [ x ] Sistemas Microinformáticos
+  - [ x ] Instalaciones Eléctricas y Automáticas
+- [ x ] Crear función para inicializar datos en LocalStorage
+- [ x ] Documentar cómo usar los datos de ejemplo
 
 ### Implementación Básica del ORM
 
-- [ ] Crear carpeta `src/data/repositories/`
-- [ ] Crear clase base o interfaz para repositorios
-- [ ] Crear `LocalStorageUsuarioRepository` (estructura básica)
-- [ ] Crear `LocalStorageModuloRepository` (estructura básica)
-- [ ] Crear `LocalStorageModuloEstudianteRepository` (estructura básica)
-- [ ] Crear `LocalStorageTareaRepository` (estructura básica)
-- [ ] Implementar funciones helper para LocalStorage
+- [ x ] Crear carpeta `src/data/repositories/`
+- [ x ] Crear clase base o interfaz para repositorios
+- [ x ] Crear `LocalStorageUsuarioRepository` (estructura básica)
+- [ x ] Crear `LocalStorageModuloRepository` (estructura básica)
+- [ x ] Crear `LocalStorageModuloEstudianteRepository` (estructura básica)
+- [ x ] Crear `LocalStorageTareaRepository` (estructura básica)
+- [ x ] Implementar funciones helper para LocalStorage
 
 ### Funciones Helper
 
-- [ ] Crear función `leerDatos(key: string): any[]`
-- [ ] Crear función `guardarDatos(key: string, datos: any[]): void`
-- [ ] Crear función `generarId(): string`
-- [ ] Crear función `inicializarDatos()` para cargar datos de ejemplo
+- [ x ] Crear función `leerDatos(key: string): any[]`
+- [ x ] Crear función `guardarDatos(key: string, datos: any[]): void`
+- [ x ] Crear función `generarId(): string`
+- [ x ] Crear función `inicializarDatos()` para cargar datos de ejemplo
 
 ### Documentación
 
@@ -172,6 +172,6 @@ Ninguna - Esta es la historia base
 - Es importante tener bien definidas las estructuras para evitar refactorizaciones posteriores
 - Los datos de ejemplo facilitarán el desarrollo y testing
 
-
 ---
+
 [⬅️ Volver al Índice](./README.md) | [🏠 Volver al Inicio](../../README.md)

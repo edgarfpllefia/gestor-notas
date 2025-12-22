@@ -118,9 +118,9 @@
 ### Documentación
 
 - [ ] Documentar todas las interfaces en comentarios JSDoc
-- [ ] Crear documento explicando la estructura de datos
-- [ ] Documentar cómo se relacionan las entidades
-- [ ] Documentar el flujo de datos
+- [ x ] Crear documento explicando la estructura de datos
+- [ x ] Documentar cómo se relacionan las entidades
+- [ x ] Documentar el flujo de datos
 
 ### Testing de Estructuras
 

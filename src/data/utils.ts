@@ -4,7 +4,7 @@
 //Con el try, si tenemos un error, lo gestionamos en el catch
 //Con el ternario del return, si data es verdadero, hacemos un JSON.parse a data
 
-export const readLocalStorage = (key) => {
+export const readLocalStorage = (key: string) => {
   try {
     const data = localStorage.getItem(key);
     return data ? JSON.parse(data) : [];
@@ -18,7 +18,7 @@ export const readLocalStorage = (key) => {
 //El primer valor es la clave donde quiero entrar de localStorage
 //El segundo valor es lo que quiero guardar
 
-export const writeLocalStorage = (key, data) => {
+export const writeLocalStorage = (key: string, data: string) => {
   try {
     localStorage.setItem(key, JSON.stringify(data));
   } catch (error) {

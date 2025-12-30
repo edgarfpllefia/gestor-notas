@@ -1,8 +1,8 @@
-import { Link } from "react-router-dom";
-import { useAuth } from "@/contexts/AuthContext";
+import { Link } from "react-router-dom"
+import { useAuth } from "@/contexts/AuthContext"
 
 export const Header = () => {
-  const { user, logout } = useAuth();
+  const { user, logout } = useAuth()
 
   return (
     <header className="bg-slate-800 text-white px-6 py-4 flex justify-between">
@@ -33,5 +33,5 @@ export const Header = () => {
         )}
       </nav>
     </header>
-  );
-};
+  )
+}

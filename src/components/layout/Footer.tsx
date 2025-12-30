@@ -1,3 +1,5 @@
+//Footer - Pie de página de la aplicación
+
 export const Footer = () => {
    return(
     <footer className="flex justify-center items-center h-15 bg-slate-800 gap-3">

@@ -1,22 +1,36 @@
-import { Navigate } from "react-router-dom";
-import { useAuth } from "@/contexts/AuthContext";
-import { ReactNode } from "react";
+import { Navigate } from "react-router-dom"
+import { useAuth } from "@/contexts/AuthContext"
+import { ReactNode } from "react"
 
+
+//Props para el componente ProtectedRoute
+// @property children - Componentes a renderizar si la ruta está protegida
+
+ 
 interface Props {
   children: ReactNode;
-  role?: "estudiante" | "admin";
+  role?: "estudiante" | "admin"
 }
 
+
+// ProtectedRoute - Componente de ruta protegida
+//
+// Valida que el usuario esté autenticado antes de permitir el acceso.
+// También verifica que el usuario tenga el rol requerido si se especifica.
+
 export const ProtectedRoute = ({ children, role }: Props) => {
-  const { user } = useAuth();
+  // Hook para obtener el usuario actual del contexto
+  const { user } = useAuth()
 
+  // Si no hay usuario autenticado, redirigir al login
   if (!user) {
-    return <Navigate to="/login" replace />;
+    return <Navigate to="/login" replace />
   }
 
+  // Si se requiere un rol específico y el usuario no lo tiene, redirigir al home
   if (role && user.role !== role) {
-    return <Navigate to="/" replace />;
+    return <Navigate to="/" replace />
   }
 
-  return children;
-};
+  return children
+}

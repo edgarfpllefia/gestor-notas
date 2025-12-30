@@ -16,34 +16,34 @@
 ## Tareas de Implementación
 
 ### Instalación de Dependencias
-- [ ] Instalar React Router DOM:
+- [ X ] Instalar React Router DOM:
   ```bash
   npm install react-router-dom
   ```
-- [ ] Instalar tipos de React Router (si es necesario):
+- [ X ] Instalar tipos de React Router (si es necesario):
   ```bash
   npm install -D @types/react-router-dom
   ```
-- [ ] Verificar que Tailwind CSS está instalado
-- [ ] Verificar que Shadcn/ui está configurado
+- [ X ] Verificar que Tailwind CSS está instalado
+- [ X ] Verificar que Shadcn/ui está configurado
 
 ### Configuración del Router
-- [ ] Crear archivo `src/App.tsx` o `src/router.tsx`
+- [ X ] Crear archivo `src/App.tsx` o `src/router.tsx`
 - [ ] Configurar rutas básicas:
   - [ ] `/` - Página principal (público)
   - [ ] `/login` - Login (público)
   - [ ] `/register` - Registro (público)
   - [ ] `/estudiante/*` - Rutas protegidas de estudiante
   - [ ] `/admin/*` - Rutas protegidas de administrador
-- [ ] Crear componente `Router` o configurar en `App.tsx`
-- [ ] Configurar navegación básica
+- [ X ] Crear componente `Router` o configurar en `App.tsx`
+- [ X ] Configurar navegación básica
 
 ### Estructura de Layout
-- [ ] Crear componente `Layout` base
-- [ ] Crear componente `Header`
-- [ ] Crear componente `Footer` (opcional)
-- [ ] Crear componente `Main` o `Container` para contenido
-- [ ] Aplicar estilos básicos con Tailwind CSS
+- [ X ] Crear componente `Layout` base
+- [ X ] Crear componente `Header`
+- [ X ] Crear componente `Footer` (opcional)
+- [ X ] Crear componente `Main` o `Container` para contenido
+- [ X ] Aplicar estilos básicos con Tailwind CSS
 
 ### Componente Header
 - [ ] Crear estructura básica del header:

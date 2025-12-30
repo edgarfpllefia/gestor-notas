@@ -1,3 +1,3 @@
 export const RegisterPage = () => {
-  return <h2>Registro</h2>
+  return <h2 className=" text-center text-5xl font-bold">Registro</h2>
 }

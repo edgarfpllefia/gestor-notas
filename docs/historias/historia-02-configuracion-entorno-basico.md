@@ -46,97 +46,97 @@
 - [ X ] Aplicar estilos básicos con Tailwind CSS
 
 ### Componente Header
-- [ ] Crear estructura básica del header:
-  - [ ] Logo o título de la aplicación
-  - [ ] Menú de navegación
-  - [ ] Área de usuario (login/logout)
-- [ ] Implementar menú de navegación:
-  - [ ] Enlace a página principal
-  - [ ] Enlace a login (si no está autenticado)
-  - [ ] Enlace a registro (si no está autenticado)
-  - [ ] Menú de estudiante (si está autenticado como estudiante)
-  - [ ] Menú de administrador (si está autenticado como admin)
-- [ ] Aplicar estilos con Tailwind CSS
-- [ ] Hacer responsive el header
+- [ X ] Crear estructura básica del header:
+  - [ X ] Logo o título de la aplicación
+  - [ X ] Menú de navegación
+  - [ X ] Área de usuario (login/logout)
+- [ X ] Implementar menú de navegación:
+  - [ X ] Enlace a página principal
+  - [ X ] Enlace a login (si no está autenticado)
+  - [ X ] Enlace a registro (si no está autenticado)
+  - [ X ] Menú de estudiante (si está autenticado como estudiante)
+  - [ X ] Menú de administrador (si está autenticado como admin)
+- [ X ] Aplicar estilos con Tailwind CSS
+- [ X ] Hacer responsive el header
 
 ### Componente de Navegación
-- [ ] Crear componente `Navigation` o `Nav`
-- [ ] Implementar enlaces de navegación
-- [ ] Añadir indicador de página activa
-- [ ] Aplicar estilos
+- [ X ] Crear componente `Navigation` o `Nav`
+- [X ] Implementar enlaces de navegación
+- [X  ] Añadir indicador de página activa
+- [ X] Aplicar estilos
 
 ### Contexto de Autenticación (Estructura Básica)
-- [ ] Crear archivo `src/contexts/AuthContext.tsx`
-- [ ] Crear contexto de autenticación:
-  - [ ] Estado de usuario (null o Usuario)
-  - [ ] Función de login (estructura básica)
-  - [ ] Función de logout (estructura básica)
-- [ ] Crear componente `AuthProvider`
-- [ ] Crear hook `useAuth` para usar el contexto
-- [ ] Envolver la app con `AuthProvider`
+- [ X ] Crear archivo `src/contexts/AuthContext.tsx`
+- [ X ] Crear contexto de autenticación:
+  - [ X ] Estado de usuario (null o Usuario)
+  - [ X ] Función de login (estructura básica)
+  - [ X ] Función de logout (estructura básica)
+- [X ] Crear componente `AuthProvider`
+- [x ] Crear hook `useAuth` para usar el contexto
+- [X ] Envolver la app con `AuthProvider`
 
 ### Componente ProtectedRoute
-- [ ] Crear componente `ProtectedRoute`
-- [ ] Implementar verificación de autenticación
-- [ ] Redirigir a login si no está autenticado
-- [ ] Verificar rol si es necesario (estudiante/admin)
-- [ ] Aplicar a rutas protegidas
+- [ X ] Crear componente `ProtectedRoute`
+- [ X ] Implementar verificación de autenticación
+- [ X ] Redirigir a login si no está autenticado
+- [ X ] Verificar rol si es necesario (estudiante/admin)
+- [ X ] Aplicar a rutas protegidas
 
 ### Páginas Básicas
-- [ ] Crear carpeta `src/pages/` o `src/views/`
-- [ ] Crear página `HomePage` (placeholder básico)
-- [ ] Crear página `LoginPage` (estructura básica, sin funcionalidad)
-- [ ] Crear página `RegisterPage` (estructura básica, sin funcionalidad)
-- [ ] Crear página `EstudianteDashboard` (placeholder)
-- [ ] Crear página `AdminDashboard` (placeholder)
+- [ X ] Crear carpeta `src/pages/` o `src/views/`
+- [X  ] Crear página `HomePage` (placeholder básico)
+- [X ] Crear página `LoginPage` (estructura básica, sin funcionalidad)
+- [X ] Crear página `RegisterPage` (estructura básica, sin funcionalidad)
+- [ X] Crear página `EstudianteDashboard` (placeholder)
+- [X ] Crear página `AdminDashboard` (placeholder)
 
 ### Componentes Base Reutilizables
-- [ ] Crear componente `Container` o `PageContainer`:
-  - [ ] Wrapper con estilos consistentes
-  - [ ] Máximo ancho, padding, etc.
-- [ ] Crear componente `Button` (si no se usa Shadcn/ui)
-- [ ] Crear componente `Card` básico (si no se usa Shadcn/ui)
-- [ ] Crear componente `Loading` o `Spinner`
-- [ ] Crear componente `ErrorMessage` para errores
+- [ X ] Crear componente `Container` o `PageContainer`:
+  - [ X ] Wrapper con estilos consistentes
+  - [ X ] Máximo ancho, padding, etc.
+- [ X ] Crear componente `Button` (si no se usa Shadcn/ui)
+- [ X ] Crear componente `Card` básico (si no se usa Shadcn/ui)
+- [ X ] Crear componente `Loading` o `Spinner`
+- [ X ] Crear componente `ErrorMessage` para errores
 
 ### Configuración de Rutas
-- [ ] Configurar rutas públicas:
-  - [ ] `/` → HomePage
-  - [ ] `/login` → LoginPage
-  - [ ] `/register` → RegisterPage
-- [ ] Configurar rutas protegidas de estudiante:
-  - [ ] `/estudiante` → EstudianteDashboard
-  - [ ] `/estudiante/modulos` → (se implementará después)
-- [ ] Configurar rutas protegidas de administrador:
-  - [ ] `/admin` → AdminDashboard
-  - [ ] `/admin/modulos` → (se implementará después)
+- [ X ] Configurar rutas públicas:
+  - [ X ] `/` → HomePage
+  - [ X ] `/login` → LoginPage
+  - [ X ] `/register` → RegisterPage
+- [ X ] Configurar rutas protegidas de estudiante:
+  - [ X ] `/estudiante` → EstudianteDashboard
+  - [ X ] `/estudiante/modulos` → (se implementará después)
+- [ X ] Configurar rutas protegidas de administrador:
+  - [ X ] `/admin` → AdminDashboard
+  - [ X ] `/admin/modulos` → (se implementará después)
 
 ### Estilos Globales
-- [ ] Configurar estilos base en `src/index.css`
-- [ ] Añadir variables CSS si es necesario
-- [ ] Configurar fuentes
-- [ ] Configurar colores base
-- [ ] Asegurar que Tailwind está correctamente configurado
+- [ X ] Configurar estilos base en `src/index.css`
+- [ X ] Añadir variables CSS si es necesario
+- [ X ] Configurar fuentes
+- [ X ] Configurar colores base
+- [ X] Asegurar que Tailwind está correctamente configurado
 
 ### Navegación Programática
-- [ ] Implementar función de navegación usando `useNavigate`
-- [ ] Crear helper para navegación si es necesario
-- [ ] Implementar redirecciones después de login/logout
+- [ X ] Implementar función de navegación usando `useNavigate`
+- [ X ] Crear helper para navegación si es necesario
+- [  X] Implementar redirecciones después de login/logout
 
 ### Testing y Validación
-- [ ] Probar que el router funciona correctamente
-- [ ] Probar navegación entre páginas
-- [ ] Probar que las rutas protegidas redirigen correctamente
-- [ ] Verificar que el header se muestra en todas las páginas
-- [ ] Verificar responsive design
-- [ ] Revisar código con la pareja
+- [ X ] Probar que el router funciona correctamente
+- [ X ] Probar navegación entre páginas
+- [ X ] Probar que las rutas protegidas redirigen correctamente
+- [ X ] Verificar que el header se muestra en todas las páginas
+- [ X ] Verificar responsive design
+- [ X ] Revisar código con la pareja
 
 ### Documentación
-- [ ] Documentar estructura de rutas
-- [ ] Documentar componentes base creados
-- [ ] Documentar el contexto de autenticación
-- [ ] Actualizar README si es necesario
-- [ ] Crear commit con mensaje descriptivo
+- [ X ] Documentar estructura de rutas
+- [ X ] Documentar componentes base creados
+- [ X ] Documentar el contexto de autenticación
+- [ X ] Actualizar README si es necesario
+- [ X ] Crear commit con mensaje descriptivo
 
 ## Notas Técnicas
 

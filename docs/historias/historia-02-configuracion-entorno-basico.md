@@ -29,12 +29,12 @@
 
 ### Configuración del Router
 - [ X ] Crear archivo `src/App.tsx` o `src/router.tsx`
-- [ ] Configurar rutas básicas:
-  - [ ] `/` - Página principal (público)
-  - [ ] `/login` - Login (público)
-  - [ ] `/register` - Registro (público)
-  - [ ] `/estudiante/*` - Rutas protegidas de estudiante
-  - [ ] `/admin/*` - Rutas protegidas de administrador
+- [ X] Configurar rutas básicas:
+  - [ X] `/` - Página principal (público)
+  - [ X] `/login` - Login (público)
+  - [X ] `/register` - Registro (público)
+  - [X ] `/estudiante/*` - Rutas protegidas de estudiante
+  - [X ] `/admin/*` - Rutas protegidas de administrador
 - [ X ] Crear componente `Router` o configurar en `App.tsx`
 - [ X ] Configurar navegación básica
 

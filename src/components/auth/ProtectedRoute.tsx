@@ -4,7 +4,6 @@ import { ReactNode } from "react"
 
 
 //Props para el componente ProtectedRoute
-// @property children - Componentes a renderizar si la ruta está protegida
 
  
 interface Props {
@@ -34,3 +33,4 @@ export const ProtectedRoute = ({ children, role }: Props) => {
 
   return children
 }
+

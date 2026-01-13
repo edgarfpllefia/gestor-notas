@@ -1,16 +1,16 @@
 
 export const RegisterForm = () => {
 
-function validar(){
+/*function validar(){
     let mensajeError = ""
     if(
         document.querySelector("#nombre").value == "a"
     )
-}
+}*/
 
 return (
 
-<form onSubmit={validar} className="max-w-md mx-auto mt-10 p-6 bg-white rounded-xl shadow space-y-4">
+<form /*onSubmit={validar}*/ className="max-w-md mx-auto mt-10 p-6 bg-white rounded-xl shadow space-y-4">
 
   <div>
     <label className="block text-sm font-medium text-gray-700 mb-1">

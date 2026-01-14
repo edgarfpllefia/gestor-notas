@@ -11,6 +11,11 @@ export const localStorageModuloRepo = {
     return modulos.find((m) => m.id === id);
   },
 
+  getByCiclo: (ciclo) => {
+    const modulos = localStorageModuloRepo.getAll();
+    return modulos.filter((m) => m.ciclo === ciclo);
+  },
+
   create: (modulo) => {
     const modulos = localStorageModuloRepo.getAll();
     const nuevoModulo = {

@@ -18,6 +18,7 @@ export const ModuloEstudianteList = ({ modulos }) => {
       {modulos.map((modulo) => (
         <ModuloEstudianteCard
           key={modulo.id}
+          id={modulo.id}
           nombre={modulo.nombre}
           curso={modulo.curso}
           codigo={modulo.codigo}

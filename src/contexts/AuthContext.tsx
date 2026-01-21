@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, ReactNode } from "react"
+import { createContext, useContext, useState, useEffect, ReactNode } from "react"
 
 export type UserRole = "estudiante" | "admin"
 
@@ -26,13 +26,18 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   
-  const [user, setUser] = useState<User | null>(null)
+  // Inicializar estado desde localStorage si existe
+  const [user, setUser] = useState<User | null>(() => {
+    const storedUser = localStorage.getItem('auth_user')
+    return storedUser ? JSON.parse(storedUser) : null
+  })
 
   
   //Función para autenticar un usuario
   //Actualiza el estado con los datos del usuario proporcionado
   const login = (userData: User) => {
     setUser(userData)
+    localStorage.setItem('auth_user', JSON.stringify(userData))
   }
 
 
@@ -41,6 +46,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   
   const logout = () => {
     setUser(null)
+    localStorage.removeItem('auth_user')
   }
 
   return (

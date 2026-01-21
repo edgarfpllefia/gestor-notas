@@ -3,7 +3,7 @@ import { Layout } from "@/components/layout/Layout"
 import { AuthProvider } from "@/contexts/AuthContext"
 import { ProtectedRoute } from "@/components/auth/ProtectedRoute"
 
-import {HomePage,LoginPage,RegisterPage,EstudianteDashboard,AdminDashboard} from "@/pages"
+import {HomePage,LoginPage,RegisterPage,EstudianteDashboard,AdminDashboard,ModulosEstudiante} from "@/pages"
 
 export default function App() {
   return (
@@ -20,6 +20,15 @@ export default function App() {
               element={
                 <ProtectedRoute role="estudiante">
                   <EstudianteDashboard />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/estudiante/modulos"
+              element={
+                <ProtectedRoute role="estudiante">
+                  <ModulosEstudiante />
                 </ProtectedRoute>
               }
             />

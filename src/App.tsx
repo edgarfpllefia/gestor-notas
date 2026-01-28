@@ -3,8 +3,7 @@ import { Layout } from "@/components/layout/Layout"
 import { AuthProvider } from "@/contexts/AuthContext"
 import ProtectedRoute from "@/components/auth/ProtectedRoute"
 
-import { HomePage, RegisterPage, EstudianteDashboard, AdminDashboard } from "@/pages"
-import LoginPage from "@/pages/LoginPage"
+import { HomePage, LoginPage, RegisterPage, EstudianteDashboard, AdminDashboard } from "@/pages"
 
 export default function App() {
   return (

@@ -20,7 +20,7 @@ export default function LoginForm() {
     const success = login(email, password);
 
     if (success) {
-      navigate("/student");
+      navigate("/estudiante");
     }
   };
 

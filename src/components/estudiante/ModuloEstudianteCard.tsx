@@ -1,6 +1,15 @@
+import { useNavigate } from "react-router-dom"
+
 // ModuloEstudianteCard - Tarjeta para mostrar módulos del estudiante con estado y notas
 
-export const ModuloEstudianteCard = ({ nombre, curso, codigo, horas, descripcion, estado, notas }) => {
+export const ModuloEstudianteCard = ({ id, nombre, curso, codigo, horas, descripcion, estado, notas }) => {
+  
+  const navigate = useNavigate()
+  
+  // Función para navegar al detalle del módulo
+  const handleClick = () => {
+    navigate(`/estudiante/modulos/${id}/tareas`)
+  }
   
   // Función para obtener el color del badge según el estado
   const getEstadoColor = (estado) => {
@@ -48,7 +57,10 @@ export const ModuloEstudianteCard = ({ nombre, curso, codigo, horas, descripcion
   const promedio = calcularPromedio()
 
   return (
-    <div className="border rounded-lg p-4 shadow hover:shadow-lg transition-shadow bg-white">
+    <div 
+      onClick={handleClick}
+      className="border rounded-lg p-4 shadow hover:shadow-lg transition-shadow bg-white cursor-pointer hover:border-blue-400"
+    >
       {/* Header: Nombre y Estado */}
       <div className="flex justify-between items-start mb-3">
         <h3 className="font-bold text-lg flex-1">{nombre}</h3>

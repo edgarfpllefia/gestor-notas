@@ -1,0 +1,22 @@
+import { Navigate } from "react-router-dom"
+import { useAuth } from "@/contexts/AuthContext"
+
+export default function ProtectedRoute({ children }) {
+  const { user, loading } = useAuth()
+
+  // ⭐ Mientras carga, no redirigir
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <p className="text-xl text-gray-600">Cargando...</p>
+      </div>
+    )
+  }
+
+  // Si no hay usuario Y ya terminó de cargar, redirigir al login
+  if (!user) {
+    return <Navigate to="/login" />
+  }
+
+  return children
+}

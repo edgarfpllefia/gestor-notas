@@ -1,28 +1,28 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../contexts/AuthContext";
+import { useState } from "react"
+import { useNavigate } from "react-router-dom"
+import { useAuth } from "@/contexts/AuthContext"
 
-export default function LoginForm() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [formError, setFormError] = useState("");
-  const { login, error } = useAuth();
-  const navigate = useNavigate();
+export function LoginForm() {
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const [formError, setFormError] = useState("")
+  const { login, error } = useAuth()
+  const navigate = useNavigate()
 
   const handleSubmit = (e) => {
-    e.preventDefault();
+    e.preventDefault()
 
     if (!email || !password) {
-      setFormError("Tots els camps són obligatoris");
-      return;
+      setFormError("Tots els camps són obligatoris")
+      return
     }
 
-    const success = login(email, password);
+    const success = login(email, password)
 
     if (success) {
-      navigate("/estudiante");
+      navigate("/estudiante")
     }
-  };
+  }
 
   return (
     <form

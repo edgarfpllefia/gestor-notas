@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 import { Layout } from "@/components/layout/Layout"
 import { AuthProvider } from "@/contexts/AuthContext"
-import { ProtectedRoute } from "@/components/auth/ProtectedRoute"
+import ProtectedRoute from "@/components/auth/ProtectedRoute"
 
 import {HomePage,LoginPage,RegisterPage,EstudianteDashboard,AdminDashboard,ModulosEstudiante,DetalleModulo} from "@/pages"
 

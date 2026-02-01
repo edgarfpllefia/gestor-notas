@@ -1,38 +1,39 @@
 import { createContext, useContext, useState, useEffect } from "react"
+import { localStorageUsuarioRepo } from "@/data/repositories/usuarioRepository"
 
 const AuthContext = createContext()
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null)
   const [error, setError] = useState(null)
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user")
     if (storedUser) {
       setUser(JSON.parse(storedUser))
     }
-  }, []);
+    setLoading(false)
+  }, [])
 
   const login = (email, password) => {
- 
-    const mockUsers = [
-      { email: "alumne@test.com", password: "1234", name: "Alumne Test" }
-    ]
-
-    const foundUser = mockUsers.find(u => u.email === email)
+    // Buscar usuario por email
+    const foundUser = localStorageUsuarioRepo.getByEmail(email)
 
     if (!foundUser) {
-      setError("Usuari no trobat");
+      setError("Usuari no trobat")
       return false
     }
 
+    // Verificar contraseña
     if (foundUser.password !== password) {
       setError("Contrasenya incorrecta")
       return false
     }
 
+    // Crear sesión de usuario
     setUser(foundUser)
-    localStorage.setItem("user", JSON.stringify(foundUser));
+    localStorage.setItem("user", JSON.stringify(foundUser))
     setError(null)
     return true
   }
@@ -43,7 +44,7 @@ export function AuthProvider({ children }) {
   }
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, error }}>
+    <AuthContext.Provider value={{ user, login, logout, error, loading }}>
       {children}
     </AuthContext.Provider>
   )

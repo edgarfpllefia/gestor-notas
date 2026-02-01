@@ -1,20 +1,18 @@
-import { useAuth } from "../context/AuthContext"
+import { useAuth } from "@/contexts/AuthContext"
 import { useNavigate } from "react-router-dom"
 
-export default function StudentArea() {
+export function LogoutPage() {
   const { user, logout } = useAuth()
   const navigate = useNavigate()
 
   const handleLogout = () => {
-    logout();
+    logout()
     navigate("/login")
   }
 
   return (
     <div className="p-6">
-      <h1 className="text-2xl font-bold">
-        Benvingut/da, {user.name}
-      </h1>
+      <h1 className="text-2xl font-bold">Benvingut/da, {user?.nombre || user?.name}</h1>
 
       <button
         onClick={handleLogout}

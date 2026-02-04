@@ -98,7 +98,6 @@ function SelectLabel({
   );
 }
 
-function hola() {}
 
 function SelectItem({
   className,

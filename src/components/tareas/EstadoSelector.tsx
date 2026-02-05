@@ -12,7 +12,7 @@ export const EstadoSelector = ({ tareaId, estadoActual, onEstadoChange }) => {
   const [valor, setValor] = useState(estadoActual || "pendiente")
 
   const handleChange = (nuevo) => {
-    // Optimistic update local UI
+    
     const previo = valor
     setValor(nuevo)
     if (onEstadoChange) onEstadoChange(tareaId, nuevo)
@@ -20,7 +20,7 @@ export const EstadoSelector = ({ tareaId, estadoActual, onEstadoChange }) => {
     try {
       localStorageTareaRepo.update(tareaId, { estado: nuevo })
     } catch (err) {
-      // Revertir si falla
+      
       console.error("Error actualizando estado:", err)
       setValor(previo)
       if (onEstadoChange) onEstadoChange(tareaId, previo)

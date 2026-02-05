@@ -9,7 +9,24 @@ const ESTADOS = [
 ]
 
 export const EstadoSelector = ({ tareaId, estadoActual, onEstadoChange }) => {
- 
+  const [valor, setValor] = useState(estadoActual || "pendiente")
+
+  const handleChange = (nuevo) => {
+    
+    const previo = valor
+    setValor(nuevo)
+    if (onEstadoChange) onEstadoChange(tareaId, nuevo)
+
+    try {
+      localStorageTareaRepo.update(tareaId, { estado: nuevo })
+    } catch (err) {
+      
+      console.error("Error actualizando estado:", err)
+      setValor(previo)
+      if (onEstadoChange) onEstadoChange(tareaId, previo)
+      alert("No se pudo actualizar el estado de la tarea")
+    }
+  }
 
   return (
     
@@ -17,3 +34,4 @@ export const EstadoSelector = ({ tareaId, estadoActual, onEstadoChange }) => {
 }
 
 export default EstadoSelector
+

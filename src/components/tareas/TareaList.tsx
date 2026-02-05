@@ -2,7 +2,7 @@ import { TareaCard } from "./TareaCard"
 
 // TareaList - Lista de tareas
 
-export const TareaList = ({ tareas, onEdit, onDelete }) => {
+export const TareaList = ({ tareas, onEdit, onDelete, onEstadoChange }) => {
   
   // Si no hay tareas, mostrar mensaje
   if (tareas.length === 0) {
@@ -23,6 +23,7 @@ export const TareaList = ({ tareas, onEdit, onDelete }) => {
           tarea={tarea}
           onEdit={onEdit}
           onDelete={onDelete}
+          onEstadoChange={onEstadoChange}
         />
       ))}
     </div>

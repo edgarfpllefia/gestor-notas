@@ -1,6 +1,8 @@
 // TareaCard - Tarjeta para mostrar información de una tarea
 
-export const TareaCard = ({ tarea, onEdit, onDelete }) => {
+import { EstadoSelector } from "./EstadoSelector"
+
+export const TareaCard = ({ tarea, onEdit, onDelete, onEstadoChange }) => {
   
   // Función para formatear fechas
   const formatearFecha = (fechaString) => {
@@ -46,9 +48,18 @@ export const TareaCard = ({ tarea, onEdit, onDelete }) => {
       {/* Header: Título y Estado */}
       <div className="flex justify-between items-start mb-3">
         <h3 className="font-bold text-lg flex-1">{tarea.titulo}</h3>
-        <span className={`px-3 py-1 rounded-full text-xs font-semibold ${getEstadoColor(tarea.estado)}`}>
-          {getEstadoTexto(tarea.estado)}
-        </span>
+        <div className="flex items-center gap-3">
+          <span className={`px-3 py-1 rounded-full text-xs font-semibold ${getEstadoColor(tarea.estado)}`}>
+            {getEstadoTexto(tarea.estado)}
+          </span>
+          <div className="hidden md:block">
+            <EstadoSelector
+              tareaId={tarea.id}
+              estadoActual={tarea.estado}
+              onEstadoChange={onEstadoChange}
+            />
+          </div>
+        </div>
       </div>
       
       {/* Descripción */}

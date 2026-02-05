@@ -139,6 +139,11 @@ export const DetalleModulo = () => {
     setTareaEliminar(null)
   }
 
+  // Manejar cambio de estado desde los componentes hijos (actualización optimista local)
+  const handleCambioEstado = (tareaId, nuevoEstado) => {
+    setTareas((prev) => prev.map((t) => (t.id === tareaId ? { ...t, estado: nuevoEstado } : t)))
+  }
+
   // Volver a la lista de módulos
   const handleVolver = () => {
     navigate('/estudiante/modulos')
@@ -202,6 +207,7 @@ export const DetalleModulo = () => {
         tareas={tareas}
         onEdit={handleEditarTarea}
         onDelete={handleEliminarTarea}
+        onEstadoChange={handleCambioEstado}
       />
 
       {/* Modal de formulario */}

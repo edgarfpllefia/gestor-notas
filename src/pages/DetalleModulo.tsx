@@ -3,10 +3,12 @@ import { useParams, useNavigate } from "react-router-dom"
 import { useAuth } from "@/contexts/AuthContext"
 import { localStorageModuloRepo } from "@/data/repositories/moduloRepository"
 import { localStorageTareaRepo } from "@/data/repositories/tareaRepository"
+import { localStorageModuloEstudianteRepo } from "@/data/repositories/moduloEstudianteRepository"
 import { TareaList } from "@/components/tareas/TareaList"
 import { TareaForm } from "@/components/tareas/TareaForm"
 import { FormDialog } from "@/components/tareas/FormDialog"
 import { DeleteConfirmDialog } from "@/components/tareas/DeleteConfirmDialog"
+import { GestionNotasModulo } from "@/components/notas/GestionNotasModulo"
 
 // DetalleModulo - Página para gestionar tareas de un módulo
 
@@ -19,9 +21,10 @@ export const DetalleModulo = () => {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   
-  // Datos del módulo y tareas
+  // Datos del módulo, tareas y relación estudiante-módulo
   const [modulo, setModulo] = useState(null)
   const [tareas, setTareas] = useState([])
+  const [moduloEstudiante, setModuloEstudiante] = useState(null)
   
   // Estados para los diálogos
   const [modalFormularioAbierto, setModalFormularioAbierto] = useState(false)
@@ -34,7 +37,7 @@ export const DetalleModulo = () => {
     cargarDatos()
   }, [moduloId, user])
 
-  // Función para cargar módulo y tareas
+  // Función para cargar módulo, tareas y notas
   const cargarDatos = () => {
     try {
       setLoading(true)
@@ -56,6 +59,12 @@ export const DetalleModulo = () => {
       const tareasDelEstudiante = todasLasTareas.filter(t => t.estudianteId === user.id)
       
       setTareas(tareasDelEstudiante)
+      
+      // 3. Obtener relación ModuloEstudiante (para notas y estado)
+      const relacionesEstudiante = localStorageModuloEstudianteRepo.getByEstudianteId(user.id)
+      const relacionModulo = relacionesEstudiante.find(r => r.moduloId === moduloId)
+      
+      setModuloEstudiante(relacionModulo)
       setLoading(false)
       
     } catch (err) {
@@ -191,6 +200,12 @@ export const DetalleModulo = () => {
           {modulo?.codigo} - Curso {modulo?.curso}º - {modulo?.horas} horas
         </p>
       </div>
+
+      {/* Gestión de Notas del Módulo */}
+      <GestionNotasModulo 
+        moduloEstudiante={moduloEstudiante}
+        onActualizar={cargarDatos}
+      />
 
       {/* Botón Nueva Tarea */}
       <div className="mb-6">

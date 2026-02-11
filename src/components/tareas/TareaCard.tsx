@@ -44,49 +44,52 @@ export const TareaCard = ({ tarea, onEdit, onDelete, onEstadoChange }) => {
   }
 
   return (
-    <div className="border rounded-lg p-4 shadow bg-white">
-      {/* Header: Título y Estado */}
-      <div className="flex justify-between items-start mb-3">
-        <h3 className="font-bold text-lg flex-1">{tarea.titulo}</h3>
-        <div className="flex items-center gap-3">
-          <span className={`px-3 py-1 rounded-full text-xs font-semibold ${getEstadoColor(tarea.estado)}`}>
-            {getEstadoTexto(tarea.estado)}
-          </span>
-          <div className="hidden md:block">
-            <EstadoSelector
-              tareaId={tarea.id}
-              estadoActual={tarea.estado}
-              onEstadoChange={onEstadoChange}
-            />
+    <div className="border rounded-lg p-4 shadow bg-white flex flex-col h-full">
+      {/* Contenido principal - crece para empujar botones al fondo */}
+      <div className="flex-1">
+        {/* Header: Título y Estado */}
+        <div className="flex justify-between items-start mb-3">
+          <h3 className="font-bold text-lg flex-1">{tarea.titulo}</h3>
+          <div className="flex items-center gap-3">
+            <span className={`px-3 py-1 rounded-full text-xs font-semibold ${getEstadoColor(tarea.estado)}`}>
+              {getEstadoTexto(tarea.estado)}
+            </span>
+            <div className="hidden md:block">
+              <EstadoSelector
+                tareaId={tarea.id}
+                estadoActual={tarea.estado}
+                onEstadoChange={onEstadoChange}
+              />
+            </div>
           </div>
         </div>
-      </div>
-      
-      {/* Descripción */}
-      <p className="text-sm text-gray-700 mb-3">{tarea.descripcion}</p>
-      
-      {/* Información de fechas */}
-      <div className="text-xs text-gray-600 space-y-1 mb-3">
-        <p>
-          <span className="font-semibold">Creada:</span> {formatearFecha(tarea.fechaCreacion)}
-        </p>
-        {tarea.fechaVencimiento && (
+        
+        {/* Descripción */}
+        <p className="text-sm text-gray-700 mb-3">{tarea.descripcion}</p>
+        
+        {/* Información de fechas */}
+        <div className="text-xs text-gray-600 space-y-1 mb-3">
           <p>
-            <span className="font-semibold">Vence:</span> {formatearFecha(tarea.fechaVencimiento)}
+            <span className="font-semibold">Creada:</span> {formatearFecha(tarea.fechaCreacion)}
           </p>
+          {tarea.fechaVencimiento && (
+            <p>
+              <span className="font-semibold">Vence:</span> {formatearFecha(tarea.fechaVencimiento)}
+            </p>
+          )}
+        </div>
+
+        {/* Nota (si existe) */}
+        {tarea.nota !== undefined && tarea.nota !== null && (
+          <div className="mb-3 p-2 bg-blue-50 rounded">
+            <p className="text-sm font-semibold text-blue-700">
+              Nota: <span className="text-blue-600">{tarea.nota}</span>
+            </p>
+          </div>
         )}
       </div>
 
-      {/* Nota (si existe) */}
-      {tarea.nota !== undefined && tarea.nota !== null && (
-        <div className="mb-3 p-2 bg-blue-50 rounded">
-          <p className="text-sm font-semibold text-blue-700">
-            Nota: <span className="text-blue-600">{tarea.nota}</span>
-          </p>
-        </div>
-      )}
-
-      {/* Botones de acción */}
+      {/* Botones de acción - siempre al fondo */}
       <div className="flex gap-2 mt-4">
         <button
           onClick={() => onEdit(tarea)}

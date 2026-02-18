@@ -1,101 +1,73 @@
 import { useNavigate } from "react-router-dom"
 
-// ModuloEstudianteCard - Tarjeta para mostrar módulos del estudiante con estado y notas
+const estadoConfig = {
+  aprobado:  { label: "Aprobado",  bg: "#14532d", color: "#86efac" },
+  cursando:  { label: "Cursando",  bg: "#1e3a5f", color: "#93c5fd" },
+  pendiente: { label: "Pendiente", bg: "#78350f", color: "#fcd34d" },
+  "no-cursa":{ label: "No Cursa",  bg: "#1f2937", color: "#9ca3af" },
+}
 
 export const ModuloEstudianteCard = ({ id, nombre, curso, codigo, horas, descripcion, estado, notas }) => {
-  
   const navigate = useNavigate()
-  
-  // Función para navegar al detalle del módulo
-  const handleClick = () => {
-    navigate(`/estudiante/modulos/${id}/tareas`)
-  }
-  
-  // Función para obtener el color del badge según el estado
-  const getEstadoColor = (estado) => {
-    switch (estado) {
-      case "aprobado":
-        return "bg-green-100 text-green-800"
-      case "cursando":
-        return "bg-blue-100 text-blue-800"
-      case "pendiente":
-        return "bg-yellow-100 text-yellow-800"
-      case "no-cursa":
-        return "bg-gray-100 text-gray-800"
-      default:
-        return "bg-gray-100 text-gray-800"
-    }
-  }
 
-  // Función para obtener el texto del estado
-  const getEstadoTexto = (estado) => {
-    switch (estado) {
-      case "aprobado":
-        return "Aprobado"
-      case "cursando":
-        return "Cursando"
-      case "pendiente":
-        return "Pendiente"
-      case "no-cursa":
-        return "No Cursa"
-      default:
-        return estado
-    }
-  }
+  const cfg = estadoConfig[estado] || estadoConfig["no-cursa"]
 
-  // Calcular promedio de notas si existen
   const calcularPromedio = () => {
     if (!notas || Object.keys(notas).length === 0) return null
-    
-    const notasValidas = Object.values(notas).filter(nota => nota !== undefined && nota !== null)
-    if (notasValidas.length === 0) return null
-    
-    const suma = notasValidas.reduce((acc, nota) => acc + nota, 0)
-    return (suma / notasValidas.length).toFixed(2)
+    const valores = Object.values(notas).filter(n => n !== undefined && n !== null)
+    if (valores.length === 0) return null
+    return (valores.reduce((a, b) => a + b, 0) / valores.length).toFixed(1)
   }
 
   const promedio = calcularPromedio()
 
   return (
-    <div 
-      onClick={handleClick}
-      className="border rounded-lg p-4 shadow hover:shadow-lg transition-shadow bg-white cursor-pointer hover:border-blue-400"
+    <div
+      onClick={() => navigate(`/estudiante/modulos/${id}/tareas`)}
+      style={{
+        backgroundColor: "var(--bg-surface)",
+        border: "1px solid var(--border)",
+        transition: "border-color 0.2s, transform 0.2s",
+        cursor: "pointer",
+      }}
+      className="rounded-xl p-5 flex flex-col gap-3 hover:scale-[1.02]"
+      onMouseEnter={e => e.currentTarget.style.borderColor = "var(--accent)"}
+      onMouseLeave={e => e.currentTarget.style.borderColor = "var(--border)"}
     >
-      {/* Header: Nombre y Estado */}
-      <div className="flex justify-between items-start mb-3">
-        <h3 className="font-bold text-lg flex-1">{nombre}</h3>
-        <span className={`px-3 py-1 rounded-full text-xs font-semibold ${getEstadoColor(estado)}`}>
-          {getEstadoTexto(estado)}
+      {/* Header */}
+      <div className="flex justify-between items-start gap-2">
+        <h3 style={{ color: "var(--text-primary)", fontFamily: "Sora, sans-serif" }}
+          className="font-semibold text-base leading-snug flex-1">
+          {nombre}
+        </h3>
+        <span style={{ backgroundColor: cfg.bg, color: cfg.color }}
+          className="text-xs font-semibold px-2.5 py-0.5 rounded-full shrink-0">
+          {cfg.label}
         </span>
       </div>
-      
-      {/* Curso */}
-      <p className="text-sm text-gray-600 mb-2">
-        Curso: {curso}º
-      </p>
-      
-      {/* Información del módulo */}
-      <div className="text-sm text-gray-700 space-y-1 mb-3">
-        <p><span className="font-semibold">Código:</span> {codigo}</p>
-        <p><span className="font-semibold">Horas:</span> {horas}h</p>
-      </div>
 
-      {/* Notas (si existen) */}
+      {/* Descripción */}
+      {descripcion && (
+        <p style={{ color: "var(--text-secondary)" }} className="text-sm leading-relaxed">
+          {descripcion}
+        </p>
+      )}
+
+      {/* Nota media */}
       {promedio && (
-        <div className="mb-3 p-2 bg-gray-50 rounded">
-          <p className="text-sm font-semibold text-gray-700">
-            Nota media: <span className="text-blue-600">{promedio}</span>
-          </p>
-          <div className="text-xs text-gray-600 mt-1">
-            {notas.trimestre1 && <span className="mr-2">T1: {notas.trimestre1}</span>}
-            {notas.trimestre2 && <span className="mr-2">T2: {notas.trimestre2}</span>}
-            {notas.trimestre3 && <span className="mr-2">T3: {notas.trimestre3}</span>}
-          </div>
+        <div style={{ backgroundColor: "var(--bg-surface-2)", border: "1px solid var(--border)" }}
+          className="rounded-md px-3 py-2 flex justify-between items-center">
+          <span style={{ color: "var(--text-secondary)" }} className="text-xs">Nota media</span>
+          <span style={{ color: "var(--accent)" }} className="text-sm font-bold">{promedio}</span>
         </div>
       )}
 
-      {/* Descripción */}
-      <p className="text-sm text-gray-600 mt-2">{descripcion}</p>
+      {/* Footer */}
+      <div style={{ borderTop: "1px solid var(--border)", color: "var(--text-secondary)" }}
+        className="flex justify-between text-xs pt-3 mt-auto">
+        <span>{curso}º curso · {codigo}</span>
+        <span>{horas}h</span>
+      </div>
     </div>
   )
 }

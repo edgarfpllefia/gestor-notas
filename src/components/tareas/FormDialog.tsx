@@ -1,24 +1,25 @@
-// FormDialog - Modal para mostrar el formulario de tarea
-
 export const FormDialog = ({ isOpen, title, children, onClose }) => {
-  
   if (!isOpen) return null
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-lg p-6 max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-xl">
-        {/* Header */}
+    <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4">
+      <div style={{
+        backgroundColor: "var(--bg-surface)",
+        border: "1px solid var(--border)",
+      }} className="rounded-xl p-6 max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-xl">
+
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-bold text-gray-900">{title}</h2>
-          <button
-            onClick={onClose}
-            className="text-gray-400 hover:text-gray-600 text-2xl font-bold"
-          >
+          <h2 style={{ fontFamily: "Sora, sans-serif", color: "var(--text-primary)" }}
+            className="text-xl font-bold">
+            {title}
+          </h2>
+          <button onClick={onClose}
+            style={{ color: "var(--text-secondary)" }}
+            className="text-2xl leading-none hover:text-white transition-colors">
             ×
           </button>
         </div>
-        
-        {/* Contenido (formulario) */}
+
         {children}
       </div>
     </div>

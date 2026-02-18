@@ -1,12 +1,14 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 import { Layout } from "@/components/layout/Layout"
 import { AuthProvider } from "@/contexts/AuthContext"
+import { ThemeProvider } from "@/contexts/ThemeContext"
 import ProtectedRoute from "@/components/auth/ProtectedRoute"
 
 import {HomePage,LoginPage,RegisterPage,EstudianteDashboard,AdminDashboard,ModulosEstudiante,DetalleModulo} from "@/pages"
 
 export default function App() {
   return (
+    <ThemeProvider>
     <AuthProvider>
       <BrowserRouter>
         <Routes>
@@ -54,5 +56,6 @@ export default function App() {
         </Routes>
       </BrowserRouter>
     </AuthProvider>
+    </ThemeProvider>
   )
 }

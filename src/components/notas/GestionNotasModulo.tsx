@@ -1,159 +1,111 @@
-import { useState } from "react";
-import { NotaEvaluacion } from "./NotaEvaluacion";
-import { EstadoModuloSelector } from "./EstadoModuloSelector";
-import { localStorageModuloEstudianteRepo } from "@/data/repositories/moduloEstudianteRepository";
-
-// GestionNotasModulo - Componente contenedor para gestionar notas y estado del módulo
+import { useState } from "react"
+import { NotaEvaluacion } from "./NotaEvaluacion"
+import { EstadoModuloSelector } from "./EstadoModuloSelector"
+import { localStorageModuloEstudianteRepo } from "@/data/repositories/moduloEstudianteRepository"
 
 export const GestionNotasModulo = ({ moduloEstudiante, onActualizar }) => {
-  const [editando, setEditando] = useState(false);
-  const [notasEditando, setNotasEditando] = useState(moduloEstudiante?.notas || {});
-  const [estadoEditando, setEstadoEditando] = useState(moduloEstudiante?.estado || "cursando");
+  const [editando, setEditando] = useState(false)
+  const [notasEditando, setNotasEditando] = useState(moduloEstudiante?.notas || {})
+  const [estadoEditando, setEstadoEditando] = useState(moduloEstudiante?.estado || "cursando")
 
-  // Manejar cambio en una nota específica
-  const handleNotaChange = (nombreEvaluacion, valor) => {
-    setNotasEditando((prev) => ({
-      ...prev,
-      [nombreEvaluacion]: valor === "" ? undefined : valor,
-    }));
-  };
+  const handleNotaChange = (nombre, valor) => {
+    setNotasEditando(prev => ({ ...prev, [nombre]: valor === "" ? undefined : valor }))
+  }
 
-  // Guardar cambios
   const handleGuardar = () => {
-    const datosActualizados = {
-      notas: notasEditando,
-      estado: estadoEditando,
-    };
+    localStorageModuloEstudianteRepo.update(moduloEstudiante.id, { notas: notasEditando, estado: estadoEditando })
+    if (onActualizar) onActualizar()
+    setEditando(false)
+  }
 
-    // Actualizar en LocalStorage
-    localStorageModuloEstudianteRepo.update(moduloEstudiante.id, datosActualizados);
-
-    // Notificar al componente padre
-    if (onActualizar) {
-      onActualizar();
-    }
-
-    setEditando(false);
-  };
-
-  // Cancelar edición
   const handleCancelar = () => {
-    setNotasEditando(moduloEstudiante?.notas || {});
-    setEstadoEditando(moduloEstudiante?.estado || "cursando");
-    setEditando(false);
-  };
+    setNotasEditando(moduloEstudiante?.notas || {})
+    setEstadoEditando(moduloEstudiante?.estado || "cursando")
+    setEditando(false)
+  }
 
   if (!moduloEstudiante) {
     return (
-      <div className="bg-white rounded-lg shadow p-6 mb-6">
-        <p className="text-gray-500">No hay información de notas para este módulo</p>
+      <div style={{ backgroundColor: "var(--bg-surface)", border: "1px solid var(--border)" }}
+        className="rounded-xl p-5 mb-5">
+        <p style={{ color: "var(--text-secondary)" }} className="text-sm">
+          No hay información de notas para este módulo.
+        </p>
       </div>
-    );
+    )
   }
 
+  const evaluaciones = [
+    { name: "trimestre1",     label: "Trimestre 1" },
+    { name: "trimestre2",     label: "Trimestre 2" },
+    { name: "trimestre3",     label: "Trimestre 3" },
+    { name: "ordinaria",      label: "Ordinaria" },
+    { name: "extraordinaria", label: "Extraordinaria" },
+  ]
+
   return (
-    <div className="bg-white rounded-lg shadow p-6 mb-6">
-      <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-bold">Gestión de Notas</h2>
+    <div style={{ backgroundColor: "var(--bg-surface)", border: "1px solid var(--border)" }}
+      className="rounded-xl p-4 md:p-6 mb-5 md:mb-6 flex flex-col gap-4 md:gap-5">
+
+      {/* Header */}
+      <div className="flex justify-between items-center">
+        <h2 style={{ fontFamily: "Sora, sans-serif", color: "var(--text-primary)" }}
+          className="text-lg md:text-xl font-bold">
+          Notas del módulo
+        </h2>
         {!editando && (
-          <button
-            onClick={() => setEditando(true)}
-            className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
-          >
-            Editar Notas
+          <button onClick={() => setEditando(true)}
+            style={{ border: "1px solid var(--border)", color: "var(--text-secondary)" }}
+            className="px-3 md:px-4 py-1.5 rounded-md text-sm hover:text-white hover:border-white transition-colors">
+            Editar notas
           </button>
         )}
       </div>
 
-      {/* Selector de Estado */}
       <EstadoModuloSelector
         estado={editando ? estadoEditando : moduloEstudiante.estado}
         onChange={setEstadoEditando}
         disabled={!editando}
       />
 
-      {/* Visualización de todas las notas */}
-      <div className="mb-6">
-        <h3 className="text-lg font-semibold mb-4">Notas por Evaluación</h3>
-        
+      {/* Grid notas: 1 col móvil → 2 col tablet → 3 col PC */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
         {editando ? (
-          // Modo edición: inputs
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <NotaEvaluacion
-              label="Trimestre 1"
-              name="trimestre1"
-              value={notasEditando.trimestre1}
-              onChange={handleNotaChange}
-            />
-            <NotaEvaluacion
-              label="Trimestre 2"
-              name="trimestre2"
-              value={notasEditando.trimestre2}
-              onChange={handleNotaChange}
-            />
-            <NotaEvaluacion
-              label="Trimestre 3"
-              name="trimestre3"
-              value={notasEditando.trimestre3}
-              onChange={handleNotaChange}
-            />
-            <NotaEvaluacion
-              label="Ordinaria"
-              name="ordinaria"
-              value={notasEditando.ordinaria}
-              onChange={handleNotaChange}
-            />
-            <NotaEvaluacion
-              label="Extraordinaria"
-              name="extraordinaria"
-              value={notasEditando.extraordinaria}
-              onChange={handleNotaChange}
-            />
-          </div>
+          evaluaciones.map(ev => (
+            <NotaEvaluacion key={ev.name} label={ev.label} name={ev.name}
+              value={notasEditando[ev.name]} onChange={handleNotaChange} />
+          ))
         ) : (
-          // Modo visualización: mostrar notas
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="border rounded-lg p-4">
-              <span className="font-medium">Trimestre 1:</span>{" "}
-              <span className="text-lg">{moduloEstudiante.notas.trimestre1 ?? "-"}</span>
+          evaluaciones.map(ev => (
+            <div key={ev.name}
+              style={{ backgroundColor: "var(--bg-surface-2)", border: "1px solid var(--border)" }}
+              className="rounded-lg px-4 py-3 flex justify-between items-center">
+              <span style={{ color: "var(--text-secondary)" }} className="text-sm">
+                {ev.label}
+              </span>
+              <span style={{ color: moduloEstudiante.notas[ev.name] !== undefined ? "var(--accent)" : "var(--text-secondary)" }}
+                className="text-sm font-bold">
+                {moduloEstudiante.notas[ev.name] ?? "—"}
+              </span>
             </div>
-            <div className="border rounded-lg p-4">
-              <span className="font-medium">Trimestre 2:</span>{" "}
-              <span className="text-lg">{moduloEstudiante.notas.trimestre2 ?? "-"}</span>
-            </div>
-            <div className="border rounded-lg p-4">
-              <span className="font-medium">Trimestre 3:</span>{" "}
-              <span className="text-lg">{moduloEstudiante.notas.trimestre3 ?? "-"}</span>
-            </div>
-            <div className="border rounded-lg p-4">
-              <span className="font-medium">Ordinaria:</span>{" "}
-              <span className="text-lg">{moduloEstudiante.notas.ordinaria ?? "-"}</span>
-            </div>
-            <div className="border rounded-lg p-4">
-              <span className="font-medium">Extraordinaria:</span>{" "}
-              <span className="text-lg">{moduloEstudiante.notas.extraordinaria ?? "-"}</span>
-            </div>
-          </div>
+          ))
         )}
       </div>
 
-      {/* Botones de acción */}
       {editando && (
-        <div className="flex gap-4">
-          <button
-            onClick={handleGuardar}
-            className="px-6 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600"
-          >
+        <div className="flex gap-3">
+          <button onClick={handleGuardar}
+            style={{ backgroundColor: "var(--accent)" }}
+            className="px-5 py-2 rounded-md text-sm text-white hover:opacity-90 transition-opacity font-medium">
             Guardar
           </button>
-          <button
-            onClick={handleCancelar}
-            className="px-6 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600"
-          >
+          <button onClick={handleCancelar}
+            style={{ border: "1px solid var(--border)", color: "var(--text-secondary)" }}
+            className="px-5 py-2 rounded-md text-sm hover:text-white hover:border-white transition-colors">
             Cancelar
           </button>
         </div>
       )}
     </div>
-  );
-};
+  )
+}

@@ -1,32 +1,29 @@
-// EstadoModuloSelector - Selector de estado del módulo
-
 export const EstadoModuloSelector = ({ estado, onChange, disabled = false }) => {
   const estados = [
-    { value: "aprobado", label: "Aprobado", color: "bg-green-100 text-green-800" },
-    { value: "cursando", label: "Cursando", color: "bg-blue-100 text-blue-800" },
-    { value: "no-cursa", label: "No Cursa", color: "bg-gray-100 text-gray-800" },
-    { value: "pendiente", label: "Pendiente", color: "bg-yellow-100 text-yellow-800" },
-  ];
-
-  const estadoActual = estados.find(e => e.value === estado);
+    { value: "aprobado",  label: "Aprobado" },
+    { value: "cursando",  label: "Cursando" },
+    { value: "no-cursa",  label: "No Cursa" },
+    { value: "pendiente", label: "Pendiente" },
+  ]
 
   return (
-    <div className="mb-6">
-      <label className="block text-sm font-medium text-gray-700 mb-2">
-        Estado del Módulo
+    <div className="flex flex-col gap-1 mb-4">
+      <label style={{ color: "var(--text-secondary)" }} className="text-sm font-medium">
+        Estado del módulo
       </label>
-      <select
-        value={estado}
-        onChange={(e) => onChange(e.target.value)}
-        disabled={disabled}
-        className={`w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${estadoActual?.color || ""} ${disabled ? "opacity-50 cursor-not-allowed" : ""}`}
-      >
-        {estados.map((est) => (
-          <option key={est.value} value={est.value}>
-            {est.label}
-          </option>
+      <select value={estado} onChange={(e) => onChange(e.target.value)} disabled={disabled}
+        style={{
+          backgroundColor: "var(--bg-base)",
+          border: "1px solid var(--border)",
+          color: "var(--text-primary)",
+          opacity: disabled ? 0.5 : 1,
+          cursor: disabled ? "not-allowed" : "auto",
+        }}
+        className="rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 w-full md:w-64">
+        {estados.map((e) => (
+          <option key={e.value} value={e.value}>{e.label}</option>
         ))}
       </select>
     </div>
-  );
-};
+  )
+}

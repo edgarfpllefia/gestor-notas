@@ -5,13 +5,7 @@ import { localStorageModuloEstudianteRepo } from "@/data/repositories/moduloEstu
 import { localStorageUsuarioRepo } from "@/data/repositories/usuarioRepository"
 import { ModuloForm } from "./ModuloForm"
 import { ListaModulosAdmin } from "./ListaModulosAdmin"
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 
 export function GestionModulos() {
   const [cicloSeleccionado, setCicloSeleccionado] = useState("")
@@ -22,129 +16,65 @@ export function GestionModulos() {
   const [error, setError] = useState("")
 
   useEffect(() => {
-    if (cicloSeleccionado) {
-      cargarModulos()
-    } else {
-      setModulos([])
-    }
+    if (cicloSeleccionado) cargarModulos()
+    else setModulos([])
   }, [cicloSeleccionado])
 
-  const cargarModulos = () => {
-    const modulosCiclo = localStorageModuloRepo.getByCiclo(cicloSeleccionado)
-    setModulos(modulosCiclo)
-  }
+  const cargarModulos = () => setModulos(localStorageModuloRepo.getByCiclo(cicloSeleccionado))
 
-  // --- CREAR ---
   const handleCrear = (datos) => {
-    const existe = modulos.some(
-      (m) => m.nombre.toLowerCase() === datos.nombre.toLowerCase() && m.ciclo === datos.ciclo
-    )
-    if (existe) {
-      setError("Ya existe un módulo con ese nombre en este ciclo formativo.")
-      return
-    }
-
+    const existe = modulos.some(m => m.nombre.toLowerCase() === datos.nombre.toLowerCase() && m.ciclo === datos.ciclo)
+    if (existe) { setError("Ya existe un módulo con ese nombre en este ciclo formativo."); return }
     const nuevoModulo = localStorageModuloRepo.create(datos)
-
-    const estudiantes = localStorageUsuarioRepo.getEstudiantesByCiclo(datos.ciclo)
-    estudiantes.forEach((estudiante) => {
-      localStorageModuloEstudianteRepo.create({
-        estudianteId: estudiante.id,
-        moduloId: nuevoModulo.id,
-        fechaInscripcion: new Date().toISOString().split("T")[0],
-        estado: "cursando",
-        notas: {},
-      })
+    localStorageUsuarioRepo.getEstudiantesByCiclo(datos.ciclo).forEach(est => {
+      localStorageModuloEstudianteRepo.create({ estudianteId: est.id, moduloId: nuevoModulo.id, fechaInscripcion: new Date().toISOString().split("T")[0], estado: "cursando", notas: {} })
     })
-
-    setError("")
-    setMostrarFormulario(false)
-    cargarModulos()
+    setError(""); setMostrarFormulario(false); cargarModulos()
   }
 
-  // --- EDITAR ---
-  const handleEditar = (modulo) => {
-    setModuloAEditar(modulo)
-    setMostrarFormulario(true)
-    setError("")
-  }
+  const handleEditar = (modulo) => { setModuloAEditar(modulo); setMostrarFormulario(true); setError("") }
 
   const handleGuardarEdicion = (datos) => {
-    const cicloAnterior = moduloAEditar.ciclo
-    const cicloNuevo = datos.ciclo
-
-    const existe = modulos.some(
-      (m) =>
-        m.id !== moduloAEditar.id &&
-        m.nombre.toLowerCase() === datos.nombre.toLowerCase() &&
-        m.ciclo === datos.ciclo
-    )
-    if (existe) {
-      setError("Ya existe un módulo con ese nombre en este ciclo formativo.")
-      return
-    }
-
+    const existe = modulos.some(m => m.id !== moduloAEditar.id && m.nombre.toLowerCase() === datos.nombre.toLowerCase() && m.ciclo === datos.ciclo)
+    if (existe) { setError("Ya existe un módulo con ese nombre en este ciclo formativo."); return }
     localStorageModuloRepo.update(moduloAEditar.id, datos)
-
-    if (cicloAnterior !== cicloNuevo) {
+    if (moduloAEditar.ciclo !== datos.ciclo) {
       localStorageModuloEstudianteRepo.deleteByModuloId(moduloAEditar.id)
-
-      const estudiantesNuevoCiclo = localStorageUsuarioRepo.getEstudiantesByCiclo(cicloNuevo)
-      estudiantesNuevoCiclo.forEach((estudiante) => {
-        localStorageModuloEstudianteRepo.create({
-          estudianteId: estudiante.id,
-          moduloId: moduloAEditar.id,
-          fechaInscripcion: new Date().toISOString().split("T")[0],
-          estado: "cursando",
-          notas: {},
-        })
+      localStorageUsuarioRepo.getEstudiantesByCiclo(datos.ciclo).forEach(est => {
+        localStorageModuloEstudianteRepo.create({ estudianteId: est.id, moduloId: moduloAEditar.id, fechaInscripcion: new Date().toISOString().split("T")[0], estado: "cursando", notas: {} })
       })
     }
-
-    setError("")
-    setMostrarFormulario(false)
-    setModuloAEditar(null)
-    cargarModulos()
-  }
-
-  // --- ELIMINAR ---
-  const handleEliminar = (moduloId) => {
-    setModuloAEliminar(moduloId)
+    setError(""); setMostrarFormulario(false); setModuloAEditar(null); cargarModulos()
   }
 
   const confirmarEliminar = () => {
     localStorageModuloRepo.delete(moduloAEliminar)
     localStorageModuloEstudianteRepo.deleteByModuloId(moduloAEliminar)
-    setModuloAEliminar(null)
-    cargarModulos()
-  }
-
-  const cancelarEliminar = () => {
-    setModuloAEliminar(null)
-  }
-
-  const handleCancelarFormulario = () => {
-    setMostrarFormulario(false)
-    setModuloAEditar(null)
-    setError("")
+    setModuloAEliminar(null); cargarModulos()
   }
 
   return (
-    <div className="max-w-3xl mx-auto px-4 py-8 flex flex-col gap-6">
-      <h1 className="text-2xl font-bold text-gray-900">Gestión de módulos</h1>
+    <div className="max-w-3xl mx-auto px-4 md:px-6 py-8 md:py-10 flex flex-col gap-6">
+
+      <h1 style={{ fontFamily: "Sora, sans-serif", color: "var(--text-primary)" }}
+        className="text-xl md:text-2xl font-bold">
+        Gestión de módulos
+      </h1>
 
       {/* Selector de ciclo */}
       <div className="flex flex-col gap-1">
-        <label className="text-sm font-medium text-gray-700">
+        <label style={{ color: "var(--text-secondary)" }} className="text-sm font-medium">
           Ciclo formativo
         </label>
         <Select value={cicloSeleccionado} onValueChange={setCicloSeleccionado}>
-          <SelectTrigger className="w-72">
+          <SelectTrigger className="w-full md:w-72"
+            style={{ backgroundColor: "var(--bg-surface)", border: "1px solid var(--border)", color: "var(--text-primary)" }}>
             <SelectValue placeholder="Selecciona un ciclo" />
           </SelectTrigger>
-          <SelectContent position="popper">
+          <SelectContent position="popper"
+            style={{ backgroundColor: "var(--bg-surface)", border: "1px solid var(--border)" }}>
             {CICLOS_FORMATIVOS.map((c) => (
-              <SelectItem key={c.id} value={c.id}>
+              <SelectItem key={c.id} value={c.id} style={{ color: "var(--text-primary)" }}>
                 {c.id} - {c.nombre}
               </SelectItem>
             ))}
@@ -152,19 +82,13 @@ export function GestionModulos() {
         </Select>
       </div>
 
-      {/* Contenido principal */}
       {cicloSeleccionado && (
         <>
           {!mostrarFormulario && (
             <div className="flex justify-end">
-              <button
-                onClick={() => {
-                  setModuloAEditar(null)
-                  setMostrarFormulario(true)
-                  setError("")
-                }}
-                className="px-4 py-2 text-sm rounded-md bg-blue-600 text-white hover:bg-blue-700"
-              >
+              <button onClick={() => { setModuloAEditar(null); setMostrarFormulario(true); setError("") }}
+                style={{ backgroundColor: "var(--accent)" }}
+                className="px-4 py-2 text-sm rounded-md text-white hover:opacity-90 transition-opacity font-medium">
                 + Nuevo módulo
               </button>
             </div>
@@ -174,42 +98,36 @@ export function GestionModulos() {
             <ModuloForm
               moduloInicial={moduloAEditar}
               onGuardar={moduloAEditar ? handleGuardarEdicion : handleCrear}
-              onCancelar={handleCancelarFormulario}
+              onCancelar={() => { setMostrarFormulario(false); setModuloAEditar(null); setError("") }}
             />
           )}
 
-          {error && (
-            <p className="text-sm text-red-500">{error}</p>
-          )}
+          {error && <p className="text-sm text-red-400">{error}</p>}
 
-          <ListaModulosAdmin
-            modulos={modulos}
-            onEditar={handleEditar}
-            onEliminar={handleEliminar}
-          />
+          <ListaModulosAdmin modulos={modulos} onEditar={handleEditar} onEliminar={setModuloAEliminar} />
         </>
       )}
 
-      {/* Diálogo confirmación eliminar */}
+      {/* Diálogo eliminar */}
       {moduloAEliminar && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 shadow-lg max-w-sm w-full mx-4 flex flex-col gap-4">
-            <h2 className="text-lg font-semibold text-gray-900">Eliminar módulo</h2>
-            <p className="text-sm text-gray-600">
-              ¿Estás seguro de que quieres eliminar este módulo? Se eliminará
-              también de todos los estudiantes del ciclo. Esta acción no se puede deshacer.
+        <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4">
+          <div style={{ backgroundColor: "var(--bg-surface)", border: "1px solid var(--border)" }}
+            className="rounded-xl p-6 max-w-sm w-full flex flex-col gap-4">
+            <h2 style={{ fontFamily: "Sora, sans-serif", color: "var(--text-primary)" }}
+              className="text-lg font-bold">
+              Eliminar módulo
+            </h2>
+            <p style={{ color: "var(--text-secondary)" }} className="text-sm">
+              ¿Estás seguro? Se eliminará también de todos los estudiantes del ciclo. Esta acción no se puede deshacer.
             </p>
             <div className="flex gap-3 justify-end">
-              <button
-                onClick={cancelarEliminar}
-                className="px-4 py-2 text-sm rounded-md border border-gray-300 text-gray-700 hover:bg-gray-50"
-              >
+              <button onClick={() => setModuloAEliminar(null)}
+                style={{ border: "1px solid var(--border)", color: "var(--text-secondary)" }}
+                className="px-4 py-2 text-sm rounded-md hover:text-white hover:border-white transition-colors">
                 Cancelar
               </button>
-              <button
-                onClick={confirmarEliminar}
-                className="px-4 py-2 text-sm rounded-md bg-red-600 text-white hover:bg-red-700"
-              >
+              <button onClick={confirmarEliminar}
+                className="px-4 py-2 text-sm rounded-md bg-red-600 text-white hover:bg-red-700 transition-colors">
                 Eliminar
               </button>
             </div>

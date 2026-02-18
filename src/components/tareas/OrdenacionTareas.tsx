@@ -1,71 +1,41 @@
-import { useState } from "react"
-
-// OrdenacionTareas - Componente para ordenar tareas por diferentes criterios
-
 export const OrdenacionTareas = ({ ordenActivo, onOrdenChange }) => {
-  const handleCriterioChange = (criterio: any) => {
-    onOrdenChange({
-      ...ordenActivo,
-      criterio,
-    })
-  }
+  const criterios = [
+    { value: "titulo",           label: "Título" },
+    { value: "fechaCreacion",    label: "Fecha creación" },
+    { value: "fechaVencimiento", label: "Fecha vencimiento" },
+    { value: "estado",           label: "Estado" },
+    { value: "nota",             label: "Nota" },
+  ]
 
-  const handleDireccionChange = () => {
-    onOrdenChange({
-      ...ordenActivo,
-      direccion: ordenActivo.direccion === "asc" ? "desc" : "asc",
-    })
-  }
-
-  const obtenerNombreCriterio = (criterio: string) => {
-    const criterios: Record<string, string> = {
-      titulo: "Título (alfabético)",
-      fechaCreacion: "Fecha de creación",
-      fechaVencimiento: "Fecha de vencimiento",
-      estado: "Estado",
-      nota: "Nota",
-    }
-    return criterios[criterio] || criterio
-  }
-
-  const obtenerNombreDireccion = (direccion: string) => {
-    return direccion === "asc" ? "Ascendente ↑" : "Descendente ↓"
+  const selectStyle = {
+    backgroundColor: "var(--bg-surface)",
+    border: "1px solid var(--border)",
+    color: "var(--text-primary)",
   }
 
   return (
-    <div className="bg-white rounded-lg shadow-sm p-4 mb-6">
-      <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
-        {/* Selector de criterio */}
-        <div className="flex items-center gap-2 w-full sm:w-auto">
-          <label className="font-semibold text-gray-700 min-w-fit">Ordenar por:</label>
-          <select
-            value={ordenActivo.criterio}
-            onChange={(e) => handleCriterioChange(e.target.value)}
-            className="border rounded-lg px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 flex-1 sm:flex-none"
-          >
-            <option value="titulo">Título (alfabético)</option>
-            <option value="fechaCreacion">Fecha de creación</option>
-            <option value="fechaVencimiento">Fecha de vencimiento</option>
-            <option value="estado">Estado</option>
-            <option value="nota">Nota</option>
-          </select>
-        </div>
+    <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 mb-4">
+      <span style={{ color: "var(--text-secondary)" }} className="text-sm font-medium">
+        Ordenar por:
+      </span>
 
-        {/* Botón para cambiar dirección */}
+      <div className="flex gap-2 flex-1 sm:flex-none">
+        <select value={ordenActivo.criterio}
+          onChange={(e) => onOrdenChange({ ...ordenActivo, criterio: e.target.value })}
+          style={selectStyle}
+          className="flex-1 sm:flex-none rounded-md px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+          {criterios.map(c => (
+            <option key={c.value} value={c.value}>{c.label}</option>
+          ))}
+        </select>
+
         <button
-          onClick={handleDireccionChange}
-          className="px-4 py-2 bg-blue-100 text-blue-700 rounded-lg hover:bg-blue-200 transition-colors font-medium flex items-center gap-2"
-          title={`Dirección actual: ${obtenerNombreDireccion(ordenActivo.direccion)}`}
-        >
-          {obtenerNombreDireccion(ordenActivo.direccion)}
+          onClick={() => onOrdenChange({ ...ordenActivo, direccion: ordenActivo.direccion === "asc" ? "desc" : "asc" })}
+          style={{ border: "1px solid var(--border)", color: "var(--text-secondary)" }}
+          className="px-3 py-1.5 rounded-md text-sm hover:text-white hover:border-white transition-colors shrink-0">
+          {ordenActivo.direccion === "asc" ? "↑ Asc" : "↓ Desc"}
         </button>
-
-        {/* Indicador del orden actual */}
-        <div className="text-sm text-gray-500">
-          Actual: {obtenerNombreCriterio(ordenActivo.criterio)} {obtenerNombreDireccion(ordenActivo.direccion)}
-        </div>
       </div>
     </div>
   )
 }
-

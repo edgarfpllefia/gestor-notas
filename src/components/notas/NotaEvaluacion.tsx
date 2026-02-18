@@ -1,37 +1,26 @@
-// NotaEvaluacion - Input para cada evaluación
-
 export const NotaEvaluacion = ({ label, value, onChange, name }) => {
   const handleChange = (e) => {
-    const valor = e.target.value;
-    
-    // Permitir vacío
-    if (valor === "") {
-      onChange(name, "");
-      return;
-    }
-    
-    // Validar que sea número entre 0-10
-    const numero = parseFloat(valor);
-    if (!isNaN(numero) && numero >= 0 && numero <= 10) {
-      onChange(name, numero);
-    }
-  };
+    const valor = e.target.value
+    if (valor === "") { onChange(name, ""); return }
+    const numero = parseFloat(valor)
+    if (!isNaN(numero) && numero >= 0 && numero <= 10) onChange(name, numero)
+  }
 
   return (
-    <div className="mb-4">
-      <label className="block text-sm font-medium text-gray-700 mb-2">
+    <div className="flex flex-col gap-1">
+      <label style={{ color: "var(--text-secondary)" }} className="text-sm font-medium">
         {label}
       </label>
       <input
-        type="number"
-        min="0"
-        max="10"
-        step="0.1"
-        value={value ?? ""}
-        onChange={handleChange}
-        placeholder="0-10"
-        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+        type="number" min="0" max="10" step="0.1"
+        value={value ?? ""} onChange={handleChange} placeholder="0 - 10"
+        style={{
+          backgroundColor: "var(--bg-base)",
+          border: "1px solid var(--border)",
+          color: "var(--text-primary)",
+        }}
+        className="rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
       />
     </div>
-  );
-};
+  )
+}

@@ -106,19 +106,15 @@ export const ModulosEstudiante = () => {
       <h1 className="text-4xl font-bold mb-8">Mis Módulos</h1>
 
       {/* Controles: Filtros y Ordenación */}
-      <div className="flex flex-col md:flex-row gap-4 mb-8">
-        {/* Filtro por curso */}
-        <FiltroModulos 
-          filtroActivo={filtroActivo}
-          onFiltroChange={setFiltroActivo}
-        />
-        
-        {/* Ordenación */}
-        <OrdenacionModulos 
-          criterioOrden={criterioOrden}
-          onOrdenChange={setCriterioOrden}
-        />
-      </div>
+      <FiltroModulos 
+        filtroActivo={filtroActivo}
+        onFiltroChange={setFiltroActivo}
+      />
+
+      <OrdenacionModulos 
+        criterioOrden={criterioOrden}
+        onOrdenChange={setCriterioOrden}
+      />
 
       {/* Información de resultados */}
       <p className="text-gray-600 mb-4">

@@ -9,7 +9,7 @@ export const mockUsuarios = [
     nombre: "María García Rodríguez",
     email: "maria.garcia@instituto.es",
     password: "admin123",
-    rol: "profesor",
+    rol: "admin",
     especialidad: "Informática",
   },
   {

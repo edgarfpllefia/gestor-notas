@@ -49,6 +49,16 @@ export const localStorageModuloEstudianteRepo = {
     return relaciones[index];
   },
 
+  deleteByModuloId: (moduloId) => {
+    const relaciones = localStorageModuloEstudianteRepo.getAll();
+    const nuevasRelaciones = relaciones.filter((r) => r.moduloId !== moduloId);
+    localStorage.setItem(
+      STORAGE_KEYS.MODULOS_ESTUDIANTES,
+      JSON.stringify(nuevasRelaciones)
+    );
+    return relaciones.length - nuevasRelaciones.length;
+  },
+
   delete: (id) => {
     const relaciones = localStorageModuloEstudianteRepo.getAll();
     const nuevasRelaciones = relaciones.filter((r) => r.id !== id);

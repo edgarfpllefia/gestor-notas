@@ -9,6 +9,8 @@ import { TareaForm } from "@/components/tareas/TareaForm"
 import { FormDialog } from "@/components/tareas/FormDialog"
 import { DeleteConfirmDialog } from "@/components/tareas/DeleteConfirmDialog"
 import { GestionNotasModulo } from "@/components/notas/GestionNotasModulo"
+import { FiltroTareas } from "@/components/tareas/FiltroTareas"
+import { OrdenacionTareas } from "@/components/tareas/OrdenacionTareas"
 
 // DetalleModulo - Página para gestionar tareas de un módulo
 
@@ -31,6 +33,17 @@ export const DetalleModulo = () => {
   const [modalEliminarAbierto, setModalEliminarAbierto] = useState(false)
   const [tareaEditando, setTareaEditando] = useState(null)
   const [tareaEliminar, setTareaEliminar] = useState(null)
+  
+  // Estados de filtrado y ordenación
+  const [filtro, setFiltro] = useState({
+    estado: "todos",
+    fechaInicio: undefined,
+    fechaFin: undefined,
+  })
+  const [orden, setOrden] = useState({
+    criterio: "fechaCreacion",
+    direccion: "desc",
+  })
 
   // Cargar datos al montar el componente
   useEffect(() => {
@@ -56,12 +69,12 @@ export const DetalleModulo = () => {
       
       // 2. Obtener tareas del módulo para este estudiante
       const todasLasTareas = localStorageTareaRepo.getByModuloId(moduloId)
-      const tareasDelEstudiante = todasLasTareas.filter(t => t.estudianteId === user.id)
+      const tareasDelEstudiante = todasLasTareas.filter(t => t.estudianteId === user?.id)
       
       setTareas(tareasDelEstudiante)
       
       // 3. Obtener relación ModuloEstudiante (para notas y estado)
-      const relacionesEstudiante = localStorageModuloEstudianteRepo.getByEstudianteId(user.id)
+      const relacionesEstudiante = localStorageModuloEstudianteRepo.getByEstudianteId(user?.id)
       const relacionModulo = relacionesEstudiante.find(r => r.moduloId === moduloId)
       
       setModuloEstudiante(relacionModulo)
@@ -97,7 +110,7 @@ export const DetalleModulo = () => {
         const nuevaTarea = {
           ...datosTarea,
           moduloId: moduloId,
-          estudianteId: user.id,
+          estudianteId: user?.id,
           fechaCreacion: new Date().toISOString()
         }
         localStorageTareaRepo.create(nuevaTarea)
@@ -123,7 +136,9 @@ export const DetalleModulo = () => {
   // Confirmar eliminación
   const handleConfirmarEliminar = () => {
     try {
-      localStorageTareaRepo.delete(tareaEliminar.id)
+      if (tareaEliminar) {
+        localStorageTareaRepo.delete(tareaEliminar.id)
+      }
       
       // Recargar tareas y cerrar modal
       cargarDatos()
@@ -152,6 +167,98 @@ export const DetalleModulo = () => {
   const handleCambioEstado = (tareaId, nuevoEstado) => {
     setTareas((prev) => prev.map((t) => (t.id === tareaId ? { ...t, estado: nuevoEstado } : t)))
   }
+
+  // Función para filtrar tareas
+  const aplicarFiltros = (tareasAFiltrar: any[]) => {
+    return tareasAFiltrar.filter((tarea) => {
+      // Filtro por estado
+      if (filtro.estado !== "todos" && tarea.estado !== filtro.estado) {
+        return false
+      }
+
+      // Filtro por fecha de vencimiento
+      if (filtro.fechaInicio || filtro.fechaFin) {
+        const fechaVencimiento = tarea.fechaVencimiento
+        if (fechaVencimiento) {
+          const fecha = new Date(fechaVencimiento).toISOString().split("T")[0]
+          
+          if (filtro.fechaInicio && fecha < filtro.fechaInicio) {
+            return false
+          }
+          
+          if (filtro.fechaFin && fecha > filtro.fechaFin) {
+            return false
+          }
+        }
+      }
+
+      return true
+    })
+  }
+
+  // Función para ordenar tareas
+  const aplicarOrdenacion = (tareasAOrdenar: any[]) => {
+    const tareasOrdenadas = [...tareasAOrdenar]
+
+    tareasOrdenadas.sort((a, b) => {
+      let comparacion = 0
+
+      switch (orden.criterio) {
+        case "titulo":
+          comparacion = a.titulo.localeCompare(b.titulo)
+          break
+
+        case "fechaCreacion":
+          comparacion = new Date(a.fechaCreacion).getTime() - new Date(b.fechaCreacion).getTime()
+          break
+
+        case "fechaVencimiento":
+          // Si no tiene fecha de vencimiento, va al final
+          if (!a.fechaVencimiento && !b.fechaVencimiento) {
+            comparacion = 0
+          } else if (!a.fechaVencimiento) {
+            comparacion = 1
+          } else if (!b.fechaVencimiento) {
+            comparacion = -1
+          } else {
+            comparacion = new Date(a.fechaVencimiento).getTime() - new Date(b.fechaVencimiento).getTime()
+          }
+          break
+
+        case "estado":
+          const estadosOrden = { "pendiente": 1, "en-progreso": 2, "completada": 3 }
+          comparacion = (estadosOrden[a.estado] || 99) - (estadosOrden[b.estado] || 99)
+          break
+
+        case "nota":
+          // Si no tiene nota, va al final
+          const notaA = a.nota ?? -1
+          const notaB = b.nota ?? -1
+          if (notaA === -1 && notaB === -1) {
+            comparacion = 0
+          } else if (notaA === -1) {
+            comparacion = 1
+          } else if (notaB === -1) {
+            comparacion = -1
+          } else {
+            comparacion = notaA - notaB
+          }
+          break
+
+        default:
+          comparacion = 0
+      }
+
+      // Invertir si es descendente
+      return orden.direccion === "asc" ? comparacion : -comparacion
+    })
+
+    return tareasOrdenadas
+  }
+
+  // Aplicar filtros y ordenación a las tareas
+  const tareasFiltradas = aplicarFiltros(tareas)
+  const tareasOrdenadas = aplicarOrdenacion(tareasFiltradas)
 
   // Volver a la lista de módulos
   const handleVolver = () => {
@@ -217,9 +324,25 @@ export const DetalleModulo = () => {
         </button>
       </div>
 
+      {/* Componentes de Filtrado y Ordenación */}
+      <FiltroTareas 
+        filtroActivo={filtro}
+        onFiltroChange={setFiltro}
+      />
+
+      <OrdenacionTareas
+        ordenActivo={orden}
+        onOrdenChange={setOrden}
+      />
+
+      {/* Información del resultado */}
+      <div className="mb-4 text-sm text-gray-600">
+        Mostrando {tareasOrdenadas.length} de {tareas.length} tareas
+      </div>
+
       {/* Lista de tareas */}
       <TareaList 
-        tareas={tareas}
+        tareas={tareasOrdenadas}
         onEdit={handleEditarTarea}
         onDelete={handleEliminarTarea}
         onEstadoChange={handleCambioEstado}

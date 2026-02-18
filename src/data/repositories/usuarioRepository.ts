@@ -38,6 +38,21 @@ export const localStorageUsuarioRepo = {
     return usuarios[index];
   },
 
+  getByRol: (rol) => {
+    const usuarios = localStorageUsuarioRepo.getAll();
+    return usuarios.filter((u) => u.rol === rol);
+  },
+
+  getByCiclo: (ciclo) => {
+    const usuarios = localStorageUsuarioRepo.getAll();
+    return usuarios.filter((u) => u.ciclo === ciclo);
+  },
+
+  getEstudiantesByCiclo: (ciclo) => {
+    const usuarios = localStorageUsuarioRepo.getAll();
+    return usuarios.filter((u) => u.rol === "estudiante" && u.ciclo === ciclo);
+  },
+
   delete: (id) => {
     const usuarios = localStorageUsuarioRepo.getAll();
     const nuevosUsuarios = usuarios.filter((u) => u.id !== id);

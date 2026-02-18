@@ -21,7 +21,6 @@ export function GestionModulos() {
   const [moduloAEliminar, setModuloAEliminar] = useState(null)
   const [error, setError] = useState("")
 
-  // Cargar módulos cuando cambia el ciclo seleccionado
   useEffect(() => {
     if (cicloSeleccionado) {
       cargarModulos()
@@ -37,7 +36,6 @@ export function GestionModulos() {
 
   // --- CREAR ---
   const handleCrear = (datos) => {
-    // Comprobar que no existe ya un módulo con el mismo nombre en el mismo ciclo
     const existe = modulos.some(
       (m) => m.nombre.toLowerCase() === datos.nombre.toLowerCase() && m.ciclo === datos.ciclo
     )
@@ -46,10 +44,8 @@ export function GestionModulos() {
       return
     }
 
-    // Crear el módulo
     const nuevoModulo = localStorageModuloRepo.create(datos)
 
-    // Añadir el módulo a todos los estudiantes del ciclo
     const estudiantes = localStorageUsuarioRepo.getEstudiantesByCiclo(datos.ciclo)
     estudiantes.forEach((estudiante) => {
       localStorageModuloEstudianteRepo.create({
@@ -77,7 +73,6 @@ export function GestionModulos() {
     const cicloAnterior = moduloAEditar.ciclo
     const cicloNuevo = datos.ciclo
 
-    // Comprobar duplicado (excluyendo el módulo que se está editando)
     const existe = modulos.some(
       (m) =>
         m.id !== moduloAEditar.id &&
@@ -89,15 +84,11 @@ export function GestionModulos() {
       return
     }
 
-    // Actualizar el módulo
     localStorageModuloRepo.update(moduloAEditar.id, datos)
 
-    // Si cambia el ciclo, mover las relaciones módulo-estudiante
     if (cicloAnterior !== cicloNuevo) {
-      // Eliminar relaciones del ciclo anterior
       localStorageModuloEstudianteRepo.deleteByModuloId(moduloAEditar.id)
 
-      // Crear relaciones para los estudiantes del nuevo ciclo
       const estudiantesNuevoCiclo = localStorageUsuarioRepo.getEstudiantesByCiclo(cicloNuevo)
       estudiantesNuevoCiclo.forEach((estudiante) => {
         localStorageModuloEstudianteRepo.create({
@@ -122,12 +113,8 @@ export function GestionModulos() {
   }
 
   const confirmarEliminar = () => {
-    // Eliminar el módulo
     localStorageModuloRepo.delete(moduloAEliminar)
-
-    // Eliminar todas las relaciones módulo-estudiante de este módulo
     localStorageModuloEstudianteRepo.deleteByModuloId(moduloAEliminar)
-
     setModuloAEliminar(null)
     cargarModulos()
   }
@@ -136,7 +123,6 @@ export function GestionModulos() {
     setModuloAEliminar(null)
   }
 
-  // --- CANCELAR FORMULARIO ---
   const handleCancelarFormulario = () => {
     setMostrarFormulario(false)
     setModuloAEditar(null)
@@ -156,7 +142,7 @@ export function GestionModulos() {
           <SelectTrigger className="w-72">
             <SelectValue placeholder="Selecciona un ciclo" />
           </SelectTrigger>
-          <SelectContent>
+          <SelectContent position="popper">
             {CICLOS_FORMATIVOS.map((c) => (
               <SelectItem key={c.id} value={c.id}>
                 {c.id} - {c.nombre}
@@ -166,10 +152,9 @@ export function GestionModulos() {
         </Select>
       </div>
 
-      {/* Contenido principal: solo se muestra si hay ciclo seleccionado */}
+      {/* Contenido principal */}
       {cicloSeleccionado && (
         <>
-          {/* Botón nuevo módulo (solo si no está abierto el formulario) */}
           {!mostrarFormulario && (
             <div className="flex justify-end">
               <button
@@ -185,7 +170,6 @@ export function GestionModulos() {
             </div>
           )}
 
-          {/* Formulario crear/editar */}
           {mostrarFormulario && (
             <ModuloForm
               moduloInicial={moduloAEditar}
@@ -194,12 +178,10 @@ export function GestionModulos() {
             />
           )}
 
-          {/* Error */}
           {error && (
             <p className="text-sm text-red-500">{error}</p>
           )}
 
-          {/* Lista de módulos */}
           <ListaModulosAdmin
             modulos={modulos}
             onEditar={handleEditar}
@@ -208,17 +190,14 @@ export function GestionModulos() {
         </>
       )}
 
-      {/* Diálogo de confirmación de eliminación */}
+      {/* Diálogo confirmación eliminar */}
       {moduloAEliminar && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
           <div className="bg-white rounded-lg p-6 shadow-lg max-w-sm w-full mx-4 flex flex-col gap-4">
-            <h2 className="text-lg font-semibold text-gray-900">
-              Eliminar módulo
-            </h2>
+            <h2 className="text-lg font-semibold text-gray-900">Eliminar módulo</h2>
             <p className="text-sm text-gray-600">
               ¿Estás seguro de que quieres eliminar este módulo? Se eliminará
-              también de todos los estudiantes del ciclo. Esta acción no se
-              puede deshacer.
+              también de todos los estudiantes del ciclo. Esta acción no se puede deshacer.
             </p>
             <div className="flex gap-3 justify-end">
               <button

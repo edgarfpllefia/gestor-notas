@@ -3,38 +3,21 @@ import { STORAGE_KEYS } from "./storage.ts";
 //USUARIOS
 
 export const mockUsuarios = [
-  // Profesores
+  // Administrador
   {
     id: "1",
-    nombre: "María García Rodríguez",
-    email: "maria.garcia@instituto.es",
-    password: "admin123",
+    nombre: "Admin",
+    email: "admin@admin.com",
+    password: "admin",
     rol: "admin",
-    especialidad: "Informática",
-  },
-  {
-    id: "2",
-    nombre: "Juan Martínez López",
-    email: "juan.martinez@instituto.es",
-    password: "admin123",
-    rol: "profesor",
-    especialidad: "Electricidad",
-  },
-  {
-    id: "3",
-    nombre: "Ana López Fernández",
-    email: "ana.lopez@instituto.es",
-    password: "admin123",
-    rol: "profesor",
-    especialidad: "Robótica",
   },
 
   // Estudiantes
   {
     id: "4",
-    nombre: "Edgar Fernández García",
-    email: "edgar.fernandez@alumno.es",
-    password: "1234",
+    nombre: "Edgar Moreno",
+    email: "edgar@edgar.com",
+    password: "edgar",
     rol: "estudiante",
     ciclo: "DAW",
   },
@@ -385,22 +368,106 @@ export const mockModulos = [
 // ===== RELACIONES MÓDULO-ESTUDIANTE =====
 export const mockModulosEstudiantes = [
   // Edgar (id: 4, DAW) - Estudiante de 2º año
-  { id: "1", estudianteId: "4", moduloId: "5", fechaInscripcion: "2024-09-01", estado: "cursando", notas: { trimestre1: 7.5, trimestre2: 8.0 } },
-  { id: "2", estudianteId: "4", moduloId: "6", fechaInscripcion: "2024-09-01", estado: "cursando", notas: { trimestre1: 6.5 } },
-  { id: "3", estudianteId: "4", moduloId: "7", fechaInscripcion: "2024-09-01", estado: "cursando", notas: { trimestre1: 9.0, trimestre2: 8.5 } },
-  { id: "4", estudianteId: "4", moduloId: "8", fechaInscripcion: "2024-09-01", estado: "cursando", notas: { trimestre1: 7.0 } },
+  {
+    id: "1",
+    estudianteId: "4",
+    moduloId: "5",
+    fechaInscripcion: "2024-09-01",
+    estado: "cursando",
+    notas: { trimestre1: 7.5, trimestre2: 8.0 },
+  },
+  {
+    id: "2",
+    estudianteId: "4",
+    moduloId: "6",
+    fechaInscripcion: "2024-09-01",
+    estado: "cursando",
+    notas: { trimestre1: 6.5 },
+  },
+  {
+    id: "3",
+    estudianteId: "4",
+    moduloId: "7",
+    fechaInscripcion: "2024-09-01",
+    estado: "cursando",
+    notas: { trimestre1: 9.0, trimestre2: 8.5 },
+  },
+  {
+    id: "4",
+    estudianteId: "4",
+    moduloId: "8",
+    fechaInscripcion: "2024-09-01",
+    estado: "cursando",
+    notas: { trimestre1: 7.0 },
+  },
 
   // Laura (id: 5, DAW) - Estudiante de 1º año
-  { id: "5", estudianteId: "5", moduloId: "1", fechaInscripcion: "2024-09-01", estado: "cursando", notas: { trimestre1: 8.5 } },
-  { id: "6", estudianteId: "5", moduloId: "2", fechaInscripcion: "2024-09-01", estado: "cursando", notas: { trimestre1: 7.0 } },
-  { id: "7", estudianteId: "5", moduloId: "3", fechaInscripcion: "2024-09-01", estado: "cursando", notas: {} },
-  { id: "8", estudianteId: "5", moduloId: "4", fechaInscripcion: "2024-09-01", estado: "cursando", notas: { trimestre1: 6.0 } },
+  {
+    id: "5",
+    estudianteId: "5",
+    moduloId: "1",
+    fechaInscripcion: "2024-09-01",
+    estado: "cursando",
+    notas: { trimestre1: 8.5 },
+  },
+  {
+    id: "6",
+    estudianteId: "5",
+    moduloId: "2",
+    fechaInscripcion: "2024-09-01",
+    estado: "cursando",
+    notas: { trimestre1: 7.0 },
+  },
+  {
+    id: "7",
+    estudianteId: "5",
+    moduloId: "3",
+    fechaInscripcion: "2024-09-01",
+    estado: "cursando",
+    notas: {},
+  },
+  {
+    id: "8",
+    estudianteId: "5",
+    moduloId: "4",
+    fechaInscripcion: "2024-09-01",
+    estado: "cursando",
+    notas: { trimestre1: 6.0 },
+  },
 
   // Arnau (id: 9, DAW) - Estudiante de 2º año
-  { id: "21", estudianteId: "9", moduloId: "5", fechaInscripcion: "2024-09-01", estado: "cursando", notas: { trimestre1: 8.0, trimestre2: 7.5 } },
-  { id: "22", estudianteId: "9", moduloId: "6", fechaInscripcion: "2024-09-01", estado: "cursando", notas: { trimestre1: 7.5 } },
-  { id: "23", estudianteId: "9", moduloId: "7", fechaInscripcion: "2024-09-01", estado: "cursando", notas: { trimestre1: 8.5, trimestre2: 9.0 } },
-  { id: "24", estudianteId: "9", moduloId: "8", fechaInscripcion: "2024-09-01", estado: "cursando", notas: { trimestre1: 6.5 } },
+  {
+    id: "21",
+    estudianteId: "9",
+    moduloId: "5",
+    fechaInscripcion: "2024-09-01",
+    estado: "cursando",
+    notas: { trimestre1: 8.0, trimestre2: 7.5 },
+  },
+  {
+    id: "22",
+    estudianteId: "9",
+    moduloId: "6",
+    fechaInscripcion: "2024-09-01",
+    estado: "cursando",
+    notas: { trimestre1: 7.5 },
+  },
+  {
+    id: "23",
+    estudianteId: "9",
+    moduloId: "7",
+    fechaInscripcion: "2024-09-01",
+    estado: "cursando",
+    notas: { trimestre1: 8.5, trimestre2: 9.0 },
+  },
+  {
+    id: "24",
+    estudianteId: "9",
+    moduloId: "8",
+    fechaInscripcion: "2024-09-01",
+    estado: "cursando",
+    notas: { trimestre1: 6.5 },
+  },
 
   // Carlos (id: 6, SMR) - Estudiante de 1º año
   {
@@ -409,7 +476,7 @@ export const mockModulosEstudiantes = [
     moduloId: "16",
     fechaInscripcion: "2024-09-01",
     estado: "cursando",
-    notas: { trimestre1: 7.5 }
+    notas: { trimestre1: 7.5 },
   },
   {
     id: "10",
@@ -417,7 +484,7 @@ export const mockModulosEstudiantes = [
     moduloId: "17",
     fechaInscripcion: "2024-09-01",
     estado: "cursando",
-    notas: {}
+    notas: {},
   },
   {
     id: "11",
@@ -425,7 +492,7 @@ export const mockModulosEstudiantes = [
     moduloId: "18",
     fechaInscripcion: "2024-09-01",
     estado: "cursando",
-    notas: { trimestre1: 8.0 }
+    notas: { trimestre1: 8.0 },
   },
   {
     id: "12",
@@ -433,7 +500,7 @@ export const mockModulosEstudiantes = [
     moduloId: "19",
     fechaInscripcion: "2024-09-01",
     estado: "cursando",
-    notas: { trimestre1: 6.5 }
+    notas: { trimestre1: 6.5 },
   },
 
   // Sofía (id: 7, ARI) - Estudiante de 1º año
@@ -443,7 +510,7 @@ export const mockModulosEstudiantes = [
     moduloId: "9",
     fechaInscripcion: "2024-09-01",
     estado: "cursando",
-    notas: { trimestre1: 9.0 }
+    notas: { trimestre1: 9.0 },
   },
   {
     id: "14",
@@ -451,7 +518,7 @@ export const mockModulosEstudiantes = [
     moduloId: "10",
     fechaInscripcion: "2024-09-01",
     estado: "cursando",
-    notas: { trimestre1: 7.5 }
+    notas: { trimestre1: 7.5 },
   },
   {
     id: "15",
@@ -459,7 +526,7 @@ export const mockModulosEstudiantes = [
     moduloId: "11",
     fechaInscripcion: "2024-09-01",
     estado: "cursando",
-    notas: {}
+    notas: {},
   },
   {
     id: "16",
@@ -467,7 +534,7 @@ export const mockModulosEstudiantes = [
     moduloId: "12",
     fechaInscripcion: "2024-09-01",
     estado: "cursando",
-    notas: { trimestre1: 8.5 }
+    notas: { trimestre1: 8.5 },
   },
 
   // David (id: 8, IEA) - Estudiante de 1º año
@@ -477,7 +544,7 @@ export const mockModulosEstudiantes = [
     moduloId: "23",
     fechaInscripcion: "2024-09-01",
     estado: "cursando",
-    notas: { trimestre1: 7.0 }
+    notas: { trimestre1: 7.0 },
   },
   {
     id: "18",
@@ -485,7 +552,7 @@ export const mockModulosEstudiantes = [
     moduloId: "24",
     fechaInscripcion: "2024-09-01",
     estado: "cursando",
-    notas: {}
+    notas: {},
   },
   {
     id: "19",
@@ -493,7 +560,7 @@ export const mockModulosEstudiantes = [
     moduloId: "25",
     fechaInscripcion: "2024-09-01",
     estado: "cursando",
-    notas: { trimestre1: 6.0 }
+    notas: { trimestre1: 6.0 },
   },
   {
     id: "20",
@@ -501,7 +568,7 @@ export const mockModulosEstudiantes = [
     moduloId: "26",
     fechaInscripcion: "2024-09-01",
     estado: "cursando",
-    notas: { trimestre1: 8.0 }
+    notas: { trimestre1: 8.0 },
   },
 ];
 
@@ -731,7 +798,7 @@ export function inicializarDatosMock() {
   localStorage.setItem(STORAGE_KEYS.MODULOS, JSON.stringify(mockModulos));
   localStorage.setItem(
     STORAGE_KEYS.MODULOS_ESTUDIANTES,
-    JSON.stringify(mockModulosEstudiantes)
+    JSON.stringify(mockModulosEstudiantes),
   );
   localStorage.setItem(STORAGE_KEYS.TAREAS, JSON.stringify(mockTareas));
 }

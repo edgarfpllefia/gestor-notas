@@ -1,81 +1,14 @@
-import { useState, ChangeEvent, FormEvent } from "react";
-import { useNavigate } from "react-router-dom";
-
-
-interface FormData {
-  nombre: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-  ciclo: string;
-}
-
-interface FormErrors {
-  nombre?: string;
-  email?: string;
-  password?: string;
-  confirmPassword?: string;
-  ciclo?: string;
-}
-
-interface Ciclo {
-  id: string;
-  nombre: string;
-  modulos: string[];
-}
-
-interface Usuario {
-  id: string;
-  nombre: string;
-  email: string;
-  password: string;
-  ciclo: string;
-  modulos: Modulo[];
-}
-
-interface Modulo {
-  id: string;
-  nombre: string;
-  nota: number | null;
-  estado: string;
-}
-
-
-const ciclos: Ciclo[] = [
-  {
-    id: "dam",
-    nombre: "Desarrollo de Aplicaciones Multiplataforma",
-    modulos: ["Programación", "Bases de Datos", "Sistemas", "Entornos"]
-  },
-  {
-    id: "daw",
-    nombre: "Desarrollo de Aplicaciones Web",
-    modulos: ["DWEC", "DWES", "DIW", "Despliegue"]
-  }
-];
-
-
-const getUsers = (): Usuario[] => {
-  const info = localStorage.getItem("users")
-  return info ? JSON.parse(info) : []
-};
-
-const saveUsers = (users: Usuario[]): void => {
-  localStorage.setItem("users", JSON.stringify(users));
-};
-
-const generateId = (): string => crypto.randomUUID();
-
-const hashPassword = (password: string): string => {
- 
-  return btoa(password)
-};
-
+import { useState } from "react"
+import { useNavigate } from "react-router-dom"
+import { CICLOS_FORMATIVOS } from "@/data/constants"
+import { localStorageUsuarioRepo } from "@/data/repositories/usuarioRepository"
+import { localStorageModuloRepo } from "@/data/repositories/moduloRepository"
+import { localStorageModuloEstudianteRepo } from "@/data/repositories/moduloEstudianteRepository"
 
 export default function RegisterForm() {
   const navigate = useNavigate()
 
-  const [form, setForm] = useState<FormData>({
+  const [form, setForm] = useState({
     nombre: "",
     email: "",
     password: "",
@@ -83,19 +16,19 @@ export default function RegisterForm() {
     ciclo: ""
   })
 
-  const [errors, setErrors] = useState<FormErrors>({})
+  const [errors, setErrors] = useState({})
   const [success, setSuccess] = useState(false)
 
-  const validarErrores = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value })
-  };
+  }
 
-  const validate = (): boolean => {
-    const newErrors: FormErrors = {}
+  const validate = () => {
+    const newErrors = {}
 
-    if (!form.nombre) newErrors.nombre = "El nombre es obligatorio"
+    if (!form.nombre.trim()) newErrors.nombre = "El nombre es obligatorio"
 
-    if (!form.email) {
+    if (!form.email.trim()) {
       newErrors.email = "El email es obligatorio"
     }
 
@@ -111,50 +44,43 @@ export default function RegisterForm() {
 
     if (!form.ciclo) newErrors.ciclo = "Selecciona un ciclo formativo"
 
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
+    setErrors(newErrors)
+    return Object.keys(newErrors).length === 0
   }
 
-  const validar = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e) => {
     e.preventDefault()
     if (!validate()) return
 
-    const users = getUsers()
-
-    const exists = users.some((u) => u.email === form.email);
-    if (exists) {
-      setErrors({ email: "El email ya está registrado" });
+    // Comprobar si el email ya existe
+    const existe = localStorageUsuarioRepo.getByEmail(form.email)
+    if (existe) {
+      setErrors({ email: "El email ya está registrado" })
       return
     }
 
-    const cicloSeleccionado = ciclos.find((c) => c.id === form.ciclo);
-    
-    if (!cicloSeleccionado) {
-      setErrors({ ciclo: "Ciclo no válido" })
-      return
-    }
+    // Crear el usuario
+    const nuevoUsuario = localStorageUsuarioRepo.create({
+      nombre: form.nombre.trim(),
+      email: form.email.trim(),
+      password: form.password,
+      ciclo: form.ciclo,
+      rol: "estudiante"
+    })
 
-    const modulosEstudiante: Modulo[] = cicloSeleccionado.modulos.map((mod) => ({
-      id: generateId(),
-      nombre: mod,
-      nota: null,
-      estado: "pendiente"
-    }))
+    // Asignar todos los módulos del ciclo al nuevo estudiante
+    const modulosCiclo = localStorageModuloRepo.getByCiclo(form.ciclo)
+    modulosCiclo.forEach((modulo) => {
+      localStorageModuloEstudianteRepo.create({
+        estudianteId: nuevoUsuario.id,
+        moduloId: modulo.id,
+        fechaInscripcion: new Date().toISOString().split("T")[0],
+        estado: "cursando",
+        notas: {},
+      })
+    })
 
-    const newUser: Usuario = {
-      id: generateId(),
-      nombre: form.nombre,
-      email: form.email,
-      password: hashPassword(form.password),
-      ciclo: cicloSeleccionado.id,
-      modulos: modulosEstudiante
-    }
-
-    users.push(newUser);
-    saveUsers(users);
-
-    setSuccess(true);
-
+    setSuccess(true)
     setTimeout(() => {
       navigate("/login")
     }, 1500)
@@ -164,14 +90,21 @@ export default function RegisterForm() {
     <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-2xl shadow">
       <h1 className="text-2xl font-bold mb-6">Registro de Estudiante</h1>
 
-      <form onSubmit={validar} className="space-y-4">
+      {success && (
+        <p className="text-green-600 text-sm mb-4">
+          Usuario creado correctamente. Redirigiendo al login...
+        </p>
+      )}
+
+      <form onSubmit={handleSubmit} className="space-y-4">
+
         <div>
           <label className="block text-sm font-medium mb-1">Nombre</label>
           <input
             type="text"
             name="nombre"
             value={form.nombre}
-            onChange={validarErrores}
+            onChange={handleChange}
             className="w-full border rounded-md p-2"
           />
           {errors.nombre && <p className="text-red-500 text-sm">{errors.nombre}</p>}
@@ -183,7 +116,7 @@ export default function RegisterForm() {
             type="email"
             name="email"
             value={form.email}
-            onChange={validarErrores}
+            onChange={handleChange}
             className="w-full border rounded-md p-2"
           />
           {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
@@ -195,7 +128,7 @@ export default function RegisterForm() {
             type="password"
             name="password"
             value={form.password}
-            onChange={validarErrores}
+            onChange={handleChange}
             className="w-full border rounded-md p-2"
           />
           {errors.password && <p className="text-red-500 text-sm">{errors.password}</p>}
@@ -207,7 +140,7 @@ export default function RegisterForm() {
             type="password"
             name="confirmPassword"
             value={form.confirmPassword}
-            onChange={validarErrores}
+            onChange={handleChange}
             className="w-full border rounded-md p-2"
           />
           {errors.confirmPassword && (
@@ -220,13 +153,13 @@ export default function RegisterForm() {
           <select
             name="ciclo"
             value={form.ciclo}
-            onChange={validarErrores}
+            onChange={handleChange}
             className="w-full border rounded-md p-2"
           >
             <option value="">-- Selecciona un ciclo --</option>
-            {ciclos.map((c) => (
+            {CICLOS_FORMATIVOS.map((c) => (
               <option key={c.id} value={c.id}>
-                {c.nombre}
+                {c.id} - {c.nombre}
               </option>
             ))}
           </select>
@@ -244,4 +177,3 @@ export default function RegisterForm() {
     </div>
   )
 }
-

@@ -7,4 +7,6 @@ export { LoginPage } from './LoginPage'
 export { RegisterPage } from './RegisterPage'
 export { EstudianteDashboard } from './EstudianteDashboard'
 export { AdminDashboard } from './AdminDashboard'
+export { ModulosEstudiante } from './ModulosEstudiante'
+export { DetalleModulo } from './DetalleModulo'
 

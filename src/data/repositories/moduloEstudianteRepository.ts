@@ -1,4 +1,4 @@
-import { STORAGE_KEYS } from "../storage.js";
+import { STORAGE_KEYS } from "../storage";
 
 export const localStorageModuloEstudianteRepo = {
   getAll: () => {
@@ -47,6 +47,16 @@ export const localStorageModuloEstudianteRepo = {
       JSON.stringify(relaciones)
     );
     return relaciones[index];
+  },
+
+  deleteByModuloId: (moduloId) => {
+    const relaciones = localStorageModuloEstudianteRepo.getAll();
+    const nuevasRelaciones = relaciones.filter((r) => r.moduloId !== moduloId);
+    localStorage.setItem(
+      STORAGE_KEYS.MODULOS_ESTUDIANTES,
+      JSON.stringify(nuevasRelaciones)
+    );
+    return relaciones.length - nuevasRelaciones.length;
   },
 
   delete: (id) => {

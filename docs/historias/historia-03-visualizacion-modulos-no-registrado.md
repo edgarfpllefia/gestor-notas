@@ -16,58 +16,58 @@
 
 ### Diseño y Planificación
 
-- [ ] Definir la estructura de datos para ciclos formativos
-- [ ] Diseñar el componente selector de ciclos
-- [ ] Diseñar el componente de tarjeta de módulo
-- [ ] Crear mockup/wireframe de la interfaz
+- [ x ] Definir la estructura de datos para ciclos formativos
+- [ x ] Diseñar el componente selector de ciclos
+- [ x ] Diseñar el componente de tarjeta de módulo
+- [ x ] Crear mockup/wireframe de la interfaz
 
 ### Configuración Inicial
 
-- [ ] Crear componente `CicloSelector`
-- [ ] Crear componente `ModuloCard`
-- [ ] Crear componente `ModuloList`
-- [ ] Configurar rutas para la página principal
+- [ x ] Crear componente `CicloSelector`
+- [ x ] Crear componente `ModuloCard`
+- [ x ] Crear componente `ModuloList`
+- [ x ] Configurar rutas para la página principal
 
 ### Implementación del Selector
 
-- [ ] Implementar selector con los 4 ciclos formativos:
-  - [ ] Desarrollo de Aplicaciones Web (Grado Superior)
-  - [ ] Automatización y Robótica Industrial (Grado Superior)
-  - [ ] Sistemas Microinformáticos (Grado Medio)
-  - [ ] Instalaciones Eléctricas y Automáticas (Grado Medio)
-- [ ] Añadir estado para el ciclo seleccionado
-- [ ] Implementar cambio de ciclo seleccionado
+- [ x ] Implementar selector con los 4 ciclos formativos:
+  - [ x ] Desarrollo de Aplicaciones Web (Grado Superior)
+  - [ x ] Automatización y Robótica Industrial (Grado Superior)
+  - [ x ] Sistemas Microinformáticos (Grado Medio)
+  - [ x ] Instalaciones Eléctricas y Automáticas (Grado Medio)
+- [ x ] Añadir estado para el ciclo seleccionado
+- [ x ] Implementar cambio de ciclo seleccionado
 
 ### Implementación de Visualización de Módulos
 
-- [ ] Obtener módulos del ciclo seleccionado desde el ORM
-- [ ] Renderizar módulos en formato de tarjetas
-- [ ] Mostrar información del módulo en cada tarjeta:
-  - [ ] Nombre del módulo
-  - [ ] Curso (1º o 2º)
-  - [ ] Información adicional relevante
-- [ ] Aplicar estilos con Tailwind CSS
-- [ ] Usar componentes de Shadcn/ui si aplica
+- [ x ] Obtener módulos del ciclo seleccionado desde el ORM
+- [ x ] Renderizar módulos en formato de tarjetas
+- [ x ] Mostrar información del módulo en cada tarjeta:
+  - [ x ] Nombre del módulo
+  - [ x ] Curso (1º o 2º)
+  - [ x ] Información adicional relevante
+- [ x ] Aplicar estilos con Tailwind CSS
+- [ x ] Usar componentes de Shadcn/ui si aplica
 
 ### Persistencia de Datos
 
-- [ ] Crear datos iniciales de módulos para cada ciclo (en LocalStorage)
-- [ ] Implementar función en ORM para obtener módulos por ciclo
-- [ ] Verificar que los datos se cargan correctamente
+- [ x ] Crear datos iniciales de módulos para cada ciclo (en LocalStorage)
+- [ x ] Implementar función en ORM para obtener módulos por ciclo
+- [ x ] Verificar que los datos se cargan correctamente
 
 ### Testing y Validación
 
-- [ ] Probar que el selector funciona correctamente
-- [ ] Probar que se muestran los módulos al seleccionar un ciclo
-- [ ] Verificar que las tarjetas muestran la información correcta
-- [ ] Verificar responsive design
-- [ ] Revisar código con la pareja
+- [ x ] Probar que el selector funciona correctamente
+- [ x ] Probar que se muestran los módulos al seleccionar un ciclo
+- [ x ] Verificar que las tarjetas muestran la información correcta
+- [ x ] Verificar responsive design
+- [ x ] Revisar código con la pareja
 
 ### Documentación
 
-- [ ] Documentar componentes creados
-- [ ] Actualizar README si es necesario
-- [ ] Crear commit con mensaje descriptivo
+- [ x ] Documentar componentes creados
+- [ x ] Actualizar README si es necesario
+- [ x ] Crear commit con mensaje descriptivo
 
 ## Notas Técnicas
 
@@ -83,7 +83,6 @@
 
 Alta - Funcionalidad básica del proyecto
 
-
-
 ---
+
 [⬅️ Volver al Índice](./README.md) | [🏠 Volver al Inicio](../../README.md)

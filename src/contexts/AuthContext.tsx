@@ -1,63 +1,55 @@
-import { createContext, useContext, useState, ReactNode } from "react"
+import { createContext, useContext, useState, useEffect } from "react"
+import { localStorageUsuarioRepo } from "@/data/repositories/usuarioRepository"
 
-export type UserRole = "estudiante" | "admin"
+const AuthContext = createContext()
 
+export function AuthProvider({ children }) {
+  const [user, setUser] = useState(null)
+  const [error, setError] = useState(null)
+  const [loading, setLoading] = useState(true)
 
-export interface User {
-  id: string
-  name: string
-  role: UserRole
-}
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user")
+    if (storedUser) {
+      setUser(JSON.parse(storedUser))
+    }
+    setLoading(false)
+  }, [])
 
-interface AuthContextType {
-  user: User | null
-  login: (user: User) => void
-  logout: () => void
-}
+  const login = (email, password) => {
+    // Buscar usuario por email
+    const foundUser = localStorageUsuarioRepo.getByEmail(email)
 
-// Crear el contexto de autenticación
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
+    if (!foundUser) {
+      setError("Usuari no trobat")
+      return false
+    }
 
+    // Verificar contraseña
+    if (foundUser.password !== password) {
+      setError("Contrasenya incorrecta")
+      return false
+    }
 
-//AuthProvider - Proveedor de contexto de autenticación
-
-//Componente que envuelve la aplicación y proporciona el estado de autenticación
-//a todos los componentes hijos. Mantiene el estado del usuario autenticado.
-
-export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  
-  const [user, setUser] = useState<User | null>(null)
-
-  
-  //Función para autenticar un usuario
-  //Actualiza el estado con los datos del usuario proporcionado
-  const login = (userData: User) => {
-    setUser(userData)
+    // Crear sesión de usuario
+    setUser(foundUser)
+    localStorage.setItem("user", JSON.stringify(foundUser))
+    setError(null)
+    return true
   }
 
-
-  //Función para cerrar la sesión del usuario actual
-  //Limpia el estado del usuario
-  
   const logout = () => {
     setUser(null)
+    localStorage.removeItem("user")
   }
 
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, login, logout, error, loading }}>
       {children}
     </AuthContext.Provider>
   )
 }
 
-
-//Hook personalizado para acceder al contexto de autenticación
-
-export const useAuth = () => {
-  const context = useContext(AuthContext)
-  // Validar que el hook se use dentro del proveedor
-  if (!context) {
-    throw new Error("useAuth debe usarse dentro de AuthProvider")
-  }
-  return context
+export function useAuth() {
+  return useContext(AuthContext)
 }

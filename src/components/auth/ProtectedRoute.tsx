@@ -1,36 +1,27 @@
 import { Navigate } from "react-router-dom"
 import { useAuth } from "@/contexts/AuthContext"
-import { ReactNode } from "react"
 
+export default function ProtectedRoute({ children, role }) {
+  const { user, loading } = useAuth()
 
-//Props para el componente ProtectedRoute
-
- 
-interface Props {
-  children: ReactNode;
-  role?: "estudiante" | "admin"
-}
-
-
-// ProtectedRoute - Componente de ruta protegida
-//
-// Valida que el usuario esté autenticado antes de permitir el acceso.
-// También verifica que el usuario tenga el rol requerido si se especifica.
-
-export const ProtectedRoute = ({ children, role }: Props) => {
-  // Hook para obtener el usuario actual del contexto
-  const { user } = useAuth()
-
-  // Si no hay usuario autenticado, redirigir al login
-  if (!user) {
-    return <Navigate to="/login" replace />
+  // Mientras carga, no redirigir
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <p className="text-xl text-gray-600">Cargando...</p>
+      </div>
+    )
   }
 
-  // Si se requiere un rol específico y el usuario no lo tiene, redirigir al home
-  if (role && user.role !== role) {
-    return <Navigate to="/" replace />
+  // Si no hay usuario, redirigir al login
+  if (!user) {
+    return <Navigate to="/login" />
+  }
+
+  // Si se especifica un rol y el usuario no lo tiene, redirigir
+  if (role && user.rol !== role) {
+    return <Navigate to="/" />
   }
 
   return children
 }
-

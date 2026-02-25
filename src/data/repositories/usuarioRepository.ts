@@ -1,4 +1,4 @@
-import { STORAGE_KEYS } from "../storage.js";
+import { STORAGE_KEYS } from "../storage";
 
 export const localStorageUsuarioRepo = {
   getAll: () => {
@@ -36,6 +36,21 @@ export const localStorageUsuarioRepo = {
     usuarios[index] = { ...usuarios[index], ...datosActualizados };
     localStorage.setItem(STORAGE_KEYS.USUARIOS, JSON.stringify(usuarios));
     return usuarios[index];
+  },
+
+  getByRol: (rol) => {
+    const usuarios = localStorageUsuarioRepo.getAll();
+    return usuarios.filter((u) => u.rol === rol);
+  },
+
+  getByCiclo: (ciclo) => {
+    const usuarios = localStorageUsuarioRepo.getAll();
+    return usuarios.filter((u) => u.ciclo === ciclo);
+  },
+
+  getEstudiantesByCiclo: (ciclo) => {
+    const usuarios = localStorageUsuarioRepo.getAll();
+    return usuarios.filter((u) => u.rol === "estudiante" && u.ciclo === ciclo);
   },
 
   delete: (id) => {

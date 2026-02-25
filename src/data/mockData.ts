@@ -3,34 +3,21 @@ import { STORAGE_KEYS } from "./storage.ts";
 //USUARIOS
 
 export const mockUsuarios = [
-  // Profesores
+  // Administrador
   {
     id: "1",
-    nombre: "María García Rodríguez",
-    email: "maria.garcia@instituto.es",
-    rol: "profesor",
-    especialidad: "Informática",
-  },
-  {
-    id: "2",
-    nombre: "Juan Martínez López",
-    email: "juan.martinez@instituto.es",
-    rol: "profesor",
-    especialidad: "Electricidad",
-  },
-  {
-    id: "3",
-    nombre: "Ana López Fernández",
-    email: "ana.lopez@instituto.es",
-    rol: "profesor",
-    especialidad: "Robótica",
+    nombre: "Admin",
+    email: "admin@admin.com",
+    password: "admin",
+    rol: "admin",
   },
 
   // Estudiantes
   {
     id: "4",
-    nombre: "Edgar Fernández García",
-    email: "edgar.fernandez@alumno.es",
+    nombre: "Edgar Moreno",
+    email: "edgar@edgar.com",
+    password: "edgar",
     rol: "estudiante",
     ciclo: "DAW",
   },
@@ -38,6 +25,7 @@ export const mockUsuarios = [
     id: "5",
     nombre: "Laura Sánchez Martín",
     email: "laura.sanchez@alumno.es",
+    password: "1234",
     rol: "estudiante",
     ciclo: "DAW",
   },
@@ -45,6 +33,7 @@ export const mockUsuarios = [
     id: "6",
     nombre: "Carlos Ruiz Gómez",
     email: "carlos.ruiz@alumno.es",
+    password: "1234",
     rol: "estudiante",
     ciclo: "SMR",
   },
@@ -52,6 +41,7 @@ export const mockUsuarios = [
     id: "7",
     nombre: "Sofía Moreno Torres",
     email: "sofia.moreno@alumno.es",
+    password: "1234",
     rol: "estudiante",
     ciclo: "ARI",
   },
@@ -59,8 +49,17 @@ export const mockUsuarios = [
     id: "8",
     nombre: "David Torres Pérez",
     email: "david.torres@alumno.es",
+    password: "1234",
     rol: "estudiante",
     ciclo: "IEA",
+  },
+  {
+    id: "9",
+    nombre: "Arnau González",
+    email: "arnau.gonzalez@alumno.es",
+    password: "1234",
+    rol: "estudiante",
+    ciclo: "DAW",
   },
 ];
 
@@ -369,16 +368,106 @@ export const mockModulos = [
 // ===== RELACIONES MÓDULO-ESTUDIANTE =====
 export const mockModulosEstudiantes = [
   // Edgar (id: 4, DAW) - Estudiante de 2º año
-  { id: "1", estudianteId: "4", moduloId: "5", fechaInscripcion: "2024-09-01" },
-  { id: "2", estudianteId: "4", moduloId: "6", fechaInscripcion: "2024-09-01" },
-  { id: "3", estudianteId: "4", moduloId: "7", fechaInscripcion: "2024-09-01" },
-  { id: "4", estudianteId: "4", moduloId: "8", fechaInscripcion: "2024-09-01" },
+  {
+    id: "1",
+    estudianteId: "4",
+    moduloId: "5",
+    fechaInscripcion: "2024-09-01",
+    estado: "cursando",
+    notas: { trimestre1: 7.5, trimestre2: 8.0 },
+  },
+  {
+    id: "2",
+    estudianteId: "4",
+    moduloId: "6",
+    fechaInscripcion: "2024-09-01",
+    estado: "cursando",
+    notas: { trimestre1: 6.5 },
+  },
+  {
+    id: "3",
+    estudianteId: "4",
+    moduloId: "7",
+    fechaInscripcion: "2024-09-01",
+    estado: "cursando",
+    notas: { trimestre1: 9.0, trimestre2: 8.5 },
+  },
+  {
+    id: "4",
+    estudianteId: "4",
+    moduloId: "8",
+    fechaInscripcion: "2024-09-01",
+    estado: "cursando",
+    notas: { trimestre1: 7.0 },
+  },
 
   // Laura (id: 5, DAW) - Estudiante de 1º año
-  { id: "5", estudianteId: "5", moduloId: "1", fechaInscripcion: "2024-09-01" },
-  { id: "6", estudianteId: "5", moduloId: "2", fechaInscripcion: "2024-09-01" },
-  { id: "7", estudianteId: "5", moduloId: "3", fechaInscripcion: "2024-09-01" },
-  { id: "8", estudianteId: "5", moduloId: "4", fechaInscripcion: "2024-09-01" },
+  {
+    id: "5",
+    estudianteId: "5",
+    moduloId: "1",
+    fechaInscripcion: "2024-09-01",
+    estado: "cursando",
+    notas: { trimestre1: 8.5 },
+  },
+  {
+    id: "6",
+    estudianteId: "5",
+    moduloId: "2",
+    fechaInscripcion: "2024-09-01",
+    estado: "cursando",
+    notas: { trimestre1: 7.0 },
+  },
+  {
+    id: "7",
+    estudianteId: "5",
+    moduloId: "3",
+    fechaInscripcion: "2024-09-01",
+    estado: "cursando",
+    notas: {},
+  },
+  {
+    id: "8",
+    estudianteId: "5",
+    moduloId: "4",
+    fechaInscripcion: "2024-09-01",
+    estado: "cursando",
+    notas: { trimestre1: 6.0 },
+  },
+
+  // Arnau (id: 9, DAW) - Estudiante de 2º año
+  {
+    id: "21",
+    estudianteId: "9",
+    moduloId: "5",
+    fechaInscripcion: "2024-09-01",
+    estado: "cursando",
+    notas: { trimestre1: 8.0, trimestre2: 7.5 },
+  },
+  {
+    id: "22",
+    estudianteId: "9",
+    moduloId: "6",
+    fechaInscripcion: "2024-09-01",
+    estado: "cursando",
+    notas: { trimestre1: 7.5 },
+  },
+  {
+    id: "23",
+    estudianteId: "9",
+    moduloId: "7",
+    fechaInscripcion: "2024-09-01",
+    estado: "cursando",
+    notas: { trimestre1: 8.5, trimestre2: 9.0 },
+  },
+  {
+    id: "24",
+    estudianteId: "9",
+    moduloId: "8",
+    fechaInscripcion: "2024-09-01",
+    estado: "cursando",
+    notas: { trimestre1: 6.5 },
+  },
 
   // Carlos (id: 6, SMR) - Estudiante de 1º año
   {
@@ -386,24 +475,32 @@ export const mockModulosEstudiantes = [
     estudianteId: "6",
     moduloId: "16",
     fechaInscripcion: "2024-09-01",
+    estado: "cursando",
+    notas: { trimestre1: 7.5 },
   },
   {
     id: "10",
     estudianteId: "6",
     moduloId: "17",
     fechaInscripcion: "2024-09-01",
+    estado: "cursando",
+    notas: {},
   },
   {
     id: "11",
     estudianteId: "6",
     moduloId: "18",
     fechaInscripcion: "2024-09-01",
+    estado: "cursando",
+    notas: { trimestre1: 8.0 },
   },
   {
     id: "12",
     estudianteId: "6",
     moduloId: "19",
     fechaInscripcion: "2024-09-01",
+    estado: "cursando",
+    notas: { trimestre1: 6.5 },
   },
 
   // Sofía (id: 7, ARI) - Estudiante de 1º año
@@ -412,24 +509,32 @@ export const mockModulosEstudiantes = [
     estudianteId: "7",
     moduloId: "9",
     fechaInscripcion: "2024-09-01",
+    estado: "cursando",
+    notas: { trimestre1: 9.0 },
   },
   {
     id: "14",
     estudianteId: "7",
     moduloId: "10",
     fechaInscripcion: "2024-09-01",
+    estado: "cursando",
+    notas: { trimestre1: 7.5 },
   },
   {
     id: "15",
     estudianteId: "7",
     moduloId: "11",
     fechaInscripcion: "2024-09-01",
+    estado: "cursando",
+    notas: {},
   },
   {
     id: "16",
     estudianteId: "7",
     moduloId: "12",
     fechaInscripcion: "2024-09-01",
+    estado: "cursando",
+    notas: { trimestre1: 8.5 },
   },
 
   // David (id: 8, IEA) - Estudiante de 1º año
@@ -438,24 +543,32 @@ export const mockModulosEstudiantes = [
     estudianteId: "8",
     moduloId: "23",
     fechaInscripcion: "2024-09-01",
+    estado: "cursando",
+    notas: { trimestre1: 7.0 },
   },
   {
     id: "18",
     estudianteId: "8",
     moduloId: "24",
     fechaInscripcion: "2024-09-01",
+    estado: "cursando",
+    notas: {},
   },
   {
     id: "19",
     estudianteId: "8",
     moduloId: "25",
     fechaInscripcion: "2024-09-01",
+    estado: "cursando",
+    notas: { trimestre1: 6.0 },
   },
   {
     id: "20",
     estudianteId: "8",
     moduloId: "26",
     fechaInscripcion: "2024-09-01",
+    estado: "cursando",
+    notas: { trimestre1: 8.0 },
   },
 ];
 
@@ -546,6 +659,44 @@ export const mockTareas = [
     fechaCreacion: "2025-01-09",
     fechaEntrega: "2025-01-28",
     estado: "pendiente",
+    prioridad: "media",
+  },
+
+  // Tareas de Arnau (id: 9, DAW - 2º año)
+  {
+    id: "15",
+    moduloId: "5",
+    estudianteId: "9",
+    titulo: "Proyecto gestor de tareas con React",
+    descripcion:
+      "Desarrollar aplicación completa de gestión de tareas y módulos usando React, React Router y LocalStorage",
+    fechaCreacion: "2025-01-10",
+    fechaEntrega: "2025-02-05",
+    estado: "en-progreso",
+    prioridad: "alta",
+  },
+  {
+    id: "16",
+    moduloId: "6",
+    estudianteId: "9",
+    titulo: "Backend con Express y autenticación JWT",
+    descripcion:
+      "Implementar API REST con Node.js, Express y sistema de autenticación mediante tokens JWT",
+    fechaCreacion: "2025-01-12",
+    fechaEntrega: "2025-01-28",
+    estado: "pendiente",
+    prioridad: "alta",
+  },
+  {
+    id: "17",
+    moduloId: "7",
+    estudianteId: "9",
+    titulo: "Sistema de diseño con Tailwind CSS",
+    descripcion:
+      "Crear sistema de componentes reutilizables usando Tailwind CSS y documentar con Storybook",
+    fechaCreacion: "2025-01-08",
+    fechaEntrega: "2025-01-25",
+    estado: "completada",
     prioridad: "media",
   },
 
@@ -647,7 +798,7 @@ export function inicializarDatosMock() {
   localStorage.setItem(STORAGE_KEYS.MODULOS, JSON.stringify(mockModulos));
   localStorage.setItem(
     STORAGE_KEYS.MODULOS_ESTUDIANTES,
-    JSON.stringify(mockModulosEstudiantes)
+    JSON.stringify(mockModulosEstudiantes),
   );
   localStorage.setItem(STORAGE_KEYS.TAREAS, JSON.stringify(mockTareas));
 }

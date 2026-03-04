@@ -7,7 +7,7 @@ export const Footer = () => {
         Gestor<span style={{ color: "var(--accent)" }}>Tareas</span>
       </span>
       <span style={{ color: "var(--text-secondary)" }} className="text-xs md:text-sm">
-        © 2025 Edgar & Arnau
+        © 2026/27 Edgar & Arnau
       </span>
     </footer>
   )

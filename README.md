@@ -493,11 +493,11 @@ Al abrirla por primera vez, se cargan automáticamente datos de prueba en LocalS
 
 El proyecto está desplegado con la siguiente arquitectura:
 
-| Capa | Servicio | URL |
-| --- | --- | --- |
-| Frontend | Vercel | https://gestor-notas-sigma.vercel.app |
-| Backend | Railway | https://backend-proyecto-arnau-edgar-production.up.railway.app |
-| Base de datos | Supabase | Proyecto `awcynsqyelghouhielxj` |
+| Capa          | Servicio | URL                                                            |
+| ------------- | -------- | -------------------------------------------------------------- |
+| Frontend      | Vercel   | https://gestor-notas-sigma.vercel.app                          |
+| Backend       | Railway  | https://backend-proyecto-arnau-edgar-production.up.railway.app |
+| Base de datos | Supabase | Proyecto `awcynsqyelghouhielxj`                                |
 
 ### Frontend — Vercel
 
@@ -524,6 +524,7 @@ El proyecto está desplegado con la siguiente arquitectura:
 ### CORS
 
 El backend está configurado para aceptar peticiones desde:
+
 - `https://gestor-notas-sigma.vercel.app` (producción)
 - Cualquier subdominio de `*.vercel.app` (previews de Vercel)
 - `http://localhost:5173` (desarrollo local)
@@ -531,6 +532,7 @@ El backend está configurado para aceptar peticiones desde:
 ### Variables de entorno
 
 **Backend (`api/.env`)** — no subir al repo:
+
 ```
 SUPABASE_URL=...
 SUPABASE_ANON_KEY=...
@@ -538,10 +540,11 @@ PORT=3000
 ```
 
 **Frontend** — configurar en Vercel (no hace falta archivo local):
+
 ```
 VITE_API_URL=https://backend-proyecto-arnau-edgar-production.up.railway.app/api
 ```
 
 ---
 
-> **Proyecto académico** — DAW2 · IES [Centro] · Curso 2024/2025
+> **Proyecto académico** — DAW2 · IES [Centro] · Curso 2025/2026

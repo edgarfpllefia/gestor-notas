@@ -487,4 +487,61 @@ Al abrirla por primera vez, se cargan automáticamente datos de prueba en LocalS
 
 ---
 
+---
+
+## Despliegue en producción
+
+El proyecto está desplegado con la siguiente arquitectura:
+
+| Capa | Servicio | URL |
+| --- | --- | --- |
+| Frontend | Vercel | https://gestor-notas-sigma.vercel.app |
+| Backend | Railway | https://backend-proyecto-arnau-edgar-production.up.railway.app |
+| Base de datos | Supabase | Proyecto `awcynsqyelghouhielxj` |
+
+### Frontend — Vercel
+
+1. Importar el repo desde GitHub en [vercel.com](https://vercel.com)
+2. Vercel detecta Vite automáticamente
+3. Añadir la variable de entorno:
+   - `VITE_API_URL` = `https://backend-proyecto-arnau-edgar-production.up.railway.app/api`
+4. Hacer deploy
+
+> El script de build usa solo `vite build` (sin `tsc -b`) para evitar errores de TypeScript estricto durante el build de producción.
+
+### Backend — Railway
+
+1. Importar el repo del backend desde GitHub en [railway.app](https://railway.app)
+2. Railway detecta Node.js y usa `npm start` automáticamente
+3. En **Settings → Networking → Generate Domain**, especificar el puerto `8080`
+4. Añadir las variables de entorno en la pestaña **Variables**:
+   - `SUPABASE_URL`
+   - `SUPABASE_ANON_KEY`
+5. Railway hace redeploy automático en cada push a `main`
+
+> El servidor escucha en el puerto que Railway asigna dinámicamente (`process.env.PORT`). Railway expone el servicio externamente en el puerto 8080.
+
+### CORS
+
+El backend está configurado para aceptar peticiones desde:
+- `https://gestor-notas-sigma.vercel.app` (producción)
+- Cualquier subdominio de `*.vercel.app` (previews de Vercel)
+- `http://localhost:5173` (desarrollo local)
+
+### Variables de entorno
+
+**Backend (`api/.env`)** — no subir al repo:
+```
+SUPABASE_URL=...
+SUPABASE_ANON_KEY=...
+PORT=3000
+```
+
+**Frontend** — configurar en Vercel (no hace falta archivo local):
+```
+VITE_API_URL=https://backend-proyecto-arnau-edgar-production.up.railway.app/api
+```
+
+---
+
 > **Proyecto académico** — DAW2 · IES [Centro] · Curso 2024/2025

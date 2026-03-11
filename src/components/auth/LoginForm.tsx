@@ -9,7 +9,7 @@ export function LoginForm() {
   const { login, error } = useAuth()
   const navigate = useNavigate()
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
 
     if (!email || !password) {
@@ -17,7 +17,8 @@ export function LoginForm() {
       return
     }
 
-    const success = login(email, password)
+    setFormError("")
+    const success = await login(email, password)
 
     if (success) {
       const storedUser = JSON.parse(localStorage.getItem("user"))

@@ -1,9 +1,11 @@
 import { useState } from "react"
 import { NotaEvaluacion } from "./NotaEvaluacion"
 import { EstadoModuloSelector } from "./EstadoModuloSelector"
-import { localStorageModuloEstudianteRepo } from "@/data/repositories/moduloEstudianteRepository"
+import { moduloEstudianteApi } from "@/api/moduloEstudiante"
+import { useAuth } from "@/contexts/AuthContext"
 
 export const GestionNotasModulo = ({ moduloEstudiante, onActualizar }) => {
+  const { user } = useAuth()
   const [editando, setEditando] = useState(false)
   const [notasEditando, setNotasEditando] = useState(moduloEstudiante?.notas || {})
   const [estadoEditando, setEstadoEditando] = useState(moduloEstudiante?.estado || "cursando")
@@ -12,10 +14,17 @@ export const GestionNotasModulo = ({ moduloEstudiante, onActualizar }) => {
     setNotasEditando(prev => ({ ...prev, [nombre]: valor === "" ? undefined : valor }))
   }
 
-  const handleGuardar = () => {
-    localStorageModuloEstudianteRepo.update(moduloEstudiante.id, { notas: notasEditando, estado: estadoEditando })
-    if (onActualizar) onActualizar()
-    setEditando(false)
+  const handleGuardar = async () => {
+    try {
+      await moduloEstudianteApi.update(user.id, moduloEstudiante.moduloId, {
+        estado: estadoEditando,
+        notas: notasEditando
+      })
+      if (onActualizar) onActualizar()
+      setEditando(false)
+    } catch (err) {
+      console.error("Error al guardar notas:", err)
+    }
   }
 
   const handleCancelar = () => {
@@ -47,7 +56,6 @@ export const GestionNotasModulo = ({ moduloEstudiante, onActualizar }) => {
     <div style={{ backgroundColor: "var(--bg-surface)", border: "1px solid var(--border)" }}
       className="rounded-xl p-4 md:p-6 mb-5 md:mb-6 flex flex-col gap-4 md:gap-5">
 
-      {/* Header */}
       <div className="flex justify-between items-center">
         <h2 style={{ fontFamily: "Sora, sans-serif", color: "var(--text-primary)" }}
           className="text-lg md:text-xl font-bold">
@@ -68,7 +76,6 @@ export const GestionNotasModulo = ({ moduloEstudiante, onActualizar }) => {
         disabled={!editando}
       />
 
-      {/* Grid notas: 1 col móvil → 2 col tablet → 3 col PC */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
         {editando ? (
           evaluaciones.map(ev => (

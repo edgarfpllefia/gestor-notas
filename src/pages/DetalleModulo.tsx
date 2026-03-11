@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react"
 import { useParams, useNavigate } from "react-router-dom"
 import { useAuth } from "@/contexts/AuthContext"
-import { localStorageModuloRepo } from "@/data/repositories/moduloRepository"
-import { localStorageTareaRepo } from "@/data/repositories/tareaRepository"
-import { localStorageModuloEstudianteRepo } from "@/data/repositories/moduloEstudianteRepository"
+import { modulosApi } from "@/api/modulos"
+import { tareasApi } from "@/api/tareas"
+import { moduloEstudianteApi } from "@/api/moduloEstudiante"
 import { TareaList } from "@/components/tareas/TareaList"
 import { TareaForm } from "@/components/tareas/TareaForm"
 import { FormDialog } from "@/components/tareas/FormDialog"
@@ -33,42 +33,48 @@ export const DetalleModulo = () => {
 
   useEffect(() => { cargarDatos() }, [moduloId, user])
 
-  const cargarDatos = () => {
+  const cargarDatos = async () => {
     try {
       setLoading(true); setError(null)
-      const moduloData = localStorageModuloRepo.getById(moduloId)
-      if (!moduloData) { setError("Módulo no encontrado"); setLoading(false); return }
+
+      const moduloData = await modulosApi.getById(moduloId)
       setModulo(moduloData)
-      const todasLasTareas = localStorageTareaRepo.getByModuloId(moduloId)
-      setTareas(todasLasTareas.filter(t => t.estudianteId === user?.id))
-      const relaciones = localStorageModuloEstudianteRepo.getByEstudianteId(user?.id)
-      setModuloEstudiante(relaciones.find(r => r.moduloId === moduloId))
+
+      const tareasData = await tareasApi.getByModuloEstudiante(user?.id, moduloId)
+      setTareas(tareasData)
+
+      const meData = await moduloEstudianteApi.getDetalle(user?.id, moduloId)
+      setModuloEstudiante(meData)
+
       setLoading(false)
     } catch (err) {
       setError("Error al cargar los datos"); setLoading(false)
     }
   }
 
-  const handleGuardarTarea = (datosTarea) => {
+  const handleGuardarTarea = async (datosTarea) => {
     try {
       if (tareaEditando) {
-        localStorageTareaRepo.update(tareaEditando.id, datosTarea)
+        await tareasApi.update(tareaEditando.id, datosTarea)
       } else {
-        localStorageTareaRepo.create({ ...datosTarea, moduloId, estudianteId: user?.id, fechaCreacion: new Date().toISOString() })
+        await tareasApi.create(user?.id, moduloId, datosTarea)
       }
       cargarDatos(); setModalFormularioAbierto(false); setTareaEditando(null)
     } catch (err) { console.error(err) }
   }
 
-  const handleConfirmarEliminar = () => {
+  const handleConfirmarEliminar = async () => {
     try {
-      if (tareaEliminar) localStorageTareaRepo.delete(tareaEliminar.id)
+      if (tareaEliminar) await tareasApi.delete(tareaEliminar.id)
       cargarDatos(); setModalEliminarAbierto(false); setTareaEliminar(null)
     } catch (err) { console.error(err) }
   }
 
-  const handleCambioEstado = (tareaId, nuevoEstado) => {
-    setTareas(prev => prev.map(t => t.id === tareaId ? { ...t, estado: nuevoEstado } : t))
+  const handleCambioEstado = async (tareaId, nuevoEstado) => {
+    try {
+      await tareasApi.update(tareaId, { estado: nuevoEstado })
+      setTareas(prev => prev.map(t => t.id === tareaId ? { ...t, estado: nuevoEstado } : t))
+    } catch (err) { console.error(err) }
   }
 
   const aplicarFiltros = (lista) => lista.filter(t => {

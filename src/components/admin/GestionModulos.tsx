@@ -1,8 +1,6 @@
 import { useState, useEffect } from "react"
 import { CICLOS_FORMATIVOS } from "@/data/constants"
-import { localStorageModuloRepo } from "@/data/repositories/moduloRepository"
-import { localStorageModuloEstudianteRepo } from "@/data/repositories/moduloEstudianteRepository"
-import { localStorageUsuarioRepo } from "@/data/repositories/usuarioRepository"
+import { modulosApi } from "@/api/modulos"
 import { ModuloForm } from "./ModuloForm"
 import { ListaModulosAdmin } from "./ListaModulosAdmin"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
@@ -20,37 +18,48 @@ export function GestionModulos() {
     else setModulos([])
   }, [cicloSeleccionado])
 
-  const cargarModulos = () => setModulos(localStorageModuloRepo.getByCiclo(cicloSeleccionado))
+  const cargarModulos = async () => {
+    try {
+      const data = await modulosApi.getByCiclo(cicloSeleccionado)
+      setModulos(data)
+    } catch (err) {
+      console.error("Error al cargar módulos:", err)
+    }
+  }
 
-  const handleCrear = (datos) => {
+  const handleCrear = async (datos) => {
     const existe = modulos.some(m => m.nombre.toLowerCase() === datos.nombre.toLowerCase() && m.ciclo === datos.ciclo)
     if (existe) { setError("Ya existe un módulo con ese nombre en este ciclo formativo."); return }
-    const nuevoModulo = localStorageModuloRepo.create(datos)
-    localStorageUsuarioRepo.getEstudiantesByCiclo(datos.ciclo).forEach(est => {
-      localStorageModuloEstudianteRepo.create({ estudianteId: est.id, moduloId: nuevoModulo.id, fechaInscripcion: new Date().toISOString().split("T")[0], estado: "cursando", notas: {} })
-    })
-    setError(""); setMostrarFormulario(false); cargarModulos()
+
+    try {
+      await modulosApi.create(datos)
+      setError(""); setMostrarFormulario(false); cargarModulos()
+    } catch (err) {
+      setError(err.message || "Error al crear módulo")
+    }
   }
 
   const handleEditar = (modulo) => { setModuloAEditar(modulo); setMostrarFormulario(true); setError("") }
 
-  const handleGuardarEdicion = (datos) => {
+  const handleGuardarEdicion = async (datos) => {
     const existe = modulos.some(m => m.id !== moduloAEditar.id && m.nombre.toLowerCase() === datos.nombre.toLowerCase() && m.ciclo === datos.ciclo)
     if (existe) { setError("Ya existe un módulo con ese nombre en este ciclo formativo."); return }
-    localStorageModuloRepo.update(moduloAEditar.id, datos)
-    if (moduloAEditar.ciclo !== datos.ciclo) {
-      localStorageModuloEstudianteRepo.deleteByModuloId(moduloAEditar.id)
-      localStorageUsuarioRepo.getEstudiantesByCiclo(datos.ciclo).forEach(est => {
-        localStorageModuloEstudianteRepo.create({ estudianteId: est.id, moduloId: moduloAEditar.id, fechaInscripcion: new Date().toISOString().split("T")[0], estado: "cursando", notas: {} })
-      })
+
+    try {
+      await modulosApi.update(moduloAEditar.id, datos)
+      setError(""); setMostrarFormulario(false); setModuloAEditar(null); cargarModulos()
+    } catch (err) {
+      setError(err.message || "Error al editar módulo")
     }
-    setError(""); setMostrarFormulario(false); setModuloAEditar(null); cargarModulos()
   }
 
-  const confirmarEliminar = () => {
-    localStorageModuloRepo.delete(moduloAEliminar)
-    localStorageModuloEstudianteRepo.deleteByModuloId(moduloAEliminar)
-    setModuloAEliminar(null); cargarModulos()
+  const confirmarEliminar = async () => {
+    try {
+      await modulosApi.delete(moduloAEliminar)
+      setModuloAEliminar(null); cargarModulos()
+    } catch (err) {
+      console.error("Error al eliminar módulo:", err)
+    }
   }
 
   return (
@@ -61,7 +70,6 @@ export function GestionModulos() {
         Gestión de módulos
       </h1>
 
-      {/* Selector de ciclo */}
       <div className="flex flex-col gap-1">
         <label style={{ color: "var(--text-secondary)" }} className="text-sm font-medium">
           Ciclo formativo
@@ -108,7 +116,6 @@ export function GestionModulos() {
         </>
       )}
 
-      {/* Diálogo eliminar */}
       {moduloAEliminar && (
         <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4">
           <div style={{ backgroundColor: "var(--bg-surface)", border: "1px solid var(--border)" }}

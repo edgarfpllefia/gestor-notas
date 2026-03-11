@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect } from "react"
-import { localStorageUsuarioRepo } from "@/data/repositories/usuarioRepository"
+import { authApi } from "@/api/auth"
 
 const AuthContext = createContext()
 
@@ -9,38 +9,36 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
+    const token = localStorage.getItem("token")
     const storedUser = localStorage.getItem("user")
-    if (storedUser) {
+    if (token && storedUser) {
       setUser(JSON.parse(storedUser))
     }
     setLoading(false)
   }, [])
 
-  const login = (email, password) => {
-    // Buscar usuario por email
-    const foundUser = localStorageUsuarioRepo.getByEmail(email)
-
-    if (!foundUser) {
-      setError("Usuari no trobat")
+  const login = async (email, password) => {
+    try {
+      setError(null)
+      const data = await authApi.login(email, password)
+      setUser(data.usuario)
+      return true
+    } catch (err) {
+      setError(err.message || "Error al iniciar sesión")
       return false
     }
-
-    // Verificar contraseña
-    if (foundUser.password !== password) {
-      setError("Contrasenya incorrecta")
-      return false
-    }
-
-    // Crear sesión de usuario
-    setUser(foundUser)
-    localStorage.setItem("user", JSON.stringify(foundUser))
-    setError(null)
-    return true
   }
 
-  const logout = () => {
-    setUser(null)
-    localStorage.removeItem("user")
+  const logout = async () => {
+    try {
+      await authApi.logout()
+    } catch (err) {
+      console.error("Error al cerrar sesión:", err)
+    } finally {
+      setUser(null)
+      localStorage.removeItem("token")
+      localStorage.removeItem("user")
+    }
   }
 
   return (

@@ -1,9 +1,7 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { CICLOS_FORMATIVOS } from "@/data/constants"
-import { localStorageUsuarioRepo } from "@/data/repositories/usuarioRepository"
-import { localStorageModuloRepo } from "@/data/repositories/moduloRepository"
-import { localStorageModuloEstudianteRepo } from "@/data/repositories/moduloEstudianteRepository"
+import { authApi } from "@/api/auth"
 
 export default function RegisterForm() {
   const navigate = useNavigate()
@@ -40,37 +38,23 @@ export default function RegisterForm() {
     return Object.keys(newErrors).length === 0
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
     if (!validate()) return
 
-    const existe = localStorageUsuarioRepo.getByEmail(form.email)
-    if (existe) {
-      setErrors({ email: "El email ya está registrado" })
-      return
-    }
-
-    const nuevoUsuario = localStorageUsuarioRepo.create({
-      nombre: form.nombre.trim(),
-      email: form.email.trim(),
-      password: form.password,
-      ciclo: form.ciclo,
-      rol: "estudiante"
-    })
-
-    const modulosCiclo = localStorageModuloRepo.getByCiclo(form.ciclo)
-    modulosCiclo.forEach((modulo) => {
-      localStorageModuloEstudianteRepo.create({
-        estudianteId: nuevoUsuario.id,
-        moduloId: modulo.id,
-        fechaInscripcion: new Date().toISOString().split("T")[0],
-        estado: "cursando",
-        notas: {},
+    try {
+      await authApi.register({
+        nombre: form.nombre.trim(),
+        email: form.email.trim(),
+        password: form.password,
+        ciclo: form.ciclo
       })
-    })
 
-    setSuccess(true)
-    setTimeout(() => navigate("/login"), 1500)
+      setSuccess(true)
+      setTimeout(() => navigate("/login"), 1500)
+    } catch (err) {
+      setErrors({ email: err.message || "Error al registrar" })
+    }
   }
 
   const inputStyle = {

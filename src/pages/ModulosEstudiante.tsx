@@ -1,8 +1,6 @@
 import { useState, useEffect } from "react"
 import { useAuth } from "@/contexts/AuthContext"
-import { localStorageUsuarioRepo } from "@/data/repositories/usuarioRepository"
-import { localStorageModuloEstudianteRepo } from "@/data/repositories/moduloEstudianteRepository"
-import { localStorageModuloRepo } from "@/data/repositories/moduloRepository"
+import { moduloEstudianteApi } from "@/api/moduloEstudiante"
 import { FiltroModulos } from "@/components/estudiante/FiltroModulos"
 import { OrdenacionModulos } from "@/components/estudiante/OrdenacionModulos"
 import { ModuloEstudianteList } from "@/components/estudiante/ModuloEstudianteList"
@@ -15,19 +13,11 @@ export const ModulosEstudiante = () => {
   const [criterioOrden, setCriterioOrden] = useState("nombre")
 
   useEffect(() => {
-    const cargarModulosEstudiante = () => {
+    const cargarModulosEstudiante = async () => {
       try {
         setLoading(true)
-        const estudiante = localStorageUsuarioRepo.getById(user.id)
-        if (!estudiante) { setLoading(false); return }
-
-        const modulosEstudiante = localStorageModuloEstudianteRepo.getByEstudianteId(user.id)
-        const modulosConDatos = modulosEstudiante.map(me => {
-          const modulo = localStorageModuloRepo.getById(me.moduloId)
-          return { ...modulo, estado: me.estado, notas: me.notas, moduloEstudianteId: me.id }
-        })
-
-        setModulosCompletos(modulosConDatos)
+        const data = await moduloEstudianteApi.getByEstudianteId(user.id)
+        setModulosCompletos(data)
         setLoading(false)
       } catch (error) {
         console.error("Error al cargar módulos:", error)

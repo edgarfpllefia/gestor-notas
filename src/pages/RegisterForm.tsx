@@ -14,10 +14,10 @@ export default function RegisterForm() {
     ciclo: ""
   })
 
-  const [errors, setErrors] = useState({})
+  const [errors, setErrors] = useState<Record<string, string>>({})
   const [success, setSuccess] = useState(false)
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value })
   }
 
@@ -38,7 +38,7 @@ export default function RegisterForm() {
     return Object.keys(newErrors).length === 0
   }
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!validate()) return
 
@@ -52,7 +52,7 @@ export default function RegisterForm() {
 
       setSuccess(true)
       setTimeout(() => navigate("/login"), 1500)
-    } catch (err) {
+    } catch (err: any) {
       setErrors({ email: err.message || "Error al registrar" })
     }
   }

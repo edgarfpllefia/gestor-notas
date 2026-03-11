@@ -8,7 +8,7 @@ import { ModuloEstudianteList } from "@/components/estudiante/ModuloEstudianteLi
 export const ModulosEstudiante = () => {
   const { user } = useAuth()
   const [loading, setLoading] = useState(true)
-  const [modulosCompletos, setModulosCompletos] = useState([])
+  const [modulosCompletos, setModulosCompletos] = useState<any[]>([])
   const [filtroActivo, setFiltroActivo] = useState("todos")
   const [criterioOrden, setCriterioOrden] = useState("nombre")
 

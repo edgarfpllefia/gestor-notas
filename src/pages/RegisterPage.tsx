@@ -1,4 +1,4 @@
-import RegisterForm from "@/pages/RegisterForm"
+import RegisterForm from "@/pages/RegisterForm";
 
 /**
  * RegisterPage
@@ -6,5 +6,5 @@ import RegisterForm from "@/pages/RegisterForm"
  */
 
 export const RegisterPage = () => {
-  return <RegisterForm />
-}
+  return <RegisterForm />;
+};

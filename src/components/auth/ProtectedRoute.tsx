@@ -1,10 +1,24 @@
-import { Navigate } from "react-router-dom"
-import { useAuth } from "@/contexts/AuthContext"
+import { Navigate } from "react-router-dom"  // Componente de redirección declarativa
+import { useAuth } from "@/contexts/AuthContext" // Contexto global de autenticación
 
+/**
+ * ProtectedRoute
+ * Componente guardia que protege rutas de acceso no autorizado.
+ * Envuelve cualquier página o componente que requiera autenticación y,
+ * opcionalmente, un rol específico.
+ *
+ * Comportamiento:
+ * Si la sesión está cargando  → muestra un indicador de carga.
+ * Si no hay usuario autenticado → redirige a /login.
+ * Si el usuario no tiene el rol requerido → redirige a / (inicio).
+ * Si pasa todas las comprobaciones → renderiza el contenido hijo.
+ */
 export default function ProtectedRoute({ children, role }) {
+  // `user` contiene los datos del usuario autenticado (null si no hay sesión)
+  // `loading` indica que el contexto todavía está restaurando la sesión
   const { user, loading } = useAuth()
 
-  // Mientras carga, no redirigir
+  // Mientras se restaura la sesión, se evita redirigir prematuramente
   if (loading) {
     return (
       <div className="flex justify-center items-center min-h-screen">
@@ -13,15 +27,16 @@ export default function ProtectedRoute({ children, role }) {
     )
   }
 
-  // Si no hay usuario, redirigir al login
+  // Sin sesión activa: redirige al formulario de login
   if (!user) {
     return <Navigate to="/login" />
   }
 
-  // Si se especifica un rol y el usuario no lo tiene, redirigir
+  // Rol requerido no coincide con el del usuario: redirige a la página de inicio
   if (role && user.rol !== role) {
     return <Navigate to="/" />
   }
 
+  // Acceso permitido: renderiza el contenido protegido
   return children
 }

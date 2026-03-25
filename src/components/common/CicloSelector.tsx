@@ -1,3 +1,4 @@
+// Componentes del Select de la librería UI reutilizable
 import {
   Select,
   SelectContent,
@@ -5,11 +6,17 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { CICLOS_FORMATIVOS } from "@/data/constants"
+import { CICLOS_FORMATIVOS } from "@/data/constants"  // Lista estática de ciclos formativos
 
+/**
+ * CicloSelector
+ * Selector desplegable reutilizable que muestra todos los ciclos formativos
+ * disponibles. Se usa en múltiples páginas para filtrar el contenido por ciclo.
+ */
 export const CicloSelector = ({ cicloSeleccionado, onCicloChange }) => {
   return (
     <Select value={cicloSeleccionado} onValueChange={onCicloChange}>
+      {/* Botón que muestra el ciclo activo o el placeholder si no hay ninguno */}
       <SelectTrigger className="w-full"
         style={{
           backgroundColor: "var(--bg-surface)",
@@ -18,6 +25,8 @@ export const CicloSelector = ({ cicloSeleccionado, onCicloChange }) => {
         }}>
         <SelectValue placeholder="Selecciona un ciclo formativo" />
       </SelectTrigger>
+
+      {/* Listado desplegable con una opción por cada ciclo formativo */}
       <SelectContent position="popper"
         style={{
           backgroundColor: "var(--bg-surface)",

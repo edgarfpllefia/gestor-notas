@@ -2,22 +2,22 @@ export interface Usuario {
   id: string;
   nombre: string;
   email: string;
-  cicloFormativo: string; // ej: "DAW", "DAM"
+  cicloFormativo: string;
   rol: "estudiante" | "administrador";
 }
 
 export interface Modulo {
   id: string;
-  nombre: string; // ej: "Desarrollo Web en Entorno Cliente"
+  nombre: string;
   curso: 1 | 2;
-  cicloFormativo: string; // ej: "DAW"
+  cicloFormativo: string;
 }
 
 export interface ModuloEstudiante {
   id: string;
-  moduloId: string; // Link al módulo original
-  estudianteId: string; // Link al usuario
-  estado: "aprobado" | "cursando" | "no-cursa" | "pendiente"; // ⚠️ Importante: Gestión de estado
+  moduloId: string;
+  estudianteId: string;
+  estado: "aprobado" | "cursando" | "no-cursa" | "pendiente"; 
   notas: {
     trimestre1?: number;
     trimestre2?: number;
@@ -35,6 +35,6 @@ export interface Tarea {
   descripcion: string;
   fechaCreacion: string;
   fechaVencimiento?: string;
-  estado: "pendiente" | "en-progreso" | "completada"; // ⚠️ Importante: Gestión de estado
-  nota?: number; // Nota autoevaluada
+  estado: "pendiente" | "en-progreso" | "completada";
+  nota?: number;
 }

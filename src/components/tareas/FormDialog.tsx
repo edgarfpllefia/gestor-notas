@@ -1,4 +1,10 @@
+/**
+ * FormDialog
+ * Modal genérico para envolver formularios de tareas (crear/editar).
+ * Renderiza título, botón de cierre y contenido inyectado por `children`.
+ */
 export const FormDialog = ({ isOpen, title, children, onClose }) => {
+  // Si no está abierto, no se monta el modal
   if (!isOpen) return null
 
   return (
@@ -20,6 +26,7 @@ export const FormDialog = ({ isOpen, title, children, onClose }) => {
           </button>
         </div>
 
+        {/* Contenido del formulario recibido desde el componente padre */}
         {children}
       </div>
     </div>

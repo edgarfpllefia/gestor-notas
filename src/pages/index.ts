@@ -1,6 +1,5 @@
-
-//Exporta todos los componentes de la carpeta pages para facilitar 
-// la importación desde otros módulos de la aplicación.
+// Barrel file de pages.
+// Centraliza exportaciones para simplificar imports en rutas y app principal.
 
 export { HomePage } from './HomePage'
 export { LoginPage } from './LoginPage'

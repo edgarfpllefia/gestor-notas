@@ -2,16 +2,24 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { localStorageTareaRepo } from "@/data/repositories/tareaRepository"
 import { useState } from "react"
 
+// Estados permitidos para una tarea
 const ESTADOS = [
   { value: "pendiente", label: "Pendiente" },
   { value: "en-progreso", label: "En Progreso" },
   { value: "completada", label: "Completada" },
 ]
 
+/**
+ * EstadoSelector
+ * Selector de estado con actualización optimista:
+ * actualiza UI local, notifica al padre, persiste en repositorio local, revierte si falla.
+ */
 export const EstadoSelector = ({ tareaId, estadoActual, onEstadoChange }) => {
+  // Estado local del select para reflejar cambios inmediatamente
   const [valor, setValor] = useState(estadoActual || "pendiente")
 
   const handleChange = (nuevo) => {
+    // Guarda valor previo para poder revertir ante error
     const previo = valor
     setValor(nuevo)
     if (onEstadoChange) onEstadoChange(tareaId, nuevo)

@@ -4,20 +4,31 @@ import { useAuth } from "@/contexts/AuthContext"
 import { useTheme } from "@/contexts/ThemeContext"
 import { Sun, Moon, LogOut, Menu, X } from "lucide-react"
 
+/**
+ * Header
+ * Cabecera global con navegación adaptada por rol y por tamaño de pantalla.
+ * Incluye cambio de tema, acceso rápido a rutas y cierre de sesión.
+ */
 export const Header = () => {
+  // Datos de sesión del usuario autenticado y acción de logout
   const { user, logout } = useAuth()
+  // Estado visual del tema (claro/oscuro) y acción para alternarlo
   const { tema, toggleTema } = useTheme()
   const navigate = useNavigate()
+  // Controla si el menú móvil está desplegado
   const [menuAbierto, setMenuAbierto] = useState(false)
 
+  // Cierra sesión, redirige al inicio y repliega el menú móvil
   const handleLogout = () => {
     logout()
     navigate("/")
     setMenuAbierto(false)
   }
 
+  // Utilidad para cerrar el menú móvil al navegar
   const cerrarMenu = () => setMenuAbierto(false)
 
+  // Clases compartidas para enlaces de navegación en escritorio
   const navLinkClass = "hover:opacity-80 transition-opacity text-base font-medium"
 
   return (
@@ -34,10 +45,12 @@ export const Header = () => {
 
       {/* Nav desktop */}
       <nav className="hidden md:flex gap-5 items-center">
+        {/* Enlace siempre visible */}
         <Link to="/" style={{ color: "var(--text-secondary)" }} className={navLinkClass}>
           Inicio
         </Link>
 
+        {/* Enlaces para visitantes no autenticados */}
         {!user && (
           <>
             <Link to="/login" style={{ color: "var(--text-secondary)" }} className={navLinkClass}>
@@ -51,18 +64,21 @@ export const Header = () => {
           </>
         )}
 
+        {/* Acceso al panel del estudiante */}
         {user?.rol === "estudiante" && (
           <Link to="/estudiante" style={{ color: "var(--text-secondary)" }} className={navLinkClass}>
             Mi panel
           </Link>
         )}
 
+        {/* Acceso al panel de administración */}
         {user?.rol === "admin" && (
           <Link to="/admin" style={{ color: "var(--text-secondary)" }} className={navLinkClass}>
             Admin
           </Link>
         )}
 
+        {/* Bloque de usuario autenticado: nombre + botón salir */}
         {user && (
           <>
             <span style={{
@@ -81,6 +97,7 @@ export const Header = () => {
           </>
         )}
 
+        {/* Toggle de tema en escritorio */}
         <button onClick={toggleTema}
           style={{ backgroundColor: "var(--bg-surface-2)", border: "1px solid var(--border)", color: "var(--text-secondary)" }}
           className="flex items-center justify-center p-2 rounded-md hover:border-white hover:text-white transition-colors"
@@ -91,11 +108,13 @@ export const Header = () => {
 
       {/* Botones móvil: tema + hamburguesa */}
       <div className="flex md:hidden items-center gap-2">
+        {/* Toggle de tema en móvil */}
         <button onClick={toggleTema}
           style={{ backgroundColor: "var(--bg-surface-2)", border: "1px solid var(--border)", color: "var(--text-secondary)" }}
           className="flex items-center justify-center p-2 rounded-md">
           {tema === "dark" ? <Sun className="size-4" /> : <Moon className="size-4" />}
         </button>
+        {/* Botón que abre/cierra el menú móvil */}
         <button onClick={() => setMenuAbierto(!menuAbierto)}
           style={{ backgroundColor: "var(--bg-surface-2)", border: "1px solid var(--border)", color: "var(--text-secondary)" }}
           className="flex items-center justify-center p-2 rounded-md">
@@ -108,12 +127,14 @@ export const Header = () => {
         <div style={{ backgroundColor: "var(--bg-surface)", borderBottom: "1px solid var(--border)" }}
           className="absolute top-full left-0 right-0 flex flex-col md:hidden z-50">
 
+          {/* Enlace siempre visible */}
           <Link to="/" onClick={cerrarMenu}
             style={{ color: "var(--text-secondary)", borderBottom: "1px solid var(--border)" }}
             className="px-6 py-4 text-base font-medium hover:opacity-80">
             Inicio
           </Link>
 
+          {/* Enlaces para visitantes no autenticados */}
           {!user && (
             <>
               <Link to="/login" onClick={cerrarMenu}
@@ -129,6 +150,7 @@ export const Header = () => {
             </>
           )}
 
+          {/* Acceso del estudiante autenticado */}
           {user?.rol === "estudiante" && (
             <Link to="/estudiante" onClick={cerrarMenu}
               style={{ color: "var(--text-secondary)", borderBottom: "1px solid var(--border)" }}
@@ -137,6 +159,7 @@ export const Header = () => {
             </Link>
           )}
 
+          {/* Acceso del administrador autenticado */}
           {user?.rol === "admin" && (
             <Link to="/admin" onClick={cerrarMenu}
               style={{ color: "var(--text-secondary)", borderBottom: "1px solid var(--border)" }}
@@ -145,6 +168,7 @@ export const Header = () => {
             </Link>
           )}
 
+          {/* Información y acción de sesión del usuario autenticado */}
           {user && (
             <>
               <div style={{ color: "var(--text-primary)", borderBottom: "1px solid var(--border)" }}

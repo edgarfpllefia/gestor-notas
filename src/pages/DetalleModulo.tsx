@@ -12,27 +12,38 @@ import { GestionNotasModulo } from "@/components/notas/GestionNotasModulo"
 import { FiltroTareas } from "@/components/tareas/FiltroTareas"
 import { OrdenacionTareas } from "@/components/tareas/OrdenacionTareas"
 
+/**
+ * DetalleModulo
+ * Página de detalle de un módulo del estudiante.
+ * Reúne notas del módulo y gestión completa de tareas (CRUD + filtro + ordenación).
+ */
 export const DetalleModulo = () => {
+  // id de módulo leído desde la URL
   const { moduloId } = useParams()
   const { user } = useAuth()
   const navigate = useNavigate()
 
+  // Estados de carga, error y datos principales
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [modulo, setModulo] = useState(null)
   const [tareas, setTareas] = useState([])
   const [moduloEstudiante, setModuloEstudiante] = useState(null)
 
+  // Estados de UI para modales y tareas objetivo
   const [modalFormularioAbierto, setModalFormularioAbierto] = useState(false)
   const [modalEliminarAbierto, setModalEliminarAbierto] = useState(false)
   const [tareaEditando, setTareaEditando] = useState(null)
   const [tareaEliminar, setTareaEliminar] = useState(null)
 
+  // Estados de filtrado y ordenación de la lista de tareas
   const [filtro, setFiltro] = useState({ estado: "todos", fechaInicio: undefined, fechaFin: undefined })
   const [orden, setOrden] = useState({ criterio: "fechaCreacion", direccion: "desc" })
 
+  // Recarga datos si cambia el módulo o el usuario autenticado
   useEffect(() => { cargarDatos() }, [moduloId, user])
 
+  // Carga en paralelo lógico: módulo, tareas y detalle académico del módulo-estudiante
   const cargarDatos = async () => {
     try {
       setLoading(true); setError(null)
@@ -52,6 +63,7 @@ export const DetalleModulo = () => {
     }
   }
 
+  // Crea o actualiza tarea según si existe `tareaEditando`
   const handleGuardarTarea = async (datosTarea) => {
     try {
       if (tareaEditando) {
@@ -63,6 +75,7 @@ export const DetalleModulo = () => {
     } catch (err) { console.error(err) }
   }
 
+  // Elimina la tarea seleccionada tras confirmación del usuario
   const handleConfirmarEliminar = async () => {
     try {
       if (tareaEliminar) await tareasApi.delete(tareaEliminar.id)
@@ -70,6 +83,7 @@ export const DetalleModulo = () => {
     } catch (err) { console.error(err) }
   }
 
+  // Cambio de estado "rápido" desde cada tarjeta de tarea
   const handleCambioEstado = async (tareaId, nuevoEstado) => {
     try {
       await tareasApi.update(tareaId, { estado: nuevoEstado })
@@ -77,6 +91,7 @@ export const DetalleModulo = () => {
     } catch (err) { console.error(err) }
   }
 
+  // Aplica filtros activos (estado y rango de fechas)
   const aplicarFiltros = (lista) => lista.filter(t => {
     if (filtro.estado !== "todos" && t.estado !== filtro.estado) return false
     if (filtro.fechaInicio || filtro.fechaFin) {
@@ -88,6 +103,7 @@ export const DetalleModulo = () => {
     return true
   })
 
+  // Ordena la lista según el criterio y dirección seleccionados
   const aplicarOrdenacion = (lista) => [...lista].sort((a, b) => {
     let cmp = 0
     switch (orden.criterio) {
@@ -108,6 +124,7 @@ export const DetalleModulo = () => {
     return orden.direccion === "asc" ? cmp : -cmp
   })
 
+  // Resultado final a mostrar: primero filtro y luego ordenación
   const tareasFinales = aplicarOrdenacion(aplicarFiltros(tareas))
 
   if (loading) return (
@@ -171,6 +188,7 @@ export const DetalleModulo = () => {
         onDelete={(t) => { setTareaEliminar(t); setModalEliminarAbierto(true) }}
         onEstadoChange={handleCambioEstado} />
 
+      {/* Modal de creación/edición de tareas */}
       <FormDialog isOpen={modalFormularioAbierto}
         title={tareaEditando ? "Editar tarea" : "Nueva tarea"}
         onClose={() => { setModalFormularioAbierto(false); setTareaEditando(null) }}>
@@ -178,6 +196,7 @@ export const DetalleModulo = () => {
           onCancel={() => { setModalFormularioAbierto(false); setTareaEditando(null) }} />
       </FormDialog>
 
+      {/* Modal de confirmación de borrado */}
       <DeleteConfirmDialog isOpen={modalEliminarAbierto} tarea={tareaEliminar}
         onConfirm={handleConfirmarEliminar}
         onCancel={() => { setModalEliminarAbierto(false); setTareaEliminar(null) }} />

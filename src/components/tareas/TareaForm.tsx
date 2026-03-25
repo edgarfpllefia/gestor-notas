@@ -1,6 +1,12 @@
 import { useState, useEffect } from "react"
 
+/**
+ * TareaForm
+ * Formulario reutilizable para crear o editar tareas.
+ * Incluye validación local y normalización de datos antes de guardar.
+ */
 export const TareaForm = ({ tarea, onSave, onCancel }) => {
+  // Si existe tarea, el formulario funciona en modo edición
   const modoEdicion = !!tarea
 
   const [formData, setFormData] = useState({
@@ -13,6 +19,7 @@ export const TareaForm = ({ tarea, onSave, onCancel }) => {
 
   const [errores, setErrores] = useState({})
 
+  // Precarga los campos cuando llega una tarea para editar
   useEffect(() => {
     if (tarea) {
       setFormData({
@@ -25,12 +32,14 @@ export const TareaForm = ({ tarea, onSave, onCancel }) => {
     }
   }, [tarea])
 
+  // Actualiza campo y limpia error puntual del input modificado
   const handleChange = (e) => {
     const { name, value } = e.target
     setFormData(prev => ({ ...prev, [name]: value }))
     if (errores[name]) setErrores(prev => ({ ...prev, [name]: null }))
   }
 
+  // Valida reglas de negocio mínimas antes de enviar
   const validarFormulario = () => {
     const nuevosErrores = {}
     if (!formData.titulo.trim()) nuevosErrores.titulo = "El título es obligatorio"
@@ -41,6 +50,7 @@ export const TareaForm = ({ tarea, onSave, onCancel }) => {
     return Object.keys(nuevosErrores).length === 0
   }
 
+  // Serializa el formulario y delega persistencia al padre
   const handleSubmit = (e) => {
     e.preventDefault()
     if (!validarFormulario()) return
@@ -118,6 +128,7 @@ export const TareaForm = ({ tarea, onSave, onCancel }) => {
         <button type="submit"
           style={{ backgroundColor: "var(--accent)" }}
           className="flex-1 py-2 rounded-md text-sm text-white hover:opacity-90 transition-opacity font-medium">
+          {/* Texto dinámico según modo del formulario */}
           {modoEdicion ? "Guardar cambios" : "Crear tarea"}
         </button>
       </div>

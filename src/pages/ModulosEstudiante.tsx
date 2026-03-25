@@ -5,13 +5,19 @@ import { FiltroModulos } from "@/components/estudiante/FiltroModulos"
 import { OrdenacionModulos } from "@/components/estudiante/OrdenacionModulos"
 import { ModuloEstudianteList } from "@/components/estudiante/ModuloEstudianteList"
 
+/**
+ * ModulosEstudiante
+ * Página que muestra los módulos del alumno con filtros y ordenación.
+ */
 export const ModulosEstudiante = () => {
   const { user } = useAuth()
   const [loading, setLoading] = useState(true)
+  // Lista completa recibida de API (antes de filtrar/ordenar)
   const [modulosCompletos, setModulosCompletos] = useState<any[]>([])
   const [filtroActivo, setFiltroActivo] = useState("todos")
   const [criterioOrden, setCriterioOrden] = useState("nombre")
 
+  // Carga módulos asignados al estudiante autenticado
   useEffect(() => {
     const cargarModulosEstudiante = async () => {
       try {
@@ -27,11 +33,13 @@ export const ModulosEstudiante = () => {
     if (user) cargarModulosEstudiante()
   }, [user])
 
+  // Aplica filtro por curso
   const modulosFiltrados = modulosCompletos.filter(m => {
     if (filtroActivo === "todos") return true
     return m.curso?.toString() === filtroActivo
   })
 
+  // Ordena la lista filtrada según criterio elegido
   const modulosOrdenados = [...modulosFiltrados].sort((a, b) => {
     switch (criterioOrden) {
       case "nombre": return a.nombre?.localeCompare(b.nombre)

@@ -3,9 +3,14 @@ import { useNavigate } from "react-router-dom"
 import { CICLOS_FORMATIVOS } from "@/data/constants"
 import { authApi } from "@/api/auth"
 
+/**
+ * RegisterForm
+ * Formulario de alta de estudiantes con validación local y registro en API.
+ */
 export default function RegisterForm() {
   const navigate = useNavigate()
 
+  // Estado completo del formulario
   const [form, setForm] = useState({
     nombre: "",
     email: "",
@@ -17,10 +22,12 @@ export default function RegisterForm() {
   const [errors, setErrors] = useState<Record<string, string>>({})
   const [success, setSuccess] = useState(false)
 
+  // Actualiza el campo modificado
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value })
   }
 
+  // Validaciones básicas de negocio antes de enviar
   const validate = () => {
     const newErrors = {}
     if (!form.nombre.trim()) newErrors.nombre = "El nombre es obligatorio"
@@ -38,6 +45,7 @@ export default function RegisterForm() {
     return Object.keys(newErrors).length === 0
   }
 
+  // Envía registro a API y redirige al login en caso de éxito
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!validate()) return
@@ -121,6 +129,7 @@ export default function RegisterForm() {
             <select name="ciclo" value={form.ciclo} onChange={handleChange}
               style={inputStyle} className="rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
               <option value="">-- Selecciona un ciclo --</option>
+              {/* Opciones generadas desde el catálogo de ciclos */}
               {CICLOS_FORMATIVOS.map((c) => (
                 <option key={c.id} value={c.id}>{c.id} - {c.nombre}</option>
               ))}

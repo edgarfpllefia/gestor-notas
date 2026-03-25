@@ -4,16 +4,27 @@ import { EstadoModuloSelector } from "./EstadoModuloSelector"
 import { moduloEstudianteApi } from "@/api/moduloEstudiante"
 import { useAuth } from "@/contexts/AuthContext"
 
+/**
+ * GestionNotasModulo
+ * Panel para consultar y editar el estado y las notas de un módulo del estudiante.
+ * Permite alternar entre modo lectura y modo edición, guardar cambios en API
+ * o cancelar para restaurar los valores originales.
+ */
 export const GestionNotasModulo = ({ moduloEstudiante, onActualizar }) => {
   const { user } = useAuth()
+  // Activa/desactiva el modo de edición
   const [editando, setEditando] = useState(false)
+  // Copia local editable de notas
   const [notasEditando, setNotasEditando] = useState(moduloEstudiante?.notas || {})
+  // Copia local editable de estado
   const [estadoEditando, setEstadoEditando] = useState(moduloEstudiante?.estado || "cursando")
 
+  // Actualiza una nota concreta; cadena vacía se interpreta como valor no definido
   const handleNotaChange = (nombre, valor) => {
     setNotasEditando(prev => ({ ...prev, [nombre]: valor === "" ? undefined : valor }))
   }
 
+  // Persiste cambios en backend y refresca datos del padre si existe callback
   const handleGuardar = async () => {
     try {
       await moduloEstudianteApi.update(user.id, moduloEstudiante.moduloId, {
@@ -27,12 +38,14 @@ export const GestionNotasModulo = ({ moduloEstudiante, onActualizar }) => {
     }
   }
 
+  // Descarta cambios locales y vuelve al estado inicial recibido por props
   const handleCancelar = () => {
     setNotasEditando(moduloEstudiante?.notas || {})
     setEstadoEditando(moduloEstudiante?.estado || "cursando")
     setEditando(false)
   }
 
+  // Estado vacío: el módulo no tiene datos de seguimiento para mostrar/editar
   if (!moduloEstudiante) {
     return (
       <div style={{ backgroundColor: "var(--bg-surface)", border: "1px solid var(--border)" }}
@@ -44,11 +57,12 @@ export const GestionNotasModulo = ({ moduloEstudiante, onActualizar }) => {
     )
   }
 
+  // Definición central de evaluaciones que se muestran (lectura y edición)
   const evaluaciones = [
-    { name: "trimestre1",     label: "Trimestre 1" },
-    { name: "trimestre2",     label: "Trimestre 2" },
-    { name: "trimestre3",     label: "Trimestre 3" },
-    { name: "ordinaria",      label: "Ordinaria" },
+    { name: "trimestre1", label: "Trimestre 1" },
+    { name: "trimestre2", label: "Trimestre 2" },
+    { name: "trimestre3", label: "Trimestre 3" },
+    { name: "ordinaria", label: "Ordinaria" },
     { name: "extraordinaria", label: "Extraordinaria" },
   ]
 
@@ -61,6 +75,7 @@ export const GestionNotasModulo = ({ moduloEstudiante, onActualizar }) => {
           className="text-lg md:text-xl font-bold">
           Notas del módulo
         </h2>
+        {/* Botón para entrar en modo edición */}
         {!editando && (
           <button onClick={() => setEditando(true)}
             style={{ border: "1px solid var(--border)", color: "var(--text-secondary)" }}
@@ -76,6 +91,7 @@ export const GestionNotasModulo = ({ moduloEstudiante, onActualizar }) => {
         disabled={!editando}
       />
 
+      {/* En edición: inputs de nota. En lectura: tarjetas informativas por evaluación */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
         {editando ? (
           evaluaciones.map(ev => (
@@ -99,6 +115,7 @@ export const GestionNotasModulo = ({ moduloEstudiante, onActualizar }) => {
         )}
       </div>
 
+      {/* Acciones disponibles solo durante la edición */}
       {editando && (
         <div className="flex gap-3">
           <button onClick={handleGuardar}

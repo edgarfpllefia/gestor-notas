@@ -1,10 +1,15 @@
 import { useAuth } from "@/contexts/AuthContext"
 import { useNavigate } from "react-router-dom"
 
+/**
+ * LogoutPage
+ * Pantalla simple para cerrar sesión manualmente y redirigir a login.
+ */
 export function LogoutPage() {
   const { user, logout } = useAuth()
   const navigate = useNavigate()
 
+  // Ejecuta logout y envía al usuario a la pantalla de acceso
   const handleLogout = () => {
     logout()
     navigate("/login")

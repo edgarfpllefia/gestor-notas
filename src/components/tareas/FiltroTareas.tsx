@@ -1,15 +1,22 @@
 import { useState } from "react"
 
+/**
+ * FiltroTareas
+ * Barra de filtros por estado y rango de fechas para la lista de tareas.
+ * El estado real del filtro vive en el componente padre (`filtroActivo`).
+ */
 export const FiltroTareas = ({ filtroActivo, onFiltroChange }) => {
+  // Controla la visibilidad de los inputs de fecha
   const [mostrarFechas, setMostrarFechas] = useState(false)
 
   const estados = [
-    { value: "todos",       label: "Todos" },
-    { value: "pendiente",   label: "Pendiente" },
+    { value: "todos", label: "Todos" },
+    { value: "pendiente", label: "Pendiente" },
     { value: "en-progreso", label: "En progreso" },
-    { value: "completada",  label: "Completada" },
+    { value: "completada", label: "Completada" },
   ]
 
+  // Detecta si existe al menos una condición distinta del estado base
   const hayFiltrosActivos = filtroActivo.estado !== "todos" || filtroActivo.fechaInicio || filtroActivo.fechaFin
 
   const inputStyle = {
@@ -71,6 +78,7 @@ export const FiltroTareas = ({ filtroActivo, onFiltroChange }) => {
 
       {hayFiltrosActivos && (
         <button
+          // Restaura el filtro al estado inicial y oculta el bloque de fechas
           onClick={() => { onFiltroChange({ estado: "todos", fechaInicio: undefined, fechaFin: undefined }); setMostrarFechas(false) }}
           style={{ color: "var(--text-secondary)", alignSelf: "flex-start" }}
           className="text-xs hover:text-white transition-colors underline">

@@ -1,4 +1,9 @@
+/**
+ * DeleteConfirmDialog
+ * Modal de confirmación para borrar una tarea.
+ */
 export const DeleteConfirmDialog = ({ isOpen, tarea, onConfirm, onCancel }) => {
+  // Si el diálogo está cerrado, no se renderiza nada
   if (!isOpen) return null
 
   return (
@@ -14,6 +19,7 @@ export const DeleteConfirmDialog = ({ isOpen, tarea, onConfirm, onCancel }) => {
         </h3>
 
         <p style={{ color: "var(--text-secondary)" }} className="text-sm">
+          {/* Se muestra el título para que el usuario confirme exactamente qué tarea elimina */}
           ¿Estás seguro de que quieres eliminar{" "}
           <span style={{ color: "var(--text-primary)" }} className="font-medium">
             "{tarea?.titulo}"

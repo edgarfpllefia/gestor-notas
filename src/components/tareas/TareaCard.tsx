@@ -1,12 +1,18 @@
 import { EstadoSelector } from "./EstadoSelector"
 
+// Configuración visual del badge por estado de tarea
 const estadoConfig = {
-  completada:   { label: "Completada",  bg: "#14532d", color: "#86efac" },
-  "en-progreso":{ label: "En progreso", bg: "#78350f", color: "#fcd34d" },
-  pendiente:    { label: "Pendiente",   bg: "#1f2937", color: "#9ca3af" },
+  completada: { label: "Completada", bg: "#14532d", color: "#86efac" },
+  "en-progreso": { label: "En progreso", bg: "#78350f", color: "#fcd34d" },
+  pendiente: { label: "Pendiente", bg: "#1f2937", color: "#9ca3af" },
 }
 
+/**
+ * TareaCard
+ * Tarjeta de una tarea individual con datos principales, estado editable, acciones de editar y eliminar.
+ */
 export const TareaCard = ({ tarea, onEdit, onDelete, onEstadoChange }) => {
+  // Formatea fechas a español para mejorar legibilidad en UI
   const formatearFecha = (fechaString) => {
     if (!fechaString) return null
     return new Date(fechaString).toLocaleDateString("es-ES", {
@@ -14,6 +20,7 @@ export const TareaCard = ({ tarea, onEdit, onDelete, onEstadoChange }) => {
     })
   }
 
+  // Si llega un estado inesperado, usa "pendiente" como fallback visual
   const cfg = estadoConfig[tarea.estado] || estadoConfig.pendiente
 
   return (
@@ -60,6 +67,7 @@ export const TareaCard = ({ tarea, onEdit, onDelete, onEstadoChange }) => {
       <EstadoSelector
         tareaId={tarea.id}
         estadoActual={tarea.estado}
+        // Propaga cambios de estado al contenedor superior
         onEstadoChange={onEstadoChange}
       />
 

@@ -3,10 +3,16 @@ import { CicloSelector } from "@/components/common/CicloSelector"
 import { ModuloList } from "@/components/common/ModuloList"
 import { localStorageModuloRepo } from "@/data/repositories/moduloRepository"
 
+/**
+ * HomePage
+ * Portada pública de la app.
+ * Permite seleccionar ciclo y visualizar el listado de módulos correspondiente.
+ */
 export const HomePage = () => {
   const [cicloSeleccionado, setCicloSeleccionado] = useState("")
   const [modulos, setModulos] = useState([])
 
+  // Carga módulos del ciclo elegido. Si no hay ciclo, limpia el listado.
   useEffect(() => {
     if (cicloSeleccionado) {
       setModulos(localStorageModuloRepo.getByCiclo(cicloSeleccionado))

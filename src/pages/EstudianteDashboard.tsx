@@ -3,17 +3,23 @@ import { useAuth } from "@/contexts/AuthContext"
 import { CICLOS_FORMATIVOS } from "@/data/constants"
 import { User, Mail, BookOpen, Shield } from "lucide-react"
 
+/**
+ * EstudianteDashboard
+ * Página de perfil del estudiante con datos de cuenta y acceso a sus módulos.
+ */
 export const EstudianteDashboard = () => {
   const { user } = useAuth()
   const navigate = useNavigate()
 
+  // Resuelve información completa del ciclo (id + nombre descriptivo)
   const cicloInfo = CICLOS_FORMATIVOS.find((c) => c.id === user?.ciclo)
 
+  // Campos mostrados en la tarjeta de perfil
   const campos = [
-    { icon: User,     label: "Nombre",          value: user?.nombre },
-    { icon: Mail,     label: "Email",            value: user?.email },
-    { icon: BookOpen, label: "Ciclo formativo",  value: cicloInfo ? `${cicloInfo.id} — ${cicloInfo.nombre}` : user?.ciclo },
-    { icon: Shield,   label: "Rol",              value: user?.rol },
+    { icon: User, label: "Nombre", value: user?.nombre },
+    { icon: Mail, label: "Email", value: user?.email },
+    { icon: BookOpen, label: "Ciclo formativo", value: cicloInfo ? `${cicloInfo.id} — ${cicloInfo.nombre}` : user?.ciclo },
+    { icon: Shield, label: "Rol", value: user?.rol },
   ]
 
   return (
@@ -31,6 +37,7 @@ export const EstudianteDashboard = () => {
 
       <div style={{ backgroundColor: "var(--bg-surface)", border: "1px solid var(--border)" }}
         className="rounded-2xl overflow-hidden">
+        {/* Renderizado dinámico de cada atributo del perfil */}
         {campos.map(({ icon: Icon, label, value }, index) => (
           <div key={label}
             style={{ borderBottom: index < campos.length - 1 ? "1px solid var(--border)" : "none" }}

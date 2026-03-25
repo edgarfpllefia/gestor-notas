@@ -1,10 +1,16 @@
+/**
+ * OrdenacionTareas
+ * Controles de ordenación de tareas por criterio y dirección.
+ * Delega la actualización del estado al componente padre.
+ */
 export const OrdenacionTareas = ({ ordenActivo, onOrdenChange }) => {
+  // Criterios disponibles para ordenar la colección
   const criterios = [
-    { value: "titulo",           label: "Título" },
-    { value: "fechaCreacion",    label: "Fecha creación" },
+    { value: "titulo", label: "Título" },
+    { value: "fechaCreacion", label: "Fecha creación" },
     { value: "fechaVencimiento", label: "Fecha vencimiento" },
-    { value: "estado",           label: "Estado" },
-    { value: "nota",             label: "Nota" },
+    { value: "estado", label: "Estado" },
+    { value: "nota", label: "Nota" },
   ]
 
   const selectStyle = {
@@ -30,6 +36,7 @@ export const OrdenacionTareas = ({ ordenActivo, onOrdenChange }) => {
         </select>
 
         <button
+          // Alterna entre ascendente y descendente conservando el criterio actual
           onClick={() => onOrdenChange({ ...ordenActivo, direccion: ordenActivo.direccion === "asc" ? "desc" : "asc" })}
           style={{ border: "1px solid var(--border)", color: "var(--text-secondary)" }}
           className="px-3 py-1.5 rounded-md text-sm hover:text-white hover:border-white transition-colors shrink-0">

@@ -16,7 +16,8 @@ export default function RegisterForm() {
     email: "",
     password: "",
     confirmPassword: "",
-    ciclo: ""
+    ciclo: "",
+    curso: ""
   })
 
   const [errors, setErrors] = useState<Record<string, string>>({})
@@ -41,6 +42,7 @@ export default function RegisterForm() {
       newErrors.confirmPassword = "Las contraseñas no coinciden"
     }
     if (!form.ciclo) newErrors.ciclo = "Selecciona un ciclo formativo"
+    if (!form.curso) newErrors.curso = "Selecciona un curso"
     setErrors(newErrors)
     return Object.keys(newErrors).length === 0
   }
@@ -55,7 +57,8 @@ export default function RegisterForm() {
         nombre: form.nombre.trim(),
         email: form.email.trim(),
         password: form.password,
-        ciclo: form.ciclo
+        ciclo: form.ciclo,
+        curso: Number(form.curso)
       })
 
       setSuccess(true)
@@ -135,6 +138,17 @@ export default function RegisterForm() {
               ))}
             </select>
             {errors.ciclo && <p className="text-red-400 text-xs">{errors.ciclo}</p>}
+          </div>
+
+          <div className="flex flex-col gap-1">
+            <label style={labelStyle} className="text-sm font-medium">Curso</label>
+            <select name="curso" value={form.curso} onChange={handleChange}
+              style={inputStyle} className="rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+              <option value="">-- Selecciona un curso --</option>
+              <option value="1">1º</option>
+              <option value="2">2º</option>
+            </select>
+            {errors.curso && <p className="text-red-400 text-xs">{errors.curso}</p>}
           </div>
 
           <button type="submit"

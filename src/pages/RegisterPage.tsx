@@ -6,10 +6,5 @@ import RegisterForm from "@/pages/RegisterForm"
  */
 
 export const RegisterPage = () => {
-  return (
-    <div>
-      <h2 className=" text-center text-5xl font-bold">Registro</h2>
-      <RegisterForm></RegisterForm>
-    </div>
-  )
+  return <RegisterForm />
 }
